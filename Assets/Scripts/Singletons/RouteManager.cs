@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class RouteManager : Singleton<RouteManager>
 {
-    [SerializeField]
-    public List<Route> Routes = new List<Route>();
+    private Station EditStation = null;
 
-    void Start()
-    {
+    [SerializeField]
+    public List<Route> Routes;
+
+    private bool IsEditing { get { return EditStation != null; } }
+
+    void Start() {
     }
 
-    void Update()
-    {
+    void Update() {
+        if (IsEditing && Input.GetKeyDown(KeyCode.Escape)) {
+            StopEditing();
+        }
+    }
 
+    public void StartEditing(Station fromStation) {
+        EditStation = fromStation;
+        Routes = new List<Route>();
+    }
+
+    void StopEditing() {
+        EditStation = null;
     }
 }
