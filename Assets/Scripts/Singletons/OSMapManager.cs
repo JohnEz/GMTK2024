@@ -98,10 +98,4 @@ public class OSMapManager : Singleton<OSMapManager> {
 
         //Routes.Add(newRoute);
     }
-
-    public void UpdateRouteColor(List<OSTrackController> route, Color color) {
-        route.ForEach(trackController => {
-            trackController.UpdateTrackColor(color);
-        });
-    }
 }

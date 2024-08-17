@@ -44,5 +44,6 @@ public class OSTrackController : MonoBehaviour, IPointerDownHandler {
     }
 
     public void OnPointerDown(PointerEventData eventData) {
+        GetComponentInParent<OSRouteController>().HandleClick();
     }
 }

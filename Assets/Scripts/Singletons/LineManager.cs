@@ -5,6 +5,11 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Line {
+
+    public Line() {
+        Routes = new List<Route>();
+    }
+
     public List<Route> Routes { get; private set; }
 
     public Color Color { get; private set; }
@@ -30,14 +35,26 @@ public class LineManager : Singleton<LineManager> {
         });
     }
 
-    public void RouteClicked() {
+    public void HandleRouteClicked(OSRouteController routeController) {
         // is it already in a line?
+        bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
 
         // is it clicked for the first time?
+        if (!isAlreadyInALine) {
+            Color lineColor = LINE_COLORS[0];
+            Lines[lineColor].Routes.Add(routeController.Route);
+            routeController.UpdateRouteColor(lineColor);
+            return;
+        }
 
-        // should it join an existing line?
+        Color existingColor = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).FirstOrDefault().Key;
+        int currentIndex = LINE_COLORS.IndexOf(existingColor);
+        int newIndex = (currentIndex + 1) % LINE_COLORS.Count;
+        Color newColor = LINE_COLORS[newIndex];
 
-        // can it be removed from its line?
+        Lines[existingColor].Routes.Remove(routeController.Route);
+        Lines[newColor].Routes.Add(routeController.Route);
+        routeController.UpdateRouteColor(newColor);
     }
 
     // returns true when a new line was created
