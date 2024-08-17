@@ -268,10 +268,6 @@ PrefabInstance:
       propertyPath: GhostTilePrefab
       value: 
       objectReference: {fileID: 8418957568503248173, guid: 7de1efe3a46de4ab98d7eda38cb16bc4, type: 3}
-    - target: {fileID: 246660328277554995, guid: 51a2631baaa354088a0f64d871f184e1, type: 3}
-      propertyPath: GhostTrackPiecePrefab
-      value: 
-      objectReference: {fileID: 8418957568503248173, guid: 7de1efe3a46de4ab98d7eda38cb16bc4, type: 3}
     - target: {fileID: 1863999408179299665, guid: 51a2631baaa354088a0f64d871f184e1, type: 3}
       propertyPath: m_Name
       value: RouteManager
