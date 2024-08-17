@@ -5,14 +5,14 @@ using UnityEngine;
 public class RouteManager : Singleton<RouteManager>
 {
     private Station EditStation;
-    private GameObject GhostTile;
+    private GhostTrackPiece GhostTrackPiece;
     private Route NewRoute;
 
     [SerializeField]
     public List<Route> Routes;
 
     [SerializeField]
-    public GameObject GhostTilePrefab;
+    public GameObject GhostTrackPiecePrefab;
 
 
     private bool IsEditing { get { return EditStation != null; } }
@@ -32,24 +32,23 @@ public class RouteManager : Singleton<RouteManager>
 
         EditStation = fromStation;
         NewRoute = new Route();
-        GhostTile = Instantiate(GhostTilePrefab);
-        //GhostTile.
+        GhostTrackPiece = Instantiate(GhostTrackPiecePrefab).GetComponent<GhostTrackPiece>();
     }
 
     void StopEditing(bool cancel) {
         EditStation = null;
 
         if (cancel) {
-            Destroy(GhostTile);
+            Destroy(GhostTrackPiece);
         } else {
-            // TODO: GhostTile and NewRoute gubbins
+            // TODO: GhostTrackPiece and NewRoute gubbins
         }
-        GhostTile = null;
+        GhostTrackPiece = null;
         NewRoute = null;
     }
 
     void UpdateCursorPos() {
-        if (!GhostTile) return;
+        if (!GhostTrackPiece) return;
 
         Vector3 mouse = Input.mousePosition;
 
