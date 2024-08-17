@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Rotation {
+    None = 0,
     Deg90 = 90,
     Deg180 = 180,
     Deg270 = 270,
 }
 
 [System.Serializable]
-public class TrackPiece
-{
+public class TrackPiece {
+    public float X;
+
+    public float Y;
+
     // visuals
     [SerializeField]
-    public Rotation Rotation = Rotation.Deg90;
+    public Rotation Rotation = Rotation.None;
 
     [SerializeField]
     public TrackTemplate Template;
 
-    void Start()
-    {
+    private void Start() {
     }
 
-    void Update()
-    {
+    private void Update() {
     }
 }

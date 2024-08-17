@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Straight
   m_EditorClassIdentifier: 
   ChildArt: straight-child
-  AdultArt: straight-adult
+  AdultArt: {fileID: 21300000, guid: 5ab04be53e871fa42a337c01c2e79ab9, type: 3}
   ConnectionPoint: 0000000001000000
   Happiness: 1
   Time: 1

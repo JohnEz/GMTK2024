@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LoopDeLoop
   m_EditorClassIdentifier: 
   ChildArt: loopdeloop-child
-  AdultArt: loopdeloop-adult
+  AdultArt: {fileID: 21300000, guid: fa76353593be2814fa7e5a5b62d23212, type: 3}
   ConnectionPoint: 0000000001000000
   Happiness: 10
   Time: 6

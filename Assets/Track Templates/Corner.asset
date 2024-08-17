@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Corner
   m_EditorClassIdentifier: 
   ChildArt: corner-child
-  AdultArt: corner-adult
+  AdultArt: {fileID: 21300000, guid: b8507b430a1bf2648b8fb0da448ccceb, type: 3}
   ConnectionPoint: 0000000002000000
   Happiness: 3
   Time: 4

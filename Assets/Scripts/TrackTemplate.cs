@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Track", menuName = "Track Template")]
-public class TrackTemplate : ScriptableObject
-{
+public class TrackTemplate : ScriptableObject {
+
     [SerializeField]
     public string ChildArt = "child0";
 
     [SerializeField]
-    public string AdultArt = "adult0";
+    public Sprite AdultArt;
 
     [SerializeField]
     public Compass[] ConnectionPoint;
+
     // ^ length = 2
 
     [SerializeField]
@@ -21,13 +22,9 @@ public class TrackTemplate : ScriptableObject
     [SerializeField]
     public int Time = 0;
 
-    void Start()
-    {
-
+    private void Start() {
     }
 
-    void Update()
-    {
-
+    private void Update() {
     }
 }
