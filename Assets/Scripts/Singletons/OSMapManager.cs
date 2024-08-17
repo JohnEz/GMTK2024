@@ -30,11 +30,11 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     private void SpawnRoute(Route route) {
         _currentSpline = gameObject.AddComponent<SplineContainer>();
-        route.TrackPieces.ForEach(trackPiece => {
+        route.Connections.ForEach(connection => {
             OSTrackController newTrack = Instantiate(_trackPrefab);
-            newTrack.SetTrackPiece(trackPiece.Piece);
+            newTrack.SetTrackPiece(connection.Piece);
 
-            foreach (BezierKnot knot in trackPiece.Piece.Template.Spline) {
+            foreach (BezierKnot knot in connection.Piece.Template.Spline) {
                 BezierKnot newKnot = knot; // ok: knot is a struct
 
                 Vector3 pos = new Vector3(
@@ -47,12 +47,12 @@ public class OSMapManager : Singleton<OSMapManager> {
                     pos = Quaternion.Euler(
                         0,
                         0,
-                        -(int)trackPiece.Piece.Rotation
+                        -(int)connection.Piece.Rotation
                     ) * pos;
 
                     // pos += new Vector3(
-                    //     trackPiece.Piece.X,
-                    //     trackPiece.Piece.Y,
+                    //     connection.Piece.X,
+                    //     connection.Piece.Y,
                     //     0
                     // );
                 }
@@ -62,7 +62,7 @@ public class OSMapManager : Singleton<OSMapManager> {
                 _currentSpline.Spline.Add(newKnot);
             }
 
-            //_currentSpline.Spline.Add(trackPiece.Piece.Template.Spline);
+            //_currentSpline.Spline.Add(connection.Piece.Template.Spline);
 
             _tracks.Add(newTrack);
         });

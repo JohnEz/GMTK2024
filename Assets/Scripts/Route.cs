@@ -15,7 +15,7 @@ public class Connection {
 public class Route {
 
     [SerializeField]
-    public List<Connection> TrackPieces = new List<Connection>();
+    public List<Connection> Connections = new List<Connection>();
 
     // TODO: happiness, etc
 
@@ -39,6 +39,6 @@ public class Route {
             PreviousPieceDirection = previousPieceDirection,
         };
 
-        TrackPieces.Add(conn);
+        Connections.Add(conn);
     }
 }
