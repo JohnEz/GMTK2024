@@ -4,6 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class Connection {
+
     [SerializeField]
     public TrackPiece Piece;
 
@@ -11,28 +12,25 @@ public class Connection {
 }
 
 [System.Serializable]
-public class Route
-{
+public class Route {
+
     [SerializeField]
     public List<Connection> TrackPieces = new List<Connection>();
 
     // TODO: happiness, etc
 
-    void Start()
-    {
+    private void Start() {
     }
 
-    void Update()
-    {
-
+    private void Update() {
     }
 
-    float TotalHappiness() {
+    private float TotalHappiness() {
         // TODO
         return 0.0f;
     }
 
-    void AddConnection(
+    private void AddConnection(
         TrackPiece piece,
         Compass previousPieceDirection
     ) {

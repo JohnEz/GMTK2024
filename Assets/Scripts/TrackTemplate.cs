@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 [CreateAssetMenu(fileName = "Track", menuName = "Track Template")]
 public class TrackTemplate : ScriptableObject {
@@ -18,6 +19,11 @@ public class TrackTemplate : ScriptableObject {
 
     [SerializeField]
     public float Happiness = 0;
+
+    [SerializeField]
+    private Spline spline;
+
+    public Spline Spline { get { return spline; } }
 
     [SerializeField]
     public int Time = 0;
