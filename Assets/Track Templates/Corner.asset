@@ -20,7 +20,7 @@ MonoBehaviour:
     m_EditModeType: 1
     m_Knots:
     - Position:
-        x: 0.5
+        x: 0
         y: -0.5
         z: 0
       TangentIn:
@@ -33,48 +33,84 @@ MonoBehaviour:
         z: 0
       Rotation:
         value:
-          x: 0
+          x: 0.70710677
           y: 0
           z: 0
-          w: 1
+          w: -0.70710677
+    - Position:
+        x: 0
+        y: -0.1
+        z: 0
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0.70710677
+          y: 0
+          z: 0
+          w: -0.70710677
+    - Position:
+        x: 0
+        y: -0.05
+        z: 0
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0.70710677
+          y: 0
+          z: 0
+          w: -0.70710677
+    - Position:
+        x: 0.05
+        y: 0
+        z: 0
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0.17364852
+          y: 0
+          z: 0
+          w: -0.98480767
+    - Position:
+        x: 0.1
+        y: 0
+        z: 0
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0.70710677
+          y: 0
+          z: 0
+          w: -0.70710677
     - Position:
         x: 0.5
-        y: -0.9
-        z: 0
-      TangentIn:
-        x: 0
-        y: 0
-        z: 0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: 0
-          y: 0
-          z: 0
-          w: 1
-    - Position:
-        x: 0.5
-        y: -0.95
-        z: 0
-      TangentIn:
-        x: 0
-        y: 0
-        z: 0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: 0
-          y: 0
-          z: 0
-          w: 1
-    - Position:
-        x: 0.55
         y: 0
         z: 0
       TangentIn:
@@ -87,58 +123,22 @@ MonoBehaviour:
         z: 0
       Rotation:
         value:
-          x: 0
+          x: 0.70710677
           y: 0
           z: 0
-          w: 1
-    - Position:
-        x: 0.6
-        y: 0
-        z: 0
-      TangentIn:
-        x: 0
-        y: 0
-        z: 0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: 0
-          y: 0
-          z: 0
-          w: 1
-    - Position:
-        x: 1
-        y: 0
-        z: 0
-      TangentIn:
-        x: 0
-        y: 0
-        z: 0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: 0
-          y: 0
-          z: 0
-          w: 1
+          w: -0.70710677
     m_MetaData:
-    - Mode: 0
+    - Mode: 3
       Tension: 0
-    - Mode: 0
+    - Mode: 2
       Tension: 0
-    - Mode: 0
+    - Mode: 2
       Tension: 0
-    - Mode: 0
+    - Mode: 3
       Tension: 0
-    - Mode: 0
+    - Mode: 3
       Tension: 0
-    - Mode: 0
+    - Mode: 3
       Tension: 0
     m_Closed: 0
     m_IntData:
