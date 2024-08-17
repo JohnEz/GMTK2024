@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RouteManager : MonoBehaviour
+public class RouteManager : Singleton<RouteManager>
 {
-    List<Route> Routes = new List<Route>();
+    [SerializeField]
+    public List<Route> Routes = new List<Route>();
 
     void Start()
     {

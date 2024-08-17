@@ -4,11 +4,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class Connection {
+    [SerializeField]
     public TrackPiece Piece;
+
     public Compass PreviousPieceDirection;
 }
 
-public class Route : MonoBehaviour
+[System.Serializable]
+public class Route
 {
     [SerializeField]
     public List<Connection> TrackPieces = new List<Connection>();
