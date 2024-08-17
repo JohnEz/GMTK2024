@@ -6,6 +6,7 @@ public class RouteManager : Singleton<RouteManager>
 {
     private Station EditStation;
     private GameObject GhostTile;
+    private Route NewRoute;
 
     [SerializeField]
     public List<Route> Routes;
@@ -30,20 +31,21 @@ public class RouteManager : Singleton<RouteManager>
         if(IsEditing) return;
 
         EditStation = fromStation;
-        Routes = new List<Route>();
+        NewRoute = new Route();
         GhostTile = Instantiate(GhostTilePrefab);
+        //GhostTile.
     }
 
     void StopEditing(bool cancel) {
         EditStation = null;
-        Routes = null;
 
         if (cancel) {
             Destroy(GhostTile);
         } else {
-            // TODO
+            // TODO: GhostTile and NewRoute gubbins
         }
         GhostTile = null;
+        NewRoute = null;
     }
 
     void UpdateCursorPos() {
