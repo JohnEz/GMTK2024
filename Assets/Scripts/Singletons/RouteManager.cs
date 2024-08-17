@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RouteManager : Singleton<RouteManager>
 {
+    // this group of variables are all set together during an edit session:
     private Station EditStation;
     private GhostTrackPiece GhostTrackPiece;
     private Route NewRoute;
@@ -22,7 +23,7 @@ public class RouteManager : Singleton<RouteManager>
 
     void Update() {
         if (IsEditing && Input.GetKeyDown(KeyCode.Escape)) {
-            StopEditing(true);
+            StopEditing();
         }
         UpdateCursorPos();
     }
@@ -32,36 +33,43 @@ public class RouteManager : Singleton<RouteManager>
 
         EditStation = fromStation;
         NewRoute = new Route();
-        GhostTrackPiece = Instantiate(GhostTrackPiecePrefab).GetComponent<GhostTrackPiece>();
+        Routes.Add(NewRoute); // TODO: drop this out if we cancel the route
+        CreateNewPiece();
     }
 
-    void StopEditing(bool cancel) {
-        EditStation = null;
-
-        if (cancel) {
+    void CreateNewPiece() {
+        if (GhostTrackPiece) {
             Destroy(GhostTrackPiece);
-        } else {
-            // TODO: GhostTrackPiece and NewRoute gubbins
         }
+
+        GhostTrackPiece = Instantiate(GhostTrackPiecePrefab).GetComponent<GhostTrackPiece>();
+        GhostTrackPiece.OnOk += () => PlacePiece();
+    }
+
+    void StopEditing() {
+        EditStation = null;
+        Destroy(GhostTrackPiece);
         GhostTrackPiece = null;
         NewRoute = null;
+    }
+
+    void PlacePiece() {
+        var cursorPos = GetCursorPos();
+        (var closestStation, var compass) = FindClosestStationAndCompassDir(cursorPos);
+
+        NewRoute.AddConnection(
+            GhostTrackPiece.IntoTrackPiece(),
+            compass.Reversed() // going from the point we're adding onto, to the point we're coming from
+        );
     }
 
     void UpdateCursorPos() {
         if (!GhostTrackPiece) return;
 
-        Vector3 mouse = Input.mousePosition;
         // maybe cache the last mouse pos:
         // if it's not changed exit early,
         // since this method might be expensive
-
-        Vector3 cursorPos = Camera.main.ScreenToWorldPoint(
-            new Vector3(
-                mouse.x,
-                mouse.y,
-                Camera.main.nearClipPlane
-            )
-        );
+        var cursorPos = GetCursorPos();
 
         (var closestStation, var compass) = FindClosestStationAndCompassDir(cursorPos);
 
@@ -89,7 +97,18 @@ public class RouteManager : Singleton<RouteManager>
         GhostTrackPiece.transform.position = stationPosition + offset;
     }
 
-    (Station, Compass?) FindClosestStationAndCompassDir(Vector3 point) {
+    Vector3 GetCursorPos() {
+        Vector3 mouse = Input.mousePosition;
+        return Camera.main.ScreenToWorldPoint(
+            new Vector3(
+                mouse.x,
+                mouse.y,
+                Camera.main.nearClipPlane
+            )
+        );
+    }
+
+    (Station, Compass) FindClosestStationAndCompassDir(Vector3 point) {
         var stations = GameObject.FindObjectsOfType<Station>();
 
         Station closestStation = null;
@@ -108,7 +127,7 @@ public class RouteManager : Singleton<RouteManager>
         }
 
         if (!closestStation) {
-            return (null, null);
+            return (null, Compass.North);
         }
 
         Vector3 stationPosition = closestStation.transform.position;

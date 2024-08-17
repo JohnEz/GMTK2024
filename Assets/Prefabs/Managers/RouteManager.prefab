@@ -71,3 +71,4 @@ MonoBehaviour:
         Rotation: 270
         Template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
       PreviousPieceDirection: 1
+  GhostTrackPiecePrefab: {fileID: 8418957568503248173, guid: 7de1efe3a46de4ab98d7eda38cb16bc4, type: 3}

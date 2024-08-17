@@ -30,7 +30,7 @@ public class Route {
         return 0.0f;
     }
 
-    private void AddConnection(
+    public void AddConnection(
         TrackPiece piece,
         Compass previousPieceDirection
     ) {

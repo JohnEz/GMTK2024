@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Compass
 {
-    // order's important
+    // order's important - see below methods
     North,
     East,
     South,
@@ -36,5 +36,17 @@ public static class CompassExtensions {
         var newVal = (int)orig + add;
         newVal %= 4;
         return (Compass)newVal;
+    }
+
+    public static Compass Reversed(this Compass orig) {
+        switch (orig) {
+            case Compass.North: return Compass.South;
+            case Compass.East: return Compass.West;
+            case Compass.South: return Compass.North;
+            case Compass.West: return Compass.East;
+            default:
+                Debug.Log("invalid compass");
+                return Compass.North;
+        }
     }
 }
