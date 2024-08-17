@@ -7,14 +7,7 @@ public class FloatingTextManager : MonoBehaviour
 
     public GameObject canvasPrefab;
 
-    void Start()
-    {
-        GameObject target = GameObject.FindWithTag("Player");
-        Show("Hello", target);
-    }
-
-
-    void Show(string text, GameObject parent) {
+    public void Show(string text, GameObject parent) {
         Canvas canvas = parent.GetComponentInChildren<Canvas>();
         if (canvas == null) {
             GameObject canvasObject = Instantiate(canvasPrefab);
