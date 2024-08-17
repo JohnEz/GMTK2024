@@ -35,10 +35,34 @@ public class OSMapManager : Singleton<OSMapManager> {
             newTrack.SetTrackPiece(trackPiece.Piece);
 
             foreach (BezierKnot knot in trackPiece.Piece.Template.Spline) {
-                BezierKnot newKnot = knot;
-                newKnot.Position += new Unity.Mathematics.float3(trackPiece.Piece.X, trackPiece.Piece.Y, 0);
+                BezierKnot newKnot = knot; // ok: knot is a struct
+
+                Vector3 pos = new Vector3(
+                    newKnot.Position[0],
+                    newKnot.Position[1],
+                    newKnot.Position[2]
+                );
+
+                {
+                    pos = Quaternion.Euler(
+                        0,
+                        0,
+                        -(int)trackPiece.Piece.Rotation
+                    ) * pos;
+
+                    // pos += new Vector3(
+                    //     trackPiece.Piece.X,
+                    //     trackPiece.Piece.Y,
+                    //     0
+                    // );
+                }
+                newKnot.Position = new Unity.Mathematics.float3(pos.x, pos.y, pos.z);
+
+
                 _currentSpline.Spline.Add(newKnot);
             }
+
+            //_currentSpline.Spline.Add(trackPiece.Piece.Template.Spline);
 
             _tracks.Add(newTrack);
         });
