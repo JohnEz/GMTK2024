@@ -30,11 +30,14 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     private void SpawnRoute(Route route) {
         _currentSpline = gameObject.AddComponent<SplineContainer>();
-        route.TrackPieces.ForEach(trackPiece => {
-            OSTrackController newTrack = Instantiate(_trackPrefab);
-            newTrack.SetTrackPiece(trackPiece.Piece);
 
-            foreach (BezierKnot knot in trackPiece.Piece.Template.Spline) {
+        route.TrackPieces.ForEach(connection => {
+            OSTrackController newTrack = Instantiate(_trackPrefab);
+            newTrack.SetTrackPiece(connection.Piece);
+
+            List<BezierKnot> knots = new List<BezierKnot>();
+
+            foreach (BezierKnot knot in connection.Piece.Template.Spline) {
                 BezierKnot newKnot = knot; // ok: knot is a struct
 
                 Vector3 pos = new Vector3(
@@ -47,22 +50,33 @@ public class OSMapManager : Singleton<OSMapManager> {
                     pos = Quaternion.Euler(
                         0,
                         0,
-                        -(int)trackPiece.Piece.Rotation
+                        -(int)connection.Piece.Rotation
                     ) * pos;
 
-                    // pos += new Vector3(
-                    //     trackPiece.Piece.X,
-                    //     trackPiece.Piece.Y,
-                    //     0
-                    // );
+                    pos = new Vector3(
+                        pos[0] + connection.Piece.X,
+                        pos[1] + connection.Piece.Y,
+                        0
+                    );
                 }
                 newKnot.Position = new Unity.Mathematics.float3(pos.x, pos.y, pos.z);
 
 
-                _currentSpline.Spline.Add(newKnot);
+                knots.Add(newKnot);
             }
 
-            //_currentSpline.Spline.Add(trackPiece.Piece.Template.Spline);
+            var tileStartPos = Compass.South; // hardcoded fact about tiles (for now)
+
+            var neighbourDirection = connection.PreviousPieceDirection;
+            var newStartDirection = tileStartPos.Rotate(connection.Piece.Rotation);
+
+            if (neighbourDirection != newStartDirection) {
+                // flip / reverse newTrack
+                knots.Reverse();
+            }
+
+            foreach(var knot in knots)
+                _currentSpline.Spline.Add(knot);
 
             _tracks.Add(newTrack);
         });
