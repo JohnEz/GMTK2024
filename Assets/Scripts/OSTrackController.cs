@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class OSTrackController : MonoBehaviour {
+public class OSTrackController : MonoBehaviour, IPointerDownHandler {
     private TrackPiece _trackPiece;
 
     [SerializeField]
@@ -36,5 +37,13 @@ public class OSTrackController : MonoBehaviour {
 
     private void ApplyRotation(Rotation rotation) {
         transform.eulerAngles = new Vector3(0, 0, -(int)rotation);
+    }
+
+    public void UpdateTrackColor(Color newColor) {
+        _tileRenderer.color = newColor;
+    }
+
+    public void OnPointerDown(PointerEventData eventData) {
+        GetComponentInParent<OSRouteController>().HandleClick();
     }
 }

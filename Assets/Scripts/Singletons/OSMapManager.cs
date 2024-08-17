@@ -9,7 +9,12 @@ public class OSMapManager : Singleton<OSMapManager> {
     [SerializeField]
     private OSTrackController _trackPrefab;
 
-    private List<OSTrackController> _tracks = new List<OSTrackController>();
+    [SerializeField]
+    private OSRouteController _routePrefab;
+
+    //public List<List<OSTrackController>> Routes { get; private set; }
+
+    public List<OSTrackController> Tracks { get; private set; }
 
     //TEMP
     public SplineContainer _currentSpline = null;
@@ -17,7 +22,11 @@ public class OSMapManager : Singleton<OSMapManager> {
     public SplineAnimate _train;
     //
 
-    // Start is called before the first frame update
+    private void Awake() {
+        //Routes = new List<List<OSTrackController>>();
+        Tracks = new List<OSTrackController>();
+    }
+
     private void Start() {
         SpawnRoutes(RouteManager.Instance.Routes);
         _train.Container = _currentSpline;
@@ -30,6 +39,10 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     private void SpawnRoute(Route route) {
         _currentSpline = gameObject.AddComponent<SplineContainer>();
+        //List<OSTrackController> newRoute = new List<OSTrackController>();
+
+        OSRouteController newRouteObject = Instantiate(_routePrefab);
+        newRouteObject.Route = route;
 
         route.TrackPieces.ForEach(connection => {
             OSTrackController newTrack = Instantiate(_trackPrefab);
@@ -61,7 +74,6 @@ public class OSMapManager : Singleton<OSMapManager> {
                 }
                 newKnot.Position = new Unity.Mathematics.float3(pos.x, pos.y, pos.z);
 
-
                 knots.Add(newKnot);
             }
 
@@ -75,10 +87,15 @@ public class OSMapManager : Singleton<OSMapManager> {
                 knots.Reverse();
             }
 
-            foreach(var knot in knots)
+            foreach (var knot in knots) {
                 _currentSpline.Spline.Add(knot);
+            }
 
-            _tracks.Add(newTrack);
+            Tracks.Add(newTrack);
+            newTrack.transform.parent = newRouteObject.transform;
+            //newRoute.Add(newTrack);
         });
+
+        //Routes.Add(newRoute);
     }
 }
