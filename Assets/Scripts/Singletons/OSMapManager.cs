@@ -12,8 +12,6 @@ public class OSMapManager : Singleton<OSMapManager> {
     [SerializeField]
     private OSRouteController _routePrefab;
 
-    //public List<List<OSTrackController>> Routes { get; private set; }
-
     public List<OSTrackController> Tracks { get; private set; }
 
     //TEMP
@@ -23,14 +21,16 @@ public class OSMapManager : Singleton<OSMapManager> {
     //
 
     private void Awake() {
-        //Routes = new List<List<OSTrackController>>();
         Tracks = new List<OSTrackController>();
     }
 
     private void Start() {
         SpawnRoutes(RouteManager.Instance.Routes);
+
+        //TEMP
         _train.Container = _currentSpline;
         _train.Restart(true);
+        //
     }
 
     private void SpawnRoutes(List<Route> routes) {
@@ -39,10 +39,10 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     private void SpawnRoute(Route route) {
         _currentSpline = gameObject.AddComponent<SplineContainer>();
-        //List<OSTrackController> newRoute = new List<OSTrackController>();
 
         OSRouteController newRouteObject = Instantiate(_routePrefab);
         newRouteObject.Route = route;
+        newRouteObject.transform.SetParent(transform, false);
 
         route.TrackPieces.ForEach(connection => {
             OSTrackController newTrack = Instantiate(_trackPrefab);
@@ -93,9 +93,6 @@ public class OSMapManager : Singleton<OSMapManager> {
 
             Tracks.Add(newTrack);
             newTrack.transform.parent = newRouteObject.transform;
-            //newRoute.Add(newTrack);
         });
-
-        //Routes.Add(newRoute);
     }
 }
