@@ -51,6 +51,9 @@ public class RouteManager : Singleton<RouteManager>
         if (!GhostTrackPiece) return;
 
         Vector3 mouse = Input.mousePosition;
+        // maybe cache the last mouse pos:
+        // if it's not changed exit early,
+        // since this method might be expensive
 
         Vector3 cursorPos = Camera.main.ScreenToWorldPoint(
             new Vector3(
