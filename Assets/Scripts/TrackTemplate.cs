@@ -2,11 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrackTemplate : MonoBehaviour
+[CreateAssetMenu(fileName = "Track", menuName = "Track Template")]
+public class TrackTemplate : ScriptableObject
 {
-    public Compass[] ConnectionPoint;
+    [SerializeField]
+    public string ChildArt = "child0";
 
-    // type: LoopDeLoop, etc
+    [SerializeField]
+    public string AdultArt = "adult0";
+
+    [SerializeField]
+    public Compass[] ConnectionPoint;
+    // ^ length = 2
+
+    [SerializeField]
+    public float Happiness = 0;
+
+    [SerializeField]
+    public int Time = 0;
 
     void Start()
     {
