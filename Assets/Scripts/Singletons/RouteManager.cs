@@ -60,6 +60,33 @@ public class RouteManager : Singleton<RouteManager>
             )
         );
 
+        (var closestStation, var compass) = FindClosestStationAndCompassDir(cursorPos);
+
+        Vector3 offset;
+        var junctionOffset = 0.15f;
+        switch (compass) {
+            case Compass.East:
+                offset = new Vector3(junctionOffset, 0, 0);
+                break;
+            case Compass.West:
+                offset = new Vector3(-junctionOffset, 0, 0);
+                break;
+            case Compass.North:
+                offset = new Vector3(0, junctionOffset, 0);
+                break;
+            case Compass.South:
+                offset = new Vector3(0, -junctionOffset, 0);
+                break;
+            default:
+                Debug.Log("invalid compass");
+                return;
+        }
+
+        Vector3 stationPosition = closestStation.transform.position;
+        GhostTrackPiece.transform.position = stationPosition + offset;
+    }
+
+    (Station, Compass?) FindClosestStationAndCompassDir(Vector3 point) {
         var stations = GameObject.FindObjectsOfType<Station>();
 
         Station closestStation = null;
@@ -68,7 +95,7 @@ public class RouteManager : Singleton<RouteManager>
         foreach (Station station in stations) {
             float distance = Vector3.Distance(
                 station.transform.position,
-                cursorPos
+                point
             );
 
             if (distance < closestDistance) {
@@ -77,21 +104,30 @@ public class RouteManager : Singleton<RouteManager>
             }
         }
 
-        if (closestStation) {
-            Vector3 stationPosition = closestStation.transform.position;
-
-            var dx = cursorPos.x - stationPosition.x;
-            var dy = cursorPos.y - stationPosition.y;
-            var junctionOffset = 0.15f;
-
-            Vector3 offset;
-            if (Mathf.Abs(dx) > Mathf.Abs(dy)) {
-                offset = new Vector3(dx > 0 ? junctionOffset : -junctionOffset, 0, 0);
-            } else {
-                offset = new Vector3(0, dy > 0 ? junctionOffset : -junctionOffset, 0);
-            }
-
-            GhostTile.transform.position = stationPosition + offset;
+        if (!closestStation) {
+            return (null, null);
         }
+
+        Vector3 stationPosition = closestStation.transform.position;
+
+        var dx = point.x - stationPosition.x;
+        var dy = point.y - stationPosition.y;
+
+        Compass compass;
+        if (Mathf.Abs(dx) > Mathf.Abs(dy)) {
+            if(dx > 0){
+                compass = Compass.East;
+            }else{
+                compass = Compass.West;
+            }
+        }else{
+            if(dy > 0){
+                compass = Compass.North;
+            }else{
+                compass = Compass.South;
+            }
+        }
+
+        return (closestStation, compass);
     }
 }
