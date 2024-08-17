@@ -13,7 +13,7 @@ public class CameraManager : Singleton<CameraManager> {
     private CameraControlller _kidCameraZoom;
 
     public void ZoomOut() {
-        if (SceneManager.Instance.Level == Level.Adult || _isTransitioning) {
+        if (ZoomManager.Instance.Level == Level.Adult || _isTransitioning) {
             return;
         }
 
@@ -36,7 +36,7 @@ public class CameraManager : Singleton<CameraManager> {
         _adultCameraZoom.SetZoom(3f);
         _adultCameraZoom.onCompleteZoom += handleZoomOutAdultComplete;
 
-        SceneManager.Instance.CompletedZoomOutKid();
+        ZoomManager.Instance.CompletedZoomOutKid();
     }
 
     private void handleZoomOutAdultComplete() {
@@ -45,11 +45,11 @@ public class CameraManager : Singleton<CameraManager> {
         _adultCameraZoom.onCompleteZoom -= handleZoomOutAdultComplete;
         _isTransitioning = false;
 
-        SceneManager.Instance.CompletedZoomOutAdult();
+        ZoomManager.Instance.CompletedZoomOutAdult();
     }
 
     public void ZoomIn() {
-        if (SceneManager.Instance.Level == Level.Kid || _isTransitioning) {
+        if (ZoomManager.Instance.Level == Level.Kid || _isTransitioning) {
             return;
         }
 
@@ -72,7 +72,7 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.SetZoom(3f);
         _kidCameraZoom.onCompleteZoom += handleZoomInKidComplete;
 
-        SceneManager.Instance.CompletedZoomInAdult();
+        ZoomManager.Instance.CompletedZoomInAdult();
     }
 
     private void handleZoomInKidComplete() {
@@ -81,6 +81,6 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.onCompleteZoom -= handleZoomInKidComplete;
         _isTransitioning = false;
 
-        SceneManager.Instance.CompletedZoomInKid();
+        ZoomManager.Instance.CompletedZoomInKid();
     }
 }

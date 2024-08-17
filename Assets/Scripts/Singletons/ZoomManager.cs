@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum Level {
     Kid,
     Adult
 }
 
-public class SceneManager : Singleton<SceneManager> {
+public class ZoomManager : Singleton<ZoomManager> {
     private bool _isTransitioning = false;
 
     public Level Level { get; private set; }
@@ -43,6 +44,12 @@ public class SceneManager : Singleton<SceneManager> {
 
     public void CompletedZoomOutKid() {
         Debug.Log("Finished zooming out of kid scene");
+        UnloadSceneOptions unloadSceneOptions = new UnloadSceneOptions();
+        SceneManager.UnloadSceneAsync("toy", unloadSceneOptions);
+
+        LoadSceneParameters loadSceneParameters = new LoadSceneParameters();
+        loadSceneParameters.loadSceneMode = LoadSceneMode.Additive;
+        SceneManager.LoadSceneAsync("os", loadSceneParameters);
     }
 
     public void CompletedZoomOutAdult() {
@@ -63,6 +70,12 @@ public class SceneManager : Singleton<SceneManager> {
 
     public void CompletedZoomInAdult() {
         Debug.Log("Finished zooming in of adult scene");
+        UnloadSceneOptions unloadSceneOptions = new UnloadSceneOptions();
+        SceneManager.UnloadSceneAsync("os", unloadSceneOptions);
+
+        LoadSceneParameters loadSceneParameters = new LoadSceneParameters();
+        loadSceneParameters.loadSceneMode = LoadSceneMode.Additive;
+        SceneManager.LoadSceneAsync("toy", loadSceneParameters);
     }
 
     public void CompletedZoomInKid() {
