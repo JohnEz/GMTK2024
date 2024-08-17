@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class RouteManager : Singleton<RouteManager>
 {
-    private Station EditStation = null;
+    private Station EditStation;
+    private GameObject GhostTile;
 
     [SerializeField]
     public List<Route> Routes;
+
+    [SerializeField]
+    public GameObject GhostTilePrefab;
+
 
     private bool IsEditing { get { return EditStation != null; } }
 
@@ -16,16 +21,76 @@ public class RouteManager : Singleton<RouteManager>
 
     void Update() {
         if (IsEditing && Input.GetKeyDown(KeyCode.Escape)) {
-            StopEditing();
+            StopEditing(true);
         }
+        UpdateCursorPos();
     }
 
     public void StartEditing(Station fromStation) {
+        if(IsEditing) return;
+
         EditStation = fromStation;
         Routes = new List<Route>();
+        GhostTile = Instantiate(GhostTilePrefab);
     }
 
-    void StopEditing() {
+    void StopEditing(bool cancel) {
         EditStation = null;
+        Routes = null;
+
+        if (cancel) {
+            Destroy(GhostTile);
+        } else {
+            // TODO
+        }
+        GhostTile = null;
+    }
+
+    void UpdateCursorPos() {
+        if (!GhostTile) return;
+
+        Vector3 mouse = Input.mousePosition;
+
+        Vector3 cursorPos = Camera.main.ScreenToWorldPoint(
+            new Vector3(
+                mouse.x,
+                mouse.y,
+                Camera.main.nearClipPlane
+            )
+        );
+
+        var stations = GameObject.FindObjectsOfType<Station>();
+
+        Station closestStation = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Station station in stations) {
+            float distance = Vector3.Distance(
+                station.transform.position,
+                cursorPos
+            );
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestStation = station;
+            }
+        }
+
+        if (closestStation) {
+            Vector3 stationPosition = closestStation.transform.position;
+
+            var dx = cursorPos.x - stationPosition.x;
+            var dy = cursorPos.y - stationPosition.y;
+            var junctionOffset = 0.15f;
+
+            Vector3 offset;
+            if (Mathf.Abs(dx) > Mathf.Abs(dy)) {
+                offset = new Vector3(dx > 0 ? junctionOffset : -junctionOffset, 0, 0);
+            } else {
+                offset = new Vector3(0, dy > 0 ? junctionOffset : -junctionOffset, 0);
+            }
+
+            GhostTile.transform.position = stationPosition + offset;
+        }
     }
 }
