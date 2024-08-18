@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Shadow
+    uniqueID: 3332979389
+    locked: 0
+  - name: Object
+    uniqueID: 4139341921
+    locked: 0
+  - name: Light
+    uniqueID: 3680845263
+    locked: 0

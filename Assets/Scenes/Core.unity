@@ -968,7 +968,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000bd3aa9c66158b9f6cf3d65db
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1750,6 +1750,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1550944024935504947, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
+      propertyPath: m_Size.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1550944024935504947, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
+      propertyPath: m_Size.y
+      value: 16.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 1550944024935504947, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ed27b7c1409289d4789685021544fb2e, type: 3}
+    - target: {fileID: 1550944024935504947, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7295192914460985438, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
       propertyPath: m_Name
       value: ToyMapManager
@@ -1795,7 +1811,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1453788838093060573, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
