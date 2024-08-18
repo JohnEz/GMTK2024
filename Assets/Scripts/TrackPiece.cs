@@ -13,9 +13,9 @@ public enum Rotation {
 
 [System.Serializable]
 public class TrackPiece {
-    public float X;
+    public int X;
 
-    public float Y;
+    public int Y;
 
     // visuals
     [SerializeField]

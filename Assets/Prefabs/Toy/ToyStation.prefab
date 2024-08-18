@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7271937672924753003}
   - component: {fileID: 5443279100137747462}
   m_Layer: 0
-  m_Name: Station
+  m_Name: ToyStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2bd4342e55c4775bdcfe2255011716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationTemplate: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
 --- !u!114 &5443279100137747462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09134cc23ed2c43c8bf3763bf4df6a90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trackPiece:
+    X: 0
+    Y: 0
+    Rotation: 0
+    Template: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
   OnTrackPieceSet:
     m_PersistentCalls:
       m_Calls: []

@@ -63,9 +63,16 @@ public class RouteManager : Singleton<RouteManager> {
         Compass direction = GhostTrackPiece.Direction;
         NewRoute.AddConnection(piece, direction);
 
+        TrackPiece connectingStation = StationManager.Instance.GetConnectingStation(piece);
+        if (connectingStation != null) {
+            NewRoute.CalculateSpline();
+            StopEditing();
+            Debug.Log("Route made!");
+            return;
+        }
+
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass nextDirection = piece.Template.ConnectionPoints[1];
-
         EditFromTrackPiece = piece;
         GhostTrackPiece.SetPosition(nextDirection.Rotate(piece.Rotation), piece);
     }

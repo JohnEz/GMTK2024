@@ -3,7 +3,6 @@ using UnityEngine.Events;
 
 public class TrackPieceController : MonoBehaviour
 {
-    [SerializeField]
     private TrackPiece _trackPiece;
 
     public UnityEvent<TrackPiece> OnTrackPieceSet = new();

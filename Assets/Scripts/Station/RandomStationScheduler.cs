@@ -18,6 +18,9 @@ public class RandomStationScheduler : MonoBehaviour
 
     private StationManager stationManager;
 
+    [SerializeField]
+    private TrackTemplate stationTemplate;
+
     private bool _spawning = true;
 
     private float _timeSinceLastSpawn = 0;
@@ -53,16 +56,18 @@ public class RandomStationScheduler : MonoBehaviour
             {
                 X = 0,
                 Y = 0,
+                Template = stationTemplate,
             };
         } else {
             Compass direction = GetRandomDirection();
             TrackPiece refStation = GetOutlier(direction);
-            Vector3 spawnPosition = GetSpawnVector(direction);
+            (int x, int y) = GetSpawnVector(direction);
 
             station = new()
             {
-                X = refStation.X + spawnPosition.x,
-                Y = refStation.Y + spawnPosition.y,
+                X = refStation.X + x,
+                Y = refStation.Y + y,
+                Template = stationTemplate,
             };
         }
 
@@ -85,15 +90,15 @@ public class RandomStationScheduler : MonoBehaviour
         );
     }
 
-    private Vector3 GetSpawnVector(Compass direction) {
+    private (int x, int y) GetSpawnVector(Compass direction) {
         int crossOffset = Random.Range(-2, 3);
         int mainOffset = SpawnDistance - System.Math.Abs(crossOffset);
         return direction == Compass.North
-            ? new Vector3(crossOffset, mainOffset, 0)
+            ? (crossOffset, mainOffset)
             : direction == Compass.East
-            ? new Vector3(mainOffset, crossOffset, 0)
+            ? (mainOffset, crossOffset)
             : direction == Compass.South
-            ? new Vector3(crossOffset, -mainOffset, 0)
-            : new Vector3(-mainOffset, crossOffset, 0);
+            ? (crossOffset, -mainOffset)
+            : (-mainOffset, crossOffset);
     }
 }

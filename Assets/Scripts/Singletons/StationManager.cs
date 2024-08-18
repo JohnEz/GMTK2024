@@ -16,6 +16,14 @@ public class StationManager : Singleton<StationManager> {
         OnStationAdded?.Invoke(station);
     }
 
+    public TrackPiece GetConnectingStation(TrackPiece piece) {
+        // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
+        Compass nextDirection = piece.Template.ConnectionPoints[1];
+        TrackPiece nextTrackPiece = Connection.GetNextTrackPiece(piece, nextDirection);
+
+        return Stations.Find(station => station.X == nextTrackPiece.X && station.Y == nextTrackPiece.Y);
+    }
+
     public (TrackPiece, TrackPiece) ProposeJourney() {
         int start = Random.Range(0, Stations.Count);
         int end;

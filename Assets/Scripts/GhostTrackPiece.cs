@@ -92,9 +92,9 @@ public class GhostTrackPiece : MonoBehaviour {
 
         // Bit inefficient but let's not worry about it
         _trackPieceController.TrackPiece = new TrackPiece() {
-            X = _trackPieceController.TrackPiece.X,
-            Y = _trackPieceController.TrackPiece.Y,
-            Rotation = _trackPieceController.TrackPiece.Rotation,
+            X = _trackPieceController.TrackPiece?.X ?? 0,
+            Y = _trackPieceController.TrackPiece?.Y ?? 0,
+            Rotation = _trackPieceController.TrackPiece?.Rotation ?? Rotation.None,
             Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
         };
     }
@@ -102,43 +102,8 @@ public class GhostTrackPiece : MonoBehaviour {
     public void SetPosition(Compass direction, TrackPiece fromTrackPiece) {
         _Direction = direction;
 
-        TrackPiece trackPiece = null;
-
-        switch (direction) {
-            case Compass.North:
-                trackPiece = new TrackPiece() {
-                    X = fromTrackPiece.X,
-                    Y = fromTrackPiece.Y + 1,
-                    Rotation = Rotation.Deg270,
-                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
-                };
-                break;
-            case Compass.East:
-                trackPiece = new TrackPiece() {
-                    X = fromTrackPiece.X + 1,
-                    Y = fromTrackPiece.Y,
-                    Rotation = Rotation.None,
-                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
-                };
-                break;
-            case Compass.South:
-                trackPiece = new TrackPiece() {
-                    X = fromTrackPiece.X,
-                    Y = fromTrackPiece.Y - 1,
-                    Rotation = Rotation.Deg90,
-                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
-                };
-                break;
-            case Compass.West:
-                trackPiece = new TrackPiece() {
-                    X = fromTrackPiece.X - 1,
-                    Y = fromTrackPiece.Y,
-                    Rotation = Rotation.Deg180,
-                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
-                };
-                break;
-        }
-
+        TrackPiece trackPiece = Connection.GetNextTrackPiece(fromTrackPiece, direction);
+        trackPiece.Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template;
         _trackPieceController.TrackPiece = trackPiece;
 
         // Avert thine eyes, lest your soul forever be scarred from what you see here today.

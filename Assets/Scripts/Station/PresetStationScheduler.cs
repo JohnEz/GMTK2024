@@ -21,6 +21,9 @@ public class PresetStationScheduler : MonoBehaviour
 
     private StationManager stationManager;
 
+    [SerializeField]
+    private TrackTemplate stationTemplate;
+
     private bool _spawning = true;
 
     private int _nextIndex = 0;
@@ -57,6 +60,7 @@ public class PresetStationScheduler : MonoBehaviour
         {
             X = nextSpawn.x,
             Y = nextSpawn.y,
+            Template = stationTemplate,
         };
 
         stationManager.AddStation(station);

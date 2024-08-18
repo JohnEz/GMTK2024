@@ -11,6 +11,37 @@ public class Connection {
     public TrackPiece Piece;
 
     public Compass PreviousPieceDirection;
+
+    public static TrackPiece GetNextTrackPiece(TrackPiece fromTrackPiece, Compass direction) {
+        return direction switch
+        {
+            Compass.North => new TrackPiece()
+            {
+                X = fromTrackPiece.X,
+                Y = fromTrackPiece.Y + 1,
+                Rotation = Rotation.Deg270,
+            },
+            Compass.East => new TrackPiece()
+            {
+                X = fromTrackPiece.X + 1,
+                Y = fromTrackPiece.Y,
+                Rotation = Rotation.None,
+            },
+            Compass.South => new TrackPiece()
+            {
+                X = fromTrackPiece.X,
+                Y = fromTrackPiece.Y - 1,
+                Rotation = Rotation.Deg90,
+            },
+            Compass.West => new TrackPiece()
+            {
+                X = fromTrackPiece.X - 1,
+                Y = fromTrackPiece.Y,
+                Rotation = Rotation.Deg180,
+            },
+            _ => null,
+        };
+    }
 }
 
 [System.Serializable]
