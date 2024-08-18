@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum Compass
@@ -36,6 +34,17 @@ public static class CompassExtensions {
         var newVal = (int)orig + add;
         newVal %= 4;
         return (Compass)newVal;
+    }
+
+    public static Rotation ToRotation(this Compass direction) {
+        return direction switch
+        {
+            Compass.North => Rotation.None,
+            Compass.East => Rotation.Deg90,
+            Compass.South => Rotation.Deg180,
+            Compass.West => Rotation.Deg270,
+            _ => throw new System.Exception("Compass didn't have a value"),
+        };
     }
 
     public static Compass Reversed(this Compass orig) {
