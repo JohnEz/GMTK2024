@@ -1,25 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
+[RequireComponent(typeof (TrackPieceController))]
 public class Station : MonoBehaviour {
-
-    void Start() {
-        foreach (Button button in Buttons()) {
-            button.onClick.AddListener(() => StartEditing());
+    void Awake() {
+        TrackPiecePlacementButtons trackPiecePlacementButtons = GetComponentInChildren<TrackPiecePlacementButtons>();
+        if (trackPiecePlacementButtons != null) {
+            trackPiecePlacementButtons.OnClick.AddListener(OnClickPlacement);
         }
     }
 
-    void Update() {
-    }
-
-    void StartEditing() {
-        RouteManager.Instance.StartEditing(this);
-    }
-
-    UnityEngine.UI.Button[] Buttons() {
-        var canvas = transform.Find("StationCanvas");
-        return canvas.GetComponentsInChildren<Button>();
+    void OnClickPlacement(Compass direction) {
+        RouteManager.Instance.StartEditing(this, direction);
     }
 }
