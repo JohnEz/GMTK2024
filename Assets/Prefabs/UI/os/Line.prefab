@@ -422,5 +422,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineImage: {fileID: 6542475199133256507}
-  _trainCountText: {fileID: 0}
-  _usageText: {fileID: 0}
+  _trainCountText: {fileID: 1883571184957019757}
+  _usageText: {fileID: 1854551592473854409}

@@ -10,6 +10,8 @@ public class Line {
 
     public List<TrainController> Trains { get; private set; }
 
+    public event Action<int> OnTrainCountChange;
+
     public Line(Color color) {
         Routes = new List<Route>();
         Trains = new List<TrainController>();
@@ -18,10 +20,12 @@ public class Line {
 
     public void AddTrain(string startingStation, TrainController newTrain) {
         Trains.Add(newTrain);
+        OnTrainCountChange?.Invoke(Trains.Count);
     }
 
     public void RemoveTrain(TrainController trainToRemove) {
         Trains.Remove(trainToRemove);
+        OnTrainCountChange?.Invoke(Trains.Count);
     }
 
     public List<TrainController> RemoveAllTrains() {

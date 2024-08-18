@@ -49,7 +49,6 @@ public class OSLinesUI : MonoBehaviour {
     }
 
     private void RemoveLine(Color key) {
-        Debug.Log("Destroying ui element");
         GameObject uiToDestroy = lines[key].gameObject;
 
         Destroy(uiToDestroy);
