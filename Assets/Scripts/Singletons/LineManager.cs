@@ -94,4 +94,15 @@ public class LineManager : Singleton<LineManager> {
             OnLineRemoved?.Invoke(lineColor);
         }
     }
+
+    public Color GetLineByRoute(OSRouteController routeController) {
+        bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
+
+        if (isAlreadyInALine) {
+            Color existingColor = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).FirstOrDefault().Key;
+            return existingColor;
+        }
+
+        return Color.white;
+    }
 }
