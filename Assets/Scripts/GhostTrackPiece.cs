@@ -60,14 +60,14 @@ public class GhostTrackPiece : MonoBehaviour {
     }
 
     private void OnPreviousType() {
-        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPiecePrefabs.Keys.ToList();
+        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
         int currentIndex = types.IndexOf(_trackPieceType);
         int nextIndex = ((currentIndex == 0 ? types.Count : currentIndex) - 1) % types.Count;
         TrackPieceType = types[nextIndex];
     }
 
     private void OnNextType() {
-        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPiecePrefabs.Keys.ToList();
+        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
         int currentIndex = types.IndexOf(_trackPieceType);
         int nextIndex = (currentIndex + 1) % types.Count;
         TrackPieceType = types[nextIndex];
@@ -78,7 +78,7 @@ public class GhostTrackPiece : MonoBehaviour {
     }
 
     private void OnSetTrackPieceType() {
-        ToyTrackPiecePrefab prefab = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType];
+        ToyTrackPieceConfig prefab = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType];
         _spriteRenderer.sprite = prefab.sprite;
 
         Compass[] connections = prefab.template.ConnectionPoints;
@@ -95,7 +95,7 @@ public class GhostTrackPiece : MonoBehaviour {
             X = _trackPieceController.TrackPiece?.X ?? 0,
             Y = _trackPieceController.TrackPiece?.Y ?? 0,
             Rotation = _trackPieceController.TrackPiece?.Rotation ?? Rotation.None,
-            Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
+            Template = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType].template
         };
     }
 
@@ -103,7 +103,7 @@ public class GhostTrackPiece : MonoBehaviour {
         _Direction = direction;
 
         TrackPiece trackPiece = Connection.GetNextTrackPiece(fromTrackPiece, direction);
-        trackPiece.Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template;
+        trackPiece.Template = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType].template;
         _trackPieceController.TrackPiece = trackPiece;
 
         // Avert thine eyes, lest your soul forever be scarred from what you see here today.

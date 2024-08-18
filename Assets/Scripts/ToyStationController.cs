@@ -19,7 +19,7 @@ public class ToyStationController : MonoBehaviour {
     }
 
     void OnClickPlacement(Compass direction) {
-        RouteManager.Instance.StartEditing(direction, _trackPieceController.TrackPiece);
+        RouteBuilderManager.Instance.StartEditing(direction, _trackPieceController.TrackPiece);
     }
 
     void OnGameStateChange(GameState state) {

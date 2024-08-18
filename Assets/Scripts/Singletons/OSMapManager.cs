@@ -69,7 +69,10 @@ public class OSMapManager : Singleton<OSMapManager> {
     }
 
     private void Start() {
+        RouteManager.Instance.OnRouteAdded += SpawnRoute;
         SpawnRoutes(RouteManager.Instance.Routes);
+
+        StationManager.Instance.OnStationAdded += SpawnStation;
         SpawnStations(StationManager.Instance.Stations);
     }
 

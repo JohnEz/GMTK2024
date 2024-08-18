@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class ToyTrackPiecePrefab {
+public class ToyTrackPieceConfig {
     public TrackTemplate template;
 
     public Sprite sprite;
@@ -16,16 +16,22 @@ public class ToyMapManager : Singleton<ToyMapManager>
     private TrackPieceController _stationPrefab;
 
     [SerializeField]
-    private List<ToyTrackPiecePrefab> _trackPiecePrefabs = new();
+    private TrackPieceController _trackPiecePrefab;
 
-    public Dictionary<TrackPieceType, ToyTrackPiecePrefab> TrackPiecePrefabs {
+    [SerializeField]
+    private List<ToyTrackPieceConfig> _trackPieceConfigList = new();
+
+    public Dictionary<TrackPieceType, ToyTrackPieceConfig> TrackPieceConfig {
         private set;
         get;
     }
 
-    void Awake() {
+    void Start() {
         StationManager.Instance.OnStationAdded += OnStationAdded;
         StationManager.Instance.Stations.ForEach(station => OnStationAdded(station));
+
+        RouteManager.Instance.OnRouteAdded += OnRouteAdded;
+        RouteManager.Instance.Routes.ForEach(route => OnRouteAdded(route));
     }
 
     private void OnStationAdded(TrackPiece station) {
@@ -33,8 +39,16 @@ public class ToyMapManager : Singleton<ToyMapManager>
         stationController.TrackPiece = station;
     }
 
+    private void OnRouteAdded(Route route) {
+        route.TrackPieces.ForEach(connection => {
+            TrackPieceController newTrack = Instantiate(_trackPiecePrefab, transform);
+            newTrack.TrackPiece = connection.Piece;
+            newTrack.GetComponentInChildren<SpriteRenderer>().sprite = TrackPieceConfig[connection.Piece.Template.TrackPieceType].sprite;
+        });
+    }
+
     private void OnValidate() {
-        TrackPiecePrefabs = _trackPiecePrefabs.ToDictionary(
+        TrackPieceConfig = _trackPieceConfigList.ToDictionary(
             _trackPrefab => _trackPrefab.template.TrackPieceType,
             _trackPrefab => _trackPrefab
         );
