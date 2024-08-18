@@ -24,10 +24,14 @@ public class Line {
         Trains.Remove(trainToRemove);
     }
 
-    public void RemoveAllTrains() {
-        Trains.ForEach(train => {
+    public List<TrainController> RemoveAllTrains() {
+        List<TrainController> removedTrains = new List<TrainController>(Trains);
+
+        removedTrains.ForEach(train => {
             RemoveTrain(train);
         });
+
+        return removedTrains;
     }
 }
 
@@ -98,7 +102,8 @@ public class LineManager : Singleton<LineManager> {
         if (Lines[lineColor].Routes.Count == 0) {
             OnLineRemoved?.Invoke(lineColor);
             //TEMP
-            //Lines[lineColor].RemoveTrain();
+            var removedTrains = Lines[lineColor].RemoveAllTrains();
+            TrainManager.Instance.DestroyTrains(removedTrains);
             //
         }
     }

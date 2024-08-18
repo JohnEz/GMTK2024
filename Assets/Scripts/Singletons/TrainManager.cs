@@ -17,4 +17,16 @@ public class TrainManager : Singleton<TrainManager> {
 
         return train;
     }
+
+    public void DestroyTrain(TrainController trainToDestroy) {
+        _trains.Remove(trainToDestroy);
+
+        Destroy(trainToDestroy.gameObject);
+    }
+
+    public void DestroyTrains(List<TrainController> trainsToDestroy) {
+        trainsToDestroy.ForEach(trainToDestroy => {
+            DestroyTrain(trainToDestroy);
+        });
+    }
 }
