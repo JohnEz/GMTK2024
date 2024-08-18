@@ -440,10 +440,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToyMapManager
       objectReference: {fileID: 0}
-    - target: {fileID: 7400165378718462998, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
-      propertyPath: _stationPrefab
-      value: 
-      objectReference: {fileID: 5443279100137747462, guid: 367fa28c662554001b32240b205cfd2c, type: 3}
     - target: {fileID: 8580410577657250344, guid: 7b1baf97bd81b1242b5117b400bdc5ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -695,14 +691,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 455045621394921651, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
-      propertyPath: stationTemplate
-      value: 
-      objectReference: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
-    - target: {fileID: 455045621394921651, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
-      propertyPath: Spawns.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 455045621394921651, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
       propertyPath: Spawns.Array.data[0].x
       value: -2

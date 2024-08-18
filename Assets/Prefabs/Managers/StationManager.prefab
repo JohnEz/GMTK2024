@@ -72,3 +72,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Spawns: []
+  stationTemplate: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}

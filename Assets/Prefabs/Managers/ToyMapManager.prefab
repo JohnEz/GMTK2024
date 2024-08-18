@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
+  _stationPrefab: {fileID: 5443279100137747462, guid: 367fa28c662554001b32240b205cfd2c, type: 3}
   _trackPiecePrefabs:
   - template: {fileID: 11400000, guid: a4a39a16ae2b3400f92f30edf109513e, type: 2}
     sprite: {fileID: 21300000, guid: 8c7b42abf1cb4ce41bdfca6a0ff6b2da, type: 3}
