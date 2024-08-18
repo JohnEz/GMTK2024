@@ -39,6 +39,10 @@ public class OSMapManager : Singleton<OSMapManager> {
             newTrack.transform.parent = newRouteObject.transform;
         });
 
+        Color lineColor = LineManager.Instance.GetLineByRoute(newRouteObject);
+
+        newRouteObject.UpdateRouteColor(lineColor);
+
         newRouteObject.AddTrain();
     }
 }
