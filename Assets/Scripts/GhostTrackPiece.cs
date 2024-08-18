@@ -84,8 +84,9 @@ public class GhostTrackPiece : MonoBehaviour {
         Compass[] connections = prefab.template.ConnectionPoints;
 
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
-        Compass forwardDirection = connections[0];
-        _confirmCanvas.transform.eulerAngles = new Vector3(0, 0, -(int)forwardDirection);
+        Compass forwardDirection = connections[1];
+        Rotation rotation = forwardDirection.ToRotation();
+        _confirmCanvas.transform.eulerAngles = new Vector3(0, 0, -(int)rotation);
     }
 
     public void SetPosition(Compass direction, TrackPiece fromTrackPiece) {

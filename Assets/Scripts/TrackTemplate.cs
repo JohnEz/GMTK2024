@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.Splines;
 
 public enum TrackPieceType {
-    Corner,
+    CornerRight,
+    CornerLeft,
     Straight,
     LoopDaLoop,
     Station

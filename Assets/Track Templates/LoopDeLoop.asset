@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a876f9037a7f4df4ae89b4ea7f15d70, type: 3}
   m_Name: LoopDeLoop
   m_EditorClassIdentifier: 
-  TrackPieceType: 2
-  ConnectionPoints: 0100000003000000
+  TrackPieceType: 3
+  ConnectionPoints: 0300000001000000
   Happiness: 10
   spline:
     m_EditModeType: 1

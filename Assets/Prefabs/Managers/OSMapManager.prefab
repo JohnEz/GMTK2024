@@ -134,12 +134,14 @@ MonoBehaviour:
   _isGlobal: 0
   _trackPiecePrefabs:
   - pieceType: 0
-    prefab: {fileID: 5456812835172892198, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
+    prefab: {fileID: 5456812835172892198, guid: d5f60b3ac273a4ab18e228d60878eab4, type: 3}
   - pieceType: 2
-    prefab: {fileID: 3134439708579648781, guid: 820d3801d880c4c27a7abe056a92dc48, type: 3}
+    prefab: {fileID: 1240061042136516153, guid: f5e7c12cf28966a45a98500c84daf9f1, type: 3}
   - pieceType: 1
-    prefab: {fileID: 2101659743155389220, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
+    prefab: {fileID: 5456812835172892198, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
   - pieceType: 3
+    prefab: {fileID: 3134439708579648781, guid: 820d3801d880c4c27a7abe056a92dc48, type: 3}
+  - pieceType: 4
     prefab: {fileID: 2101659743155389220, guid: 75f0b5b65bae3d5498594a50448dd6d0, type: 3}
   _routePrefab: {fileID: 3789160484161252044, guid: b75ca08dd1d73e247b8cb37ac484011c, type: 3}
   _linePrefab: {fileID: 7325968611100040973, guid: d8dff526a903d984e900bbc8abeca3cf, type: 3}
