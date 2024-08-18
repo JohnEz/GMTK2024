@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Straight
   m_EditorClassIdentifier: 
   TrackPieceType: 1
-  ConnectionPoints: 
+  ConnectionPoints: 0300000001000000
   Happiness: 1
   spline:
     m_EditModeType: 1

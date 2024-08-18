@@ -7,16 +7,15 @@ using UnityEngine.Splines;
 using static UnityEngine.Rendering.CoreUtils;
 
 [Serializable]
-public class TrackPiecePrefab {
+public class OSTrackPiecePrefab {
     public TrackPieceType pieceType;
 
     public TrackPieceController prefab;
 }
 
 public class OSMapManager : Singleton<OSMapManager> {
-
     [SerializeField]
-    private List<TrackPiecePrefab> _trackPiecePrefabs = new();
+    private List<OSTrackPiecePrefab> _trackPiecePrefabs = new();
 
     private Dictionary<TrackPieceType, TrackPieceController> _trackPiecePrefabMap;
 

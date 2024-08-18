@@ -385,6 +385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8580410577657250344}
+  - component: {fileID: 7400165378718462998}
   m_Layer: 0
   m_Name: ToyMapManager
   m_TagString: Untagged
@@ -409,6 +410,26 @@ Transform:
   - {fileID: 390998524626377698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7400165378718462998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7295192914460985438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcaa48531f9c42888176c2b0c3c0f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isGlobal: 0
+  _trackPiecePrefabs:
+  - template: {fileID: 11400000, guid: a4a39a16ae2b3400f92f30edf109513e, type: 2}
+    sprite: {fileID: 21300000, guid: 5ab04be53e871fa42a337c01c2e79ab9, type: 3}
+  - template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
+    sprite: {fileID: 21300000, guid: b8507b430a1bf2648b8fb0da448ccceb, type: 3}
+  - template: {fileID: 11400000, guid: efdf7b8937ea64d38bc6995719d1ad98, type: 2}
+    sprite: {fileID: 21300000, guid: fa76353593be2814fa7e5a5b62d23212, type: 3}
 --- !u!1001 &894952898568888899
 PrefabInstance:
   m_ObjectHideFlags: 0

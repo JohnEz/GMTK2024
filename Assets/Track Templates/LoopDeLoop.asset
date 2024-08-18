@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LoopDeLoop
   m_EditorClassIdentifier: 
   TrackPieceType: 2
-  ConnectionPoints: 
+  ConnectionPoints: 0100000003000000
   Happiness: 10
   spline:
     m_EditModeType: 1
