@@ -3,16 +3,18 @@ using UnityEngine;
 using UnityEngine.Splines;
 
 public class TrainManager : Singleton<TrainManager> {
-    public GameObject trainPrefab;
+    public TrainController trainPrefab;
 
-    private List<SplineAnimate> _trains = new();
+    private List<TrainController> _trains = new();
 
-    public void AddTrain(string startingStation, Line lineToAddTo, Transform parent) {
-        //GameObject train = Instantiate(trainPrefab);
-        //train.transform.SetParent(parent, false);
-        //SplineAnimate splineAnimate = train.GetComponent<SplineAnimate>();
-        //splineAnimate.Container = lineToAddTo.Routes[0];
-        //splineAnimate.Restart(true);
-        //_trains.Add(splineAnimate);
+    public TrainController SpawnTrain(string startingStation, OSRouteController startingRoute, Transform parent) {
+        TrainController train = Instantiate(trainPrefab);
+        train.transform.SetParent(parent, false);
+        SplineAnimate splineAnimate = train.GetComponent<SplineAnimate>();
+        splineAnimate.Container = startingRoute.SplineContainer;
+        splineAnimate.Restart(true);
+        _trains.Add(train);
+
+        return train;
     }
 }

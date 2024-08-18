@@ -14,8 +14,11 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     public List<OSTrackController> Tracks { get; private set; }
 
+    public List<OSRouteController> RouteControllers { get; private set; }
+
     private void Awake() {
         Tracks = new List<OSTrackController>();
+        RouteControllers = new List<OSRouteController>();
     }
 
     private void Start() {
@@ -42,5 +45,7 @@ public class OSMapManager : Singleton<OSMapManager> {
         Color lineColor = LineManager.Instance.GetLineByRoute(newRouteObject);
 
         newRouteObject.UpdateRouteColor(lineColor);
+
+        RouteControllers.Add(newRouteObject);
     }
 }

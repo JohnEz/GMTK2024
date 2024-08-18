@@ -18,7 +18,7 @@ public class Route {
     [SerializeField]
     public List<Connection> TrackPieces = new List<Connection>();
 
-    private Spline routeSpline = new Spline();
+    public Spline RouteSpline { get; private set; } = new Spline();
 
     // TODO: happiness, etc
 
@@ -40,7 +40,7 @@ public class Route {
     }
 
     public void CalculateSpline() {
-        routeSpline = new Spline();
+        RouteSpline = new Spline();
 
         TrackPieces.ForEach(connection => {
             List<BezierKnot> knots = new();
@@ -83,7 +83,7 @@ public class Route {
             }
 
             foreach (var knot in knots) {
-                routeSpline.Add(knot);
+                RouteSpline.Add(knot);
             }
         });
     }

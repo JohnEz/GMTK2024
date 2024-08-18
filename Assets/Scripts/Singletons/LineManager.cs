@@ -4,18 +4,17 @@ using System.Linq;
 using UnityEngine;
 
 public class Line {
+    public Color Color { get; private set; }
+
+    public List<Route> Routes { get; private set; }
+
+    public List<TrainController> Trains { get; private set; }
 
     public Line(Color color) {
         Routes = new List<Route>();
         Trains = new List<TrainController>();
         Color = color;
     }
-
-    public Color Color { get; private set; }
-
-    public List<Route> Routes { get; private set; }
-
-    public List<TrainController> Trains { get; private set; }
 
     public void AddTrain(string startingStation, TrainController newTrain) {
         Trains.Add(newTrain);
@@ -72,19 +71,6 @@ public class LineManager : Singleton<LineManager> {
         AddRouteToLine(newColor, routeController);
     }
 
-    // returns true when a new line was created
-    private bool CreateNewLine(Route initialRoute) {
-        Color newLineColor = Lines.Where(kvp => kvp.Value.Routes.Count > 0).First().Key;
-
-        if (newLineColor == null) {
-            return false;
-        }
-
-        Lines[newLineColor].Routes.Add(initialRoute);
-
-        return true;
-    }
-
     private void AddRouteToLine(Color lineColor, OSRouteController routeController) {
         bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
 
@@ -99,7 +85,8 @@ public class LineManager : Singleton<LineManager> {
         if (Lines[lineColor].Routes.Count == 1) {
             OnLineAdded?.Invoke(lineColor, Lines[lineColor]);
             //TEMP
-            //Lines[lineColor].AddTrain("temp");
+            TrainController train = TrainManager.Instance.SpawnTrain("startingStation", routeController, transform);
+            Lines[lineColor].AddTrain("temp", train);
             //
         }
     }

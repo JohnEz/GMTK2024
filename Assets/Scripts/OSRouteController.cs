@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class OSRouteController : MonoBehaviour {
     private Route _route;
 
     private TrainManager _trainController;
+
+    public SplineContainer SplineContainer { get; private set; }
 
     public Route Route {
         get { return _route; }
@@ -14,10 +17,16 @@ public class OSRouteController : MonoBehaviour {
 
     private void SetRoute(Route route) {
         _route = route;
+        SetSpline(route.RouteSpline);
     }
 
     public void Awake() {
         _trainController = GetComponent<TrainManager>();
+        SplineContainer = GetComponent<SplineContainer>();
+    }
+
+    public void SetSpline(Spline spline) {
+        SplineContainer.Spline = spline;
     }
 
     public void HandleClick() {

@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RouteManager : Singleton<RouteManager>
-{
+public class RouteManager : Singleton<RouteManager> {
+
     // this group of variables are all set together during an edit session:
     private Station EditStation;
+
     private GhostTrackPiece GhostTrackPiece;
     private Route NewRoute;
 
@@ -15,7 +16,14 @@ public class RouteManager : Singleton<RouteManager>
     [SerializeField]
     public GameObject GhostTrackPiecePrefab;
 
-    void Update() {
+    private void Awake() {
+        // we need to calculate the route spline for any hardcoded routes
+        Routes.ForEach(route => {
+            route.CalculateSpline();
+        });
+    }
+
+    private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             StopEditing();
         }
@@ -33,7 +41,7 @@ public class RouteManager : Singleton<RouteManager>
         PlaceGhostPiece(direction);
     }
 
-    void CreateNewPiece() {
+    private void CreateNewPiece() {
         if (GhostTrackPiece) {
             Destroy(GhostTrackPiece);
         }
@@ -42,14 +50,14 @@ public class RouteManager : Singleton<RouteManager>
         GhostTrackPiece.OnOk += () => PlacePiece();
     }
 
-    void StopEditing() {
+    private void StopEditing() {
         EditStation = null;
         Destroy(GhostTrackPiece);
         GhostTrackPiece = null;
         NewRoute = null;
     }
 
-    void PlacePiece() {
+    private void PlacePiece() {
         var cursorPos = GetCursorPos();
         (var closestStation, var compass) = FindClosestStationAndCompassDir(cursorPos);
 
@@ -59,34 +67,39 @@ public class RouteManager : Singleton<RouteManager>
         );
     }
 
-    void PlaceGhostPiece(Compass direction) {
-        if (!GhostTrackPiece) return;
+    private void PlaceGhostPiece(Compass direction) {
+        if (!GhostTrackPiece)
+            return;
 
         Vector3 offset;
         var junctionOffset = 0.15f;
         switch (direction) {
             case Compass.East:
-                offset = new Vector3(junctionOffset, 0, 0);
-                break;
+            offset = new Vector3(junctionOffset, 0, 0);
+            break;
+
             case Compass.West:
-                offset = new Vector3(-junctionOffset, 0, 0);
-                break;
+            offset = new Vector3(-junctionOffset, 0, 0);
+            break;
+
             case Compass.North:
-                offset = new Vector3(0, junctionOffset, 0);
-                break;
+            offset = new Vector3(0, junctionOffset, 0);
+            break;
+
             case Compass.South:
-                offset = new Vector3(0, -junctionOffset, 0);
-                break;
+            offset = new Vector3(0, -junctionOffset, 0);
+            break;
+
             default:
-                Debug.Log("invalid compass");
-                return;
+            Debug.Log("invalid compass");
+            return;
         }
 
         Vector3 stationPosition = EditStation.transform.position;
         GhostTrackPiece.transform.position = stationPosition + offset;
     }
 
-    Vector3 GetCursorPos() {
+    private Vector3 GetCursorPos() {
         Vector3 mouse = Input.mousePosition;
         return Camera.main.ScreenToWorldPoint(
             new Vector3(
@@ -97,7 +110,7 @@ public class RouteManager : Singleton<RouteManager>
         );
     }
 
-    (Station, Compass) FindClosestStationAndCompassDir(Vector3 point) {
+    private (Station, Compass) FindClosestStationAndCompassDir(Vector3 point) {
         var stations = GameObject.FindObjectsOfType<Station>();
 
         Station closestStation = null;
@@ -126,15 +139,15 @@ public class RouteManager : Singleton<RouteManager>
 
         Compass compass;
         if (Mathf.Abs(dx) > Mathf.Abs(dy)) {
-            if(dx > 0){
+            if (dx > 0) {
                 compass = Compass.East;
-            }else{
+            } else {
                 compass = Compass.West;
             }
-        }else{
-            if(dy > 0){
+        } else {
+            if (dy > 0) {
                 compass = Compass.North;
-            }else{
+            } else {
                 compass = Compass.South;
             }
         }
