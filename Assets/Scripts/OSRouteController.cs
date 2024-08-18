@@ -1,10 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class OSRouteController : MonoBehaviour {
     private Route _route;
+
+    private TrainController _trainController;
 
     public Route Route {
         get { return _route; }
@@ -13,6 +14,11 @@ public class OSRouteController : MonoBehaviour {
 
     private void SetRoute(Route route) {
         _route = route;
+        _trainController.Spawn(route);
+    }
+
+    public void Awake() {
+        _trainController =  GetComponent<TrainController>();
     }
 
     public void HandleClick() {
@@ -25,5 +31,9 @@ public class OSRouteController : MonoBehaviour {
         controllerList.ForEach(trackController => {
             trackController.UpdateTrackColor(color);
         });
+    }
+
+    public void AddTrain() {
+        _trainController.AddTrain();
     }
 }
