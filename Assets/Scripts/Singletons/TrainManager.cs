@@ -7,12 +7,12 @@ public class TrainManager : Singleton<TrainManager> {
 
     private List<TrainController> _trains = new();
 
-    public TrainController SpawnTrain(string startingStation, OSRouteController startingRoute, Transform parent) {
+    public TrainController SpawnTrain(string startingStation, Line line) {
+        OSLineController lineController = OSMapManager.Instance.Lines[line.Color];
+
         TrainController train = Instantiate(trainPrefab);
-        train.transform.SetParent(parent, false);
-        SplineAnimate splineAnimate = train.GetComponent<SplineAnimate>();
-        splineAnimate.Container = startingRoute.SplineContainer;
-        splineAnimate.Restart(true);
+        train.transform.SetParent(lineController.transform, false);
+        train.SetLine(lineController);
         _trains.Add(train);
 
         return train;

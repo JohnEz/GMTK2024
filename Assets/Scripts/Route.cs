@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -19,6 +20,7 @@ public class Route {
     public List<Connection> TrackPieces = new List<Connection>();
 
     public Spline RouteSpline { get; private set; } = new Spline();
+    public Spline RouteSplineReversed { get; private set; } = new Spline();
 
     // TODO: happiness, etc
 
@@ -39,8 +41,19 @@ public class Route {
         TrackPieces.Add(conn);
     }
 
+    private void SetSpline(Spline spline) {
+        RouteSpline = spline;
+        RouteSplineReversed = new Spline();
+
+        var reversedList = RouteSpline.Knots.Reverse();
+
+        foreach (var knot in reversedList) {
+            RouteSplineReversed.Add(knot);
+        }
+    }
+
     public void CalculateSpline() {
-        RouteSpline = new Spline();
+        Spline newRouteSpline = new Spline();
 
         TrackPieces.ForEach(connection => {
             List<BezierKnot> knots = new();
@@ -83,8 +96,10 @@ public class Route {
             }
 
             foreach (var knot in knots) {
-                RouteSpline.Add(knot);
+                newRouteSpline.Add(knot);
             }
         });
+
+        SetSpline(newRouteSpline);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class Line {
     public Color Color { get; private set; }
@@ -10,12 +11,40 @@ public class Line {
 
     public List<TrainController> Trains { get; private set; }
 
+    public Spline Spline { get; private set; }
+
+    public bool IsLoop { get; private set; } = false;
+
     public event Action<int> OnTrainCountChange;
+
+    public event Action<Spline> OnSplineChange;
 
     public Line(Color color) {
         Routes = new List<Route>();
         Trains = new List<TrainController>();
         Color = color;
+    }
+
+    public void AddRoute(Route route) {
+        Routes.Add(route);
+        CalculateSpline();
+    }
+
+    public void RemoveRoute(Route route) {
+        Routes.Remove(route);
+        CalculateSpline();
+    }
+
+    public void CalculateSpline() {
+        Spline newSpline = new Spline();
+
+        Routes.ForEach(route => {
+            newSpline.Add(route.RouteSpline);
+        });
+
+        Spline = newSpline;
+
+        OnSplineChange?.Invoke(newSpline);
     }
 
     public void AddTrain(string startingStation, TrainController newTrain) {
@@ -87,20 +116,20 @@ public class LineManager : Singleton<LineManager> {
             RemoveRouteFromLine(existingColor, routeController);
         }
 
-        Lines[lineColor].Routes.Add(routeController.Route);
+        Lines[lineColor].AddRoute(routeController.Route);
         routeController.UpdateRouteColor(lineColor);
 
         if (Lines[lineColor].Routes.Count == 1) {
             OnLineAdded?.Invoke(lineColor, Lines[lineColor]);
             //TEMP
-            TrainController train = TrainManager.Instance.SpawnTrain("startingStation", routeController, transform);
+            TrainController train = TrainManager.Instance.SpawnTrain("startingStation", Lines[lineColor]);
             Lines[lineColor].AddTrain("temp", train);
             //
         }
     }
 
     private void RemoveRouteFromLine(Color lineColor, OSRouteController routeController) {
-        Lines[lineColor].Routes.Remove(routeController.Route);
+        Lines[lineColor].RemoveRoute(routeController.Route);
         routeController.UpdateRouteColor(Color.white);
 
         if (Lines[lineColor].Routes.Count == 0) {

@@ -140,6 +140,7 @@ MonoBehaviour:
   - pieceType: 1
     prefab: {fileID: 2101659743155389220, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
   _routePrefab: {fileID: 3789160484161252044, guid: b75ca08dd1d73e247b8cb37ac484011c, type: 3}
+  _linePrefab: {fileID: 7325968611100040973, guid: d8dff526a903d984e900bbc8abeca3cf, type: 3}
 --- !u!1 &3634624572191065881
 GameObject:
   m_ObjectHideFlags: 0
