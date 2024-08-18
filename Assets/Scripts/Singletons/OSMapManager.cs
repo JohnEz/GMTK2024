@@ -1,23 +1,30 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Splines;
+
+[Serializable]
+public class TrackPiecePrefab {
+    public TrackPieceType pieceType;
+
+    public TrackPieceController prefab;
+}
 
 public class OSMapManager : Singleton<OSMapManager> {
-
     [SerializeField]
-    private OSTrackController _trackPrefab;
+    private List<TrackPiecePrefab> _trackPiecePrefabs = new();
+
+    private Dictionary<TrackPieceType, TrackPieceController> _trackPiecePrefabMap;
 
     [SerializeField]
     private OSRouteController _routePrefab;
 
-    public List<OSTrackController> Tracks { get; private set; }
+    public List<TrackPieceController> Tracks { get; private set; }
 
     public List<OSRouteController> RouteControllers { get; private set; }
 
     private void Awake() {
-        Tracks = new List<OSTrackController>();
+        Tracks = new List<TrackPieceController>();
         RouteControllers = new List<OSRouteController>();
     }
 
@@ -35,8 +42,8 @@ public class OSMapManager : Singleton<OSMapManager> {
         newRouteObject.transform.SetParent(transform, false);
 
         route.TrackPieces.ForEach(connection => {
-            OSTrackController newTrack = Instantiate(_trackPrefab);
-            newTrack.SetTrackPiece(connection.Piece);
+            TrackPieceController newTrack = Instantiate(_trackPiecePrefabMap[connection.Piece.Template.TrackPieceType]);
+            newTrack.TrackPiece = connection.Piece;
 
             Tracks.Add(newTrack);
             newTrack.transform.SetParent(newRouteObject.transform, false);
@@ -47,5 +54,12 @@ public class OSMapManager : Singleton<OSMapManager> {
         newRouteObject.UpdateRouteColor(lineColor);
 
         RouteControllers.Add(newRouteObject);
+    }
+
+    private void OnValidate() {
+        _trackPiecePrefabMap = _trackPiecePrefabs.ToDictionary(
+            _trackPrefab => _trackPrefab.pieceType,
+            _trackPrefab => _trackPrefab.prefab
+        );
     }
 }

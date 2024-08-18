@@ -13,12 +13,25 @@ public class TrackPieceController : MonoBehaviour
         set
         {
             _trackPiece = value;
-            UpdatePosition();
+            Setup();
             OnTrackPieceSet.Invoke(_trackPiece);
         }
     }
 
+    private void Setup() {
+        if (_trackPiece == null) {
+            return;
+        }
+
+        UpdatePosition();
+        ApplyRotation();
+    }
+
     private void UpdatePosition() {
-        transform.position = new Vector3(_trackPiece.X, _trackPiece.Y, transform.position.z);
+        transform.localPosition = new Vector3(_trackPiece.X, _trackPiece.Y, 0);
+    }
+
+    private void ApplyRotation() {
+        transform.eulerAngles = new Vector3(0, 0, -(int)TrackPiece.Rotation);
     }
 }

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a876f9037a7f4df4ae89b4ea7f15d70, type: 3}
   m_Name: LoopDeLoop
   m_EditorClassIdentifier: 
-  ChildArt: loopdeloop-child
-  AdultArt: {fileID: 21300000, guid: fa76353593be2814fa7e5a5b62d23212, type: 3}
-  ConnectionPoint: 0000000001000000
+  TrackPieceType: 2
+  ConnectionPoints: 
   Happiness: 10
   spline:
     m_EditModeType: 1

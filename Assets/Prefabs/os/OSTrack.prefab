@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 8317538783334481194}
   - component: {fileID: 6312220917457652848}
   - component: {fileID: 2550252142254374545}
+  - component: {fileID: 1240061042136516153}
   m_Layer: 0
   m_Name: OSTrack
   m_TagString: Untagged
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11d0df85b2ad524697d8a0cf278c9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sprite: {fileID: 21300000, guid: 5ab04be53e871fa42a337c01c2e79ab9, type: 3}
   _tileRenderer: {fileID: 36707013615675990}
 --- !u!61 &2550252142254374545
 BoxCollider2D:
@@ -208,3 +210,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1240061042136516153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020945706532966753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09134cc23ed2c43c8bf3763bf4df6a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnTrackPieceSet:
+    m_PersistentCalls:
+      m_Calls: []
