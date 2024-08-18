@@ -8,7 +8,7 @@ using static Cinemachine.DocumentationSortingAttribute;
 public class CameraManager : Singleton<CameraManager> {
     private float MIN_ZOOM = 0.1f;
     private float DEFAULT_ZOOM = 3f;
-    private float MAX_ZOOM = 30f;
+    private float MAX_ZOOM = 200f;
 
     private bool _isTransitioning = false;
 
@@ -31,7 +31,7 @@ public class CameraManager : Singleton<CameraManager> {
         _adultCameraZoom.DisableCamera();
         _kidCameraZoom.SetZoom(MAX_ZOOM, 0.2f);
         _kidCameraZoom.onCompleteZoom += handleZoomOutKidComplete;
-        ChrisMorrison.Instance.SetTargetBlur(3f, 0.2f);
+        ChrisMorrison.Instance.SetTargetBlur(10f, 0.2f);
     }
 
     private void handleZoomOutKidComplete() {
@@ -69,7 +69,7 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.SetZoom(MIN_ZOOM, 0.2f);
         _adultCameraZoom.onCompleteZoom += handleZoomInAdultComplete;
-        ChrisMorrison.Instance.SetTargetBlur(3f, 0.2f);
+        ChrisMorrison.Instance.SetTargetBlur(10f, 0.2f);
     }
 
     private void handleZoomInAdultComplete() {

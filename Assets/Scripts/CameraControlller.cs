@@ -29,7 +29,7 @@ public class CameraControlller : MonoBehaviour {
             cam.m_Lens.OrthographicSize = Mathf.SmoothDamp(cam.m_Lens.OrthographicSize, _targetZoom, ref _velocity, _smoothTime);
         }
 
-        if (_isTransitioning && Mathf.Abs(Camera.main.orthographicSize - _targetZoom) < 0.05f) {
+        if (_isTransitioning && Mathf.Abs(Camera.main.orthographicSize - _targetZoom) < _targetZoom * .01f) {
             cam.m_Lens.OrthographicSize = _targetZoom;
             _isTransitioning = false;
             onCompleteZoom?.Invoke();
