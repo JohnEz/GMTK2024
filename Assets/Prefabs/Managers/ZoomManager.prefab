@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4139857839401108580}
   - component: {fileID: 196700349567730469}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: ZoomManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0310f5d82d67a584aa5d7807d581e4eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isGlobal: 0

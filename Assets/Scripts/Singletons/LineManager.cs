@@ -1,20 +1,35 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class Line {
 
-    public Line() {
+    public Line(Color color) {
         Routes = new List<Route>();
+        Trains = new List<TrainController>();
+        Color = color;
     }
+
+    public Color Color { get; private set; }
 
     public List<Route> Routes { get; private set; }
 
-    public Color Color { get; private set; }
+    public List<TrainController> Trains { get; private set; }
+
+    public void AddTrain(string startingStation, TrainController newTrain) {
+        Trains.Add(newTrain);
+    }
+
+    public void RemoveTrain(TrainController trainToRemove) {
+        Trains.Remove(trainToRemove);
+    }
+
+    public void RemoveAllTrains() {
+        Trains.ForEach(train => {
+            RemoveTrain(train);
+        });
+    }
 }
 
 public class LineManager : Singleton<LineManager> {
@@ -36,7 +51,7 @@ public class LineManager : Singleton<LineManager> {
         Lines = new Dictionary<Color, Line>();
 
         LINE_COLORS.ForEach(color => {
-            Line newLine = new Line();
+            Line newLine = new Line(color);
             Lines.Add(color, newLine);
         });
     }
@@ -83,6 +98,9 @@ public class LineManager : Singleton<LineManager> {
 
         if (Lines[lineColor].Routes.Count == 1) {
             OnLineAdded?.Invoke(lineColor, Lines[lineColor]);
+            //TEMP
+            //Lines[lineColor].AddTrain("temp");
+            //
         }
     }
 
@@ -92,6 +110,9 @@ public class LineManager : Singleton<LineManager> {
 
         if (Lines[lineColor].Routes.Count == 0) {
             OnLineRemoved?.Invoke(lineColor);
+            //TEMP
+            //Lines[lineColor].RemoveTrain();
+            //
         }
     }
 

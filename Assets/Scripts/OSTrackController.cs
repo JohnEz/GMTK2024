@@ -30,7 +30,7 @@ public class OSTrackController : MonoBehaviour, IPointerDownHandler {
             return;
         }
 
-        transform.position = new Vector3(TrackPiece.X, TrackPiece.Y, 0);
+        transform.localPosition = new Vector3(TrackPiece.X, TrackPiece.Y, 0);
         _tileRenderer.sprite = TrackPiece.Template.AdultArt;
         ApplyRotation(TrackPiece.Rotation);
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class CameraManager : Singleton<CameraManager> {
-    private float MIN_ZOOM = 0.1f;
+    private float MIN_ZOOM = 0.01f;
     private float DEFAULT_ZOOM = 3f;
     private float MAX_ZOOM = 200f;
 
@@ -11,19 +11,24 @@ public class CameraManager : Singleton<CameraManager> {
     [SerializeField]
     private CameraControlller _kidCameraZoom;
 
-    void Awake()
-    {
+    private void Awake() {
         GameStateManager.Instance.OnStateChange.AddListener(OnStateChange);
     }
 
-    private void OnStateChange(GameState newState)
-    {
-        if (newState == GameState.TransitionToWork)
-        {
-            ZoomOut();
+    private void Start() {
+        if (GameStateManager.Instance.State == GameState.Kid) {
+            _kidCameraZoom.EnableCamera();
+            _adultCameraZoom.DisableCamera();
+        } else {
+            _kidCameraZoom.DisableCamera();
+            _adultCameraZoom.EnableCamera();
         }
-        else if (newState == GameState.TransitionToPlay)
-        {
+    }
+
+    private void OnStateChange(GameState newState) {
+        if (newState == GameState.TransitionToWork) {
+            ZoomOut();
+        } else if (newState == GameState.TransitionToPlay) {
             ZoomIn();
         }
     }
