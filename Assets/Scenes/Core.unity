@@ -409,6 +409,30 @@ PrefabInstance:
       propertyPath: _train
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2232930072531565333, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
+      propertyPath: _trackPiecePrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232930072531565333, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
+      propertyPath: _trackPiecePrefabs.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 5456812835172892198, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
+    - target: {fileID: 2232930072531565333, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
+      propertyPath: _trackPiecePrefabs.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 3134439708579648781, guid: 820d3801d880c4c27a7abe056a92dc48, type: 3}
+    - target: {fileID: 2232930072531565333, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
+      propertyPath: _trackPiecePrefabs.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 2101659743155389220, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
+    - target: {fileID: 2232930072531565333, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
+      propertyPath: _trackPiecePrefabs.Array.data[1].pieceType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232930072531565333, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
+      propertyPath: _trackPiecePrefabs.Array.data[2].pieceType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3864911443990513713, guid: 0e0d7315871c72249a636b2f4ca2a38e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1000
@@ -1518,7 +1542,7 @@ Transform:
   m_GameObject: {fileID: 2092708137}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 1000, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
