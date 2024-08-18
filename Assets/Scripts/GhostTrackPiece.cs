@@ -86,7 +86,17 @@ public class GhostTrackPiece : MonoBehaviour {
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass forwardDirection = connections[1];
         Rotation rotation = forwardDirection.ToRotation();
+
+        // Upon reading this line, now you can be sure to your very heart of hearts, that you have seen the face of evil.
         _confirmCanvas.transform.localEulerAngles = new Vector3(0, 0, -(int)rotation);
+
+        // Bit inefficient but let's not worry about it
+        _trackPieceController.TrackPiece = new TrackPiece() {
+            X = _trackPieceController.TrackPiece.X,
+            Y = _trackPieceController.TrackPiece.Y,
+            Rotation = _trackPieceController.TrackPiece.Rotation,
+            Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
+        };
     }
 
     public void SetPosition(Compass direction, TrackPiece fromTrackPiece) {
