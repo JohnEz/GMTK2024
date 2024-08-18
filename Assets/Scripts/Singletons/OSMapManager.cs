@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.Splines;
+using static UnityEngine.Rendering.CoreUtils;
 
 [Serializable]
 public class TrackPiecePrefab {
@@ -26,12 +28,15 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     public List<TrackPieceController> Tracks { get; private set; }
 
+    public List<TrackPieceController> Stations { get; private set; }
+
     public List<OSRouteController> RouteControllers { get; private set; }
 
     public Dictionary<Color, OSLineController> Lines { get; private set; }
 
     private void Awake() {
         Tracks = new List<TrackPieceController>();
+        Stations = new List<TrackPieceController>();
         RouteControllers = new List<OSRouteController>();
         Lines = new Dictionary<Color, OSLineController>();
     }
@@ -66,6 +71,7 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     private void Start() {
         SpawnRoutes(RouteManager.Instance.Routes);
+        SpawnStations(StationManager.Instance.Stations);
     }
 
     private void SpawnRoutes(List<Route> routes) {
@@ -90,6 +96,19 @@ public class OSMapManager : Singleton<OSMapManager> {
         newRouteObject.UpdateRouteColor(lineColor);
 
         RouteControllers.Add(newRouteObject);
+    }
+
+    private void SpawnStations(List<TrackPiece> stations) {
+        stations.ForEach(SpawnStation);
+    }
+
+    private void SpawnStation(TrackPiece station) {
+        TrackPieceController newStation = Instantiate(_trackPiecePrefabMap[station.Template.TrackPieceType]);
+        newStation.TrackPiece = station;
+
+        newStation.transform.SetParent(transform, false);
+
+        Stations.Add(newStation);
     }
 
     private void OnValidate() {

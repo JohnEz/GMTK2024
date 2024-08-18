@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a876f9037a7f4df4ae89b4ea7f15d70, type: 3}
   m_Name: Station
   m_EditorClassIdentifier: 
-  TrackPieceType: 1
+  TrackPieceType: 3
   ConnectionPoints: 00000000010000000200000003000000
   Happiness: 1
   spline:

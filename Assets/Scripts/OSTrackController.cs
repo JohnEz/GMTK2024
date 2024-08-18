@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof (TrackPieceController))]
+[RequireComponent(typeof(TrackPieceController))]
 public class OSTrackController : MonoBehaviour, IPointerDownHandler {
+
     [SerializeField]
     private Sprite _sprite;
 
     [SerializeField]
     private SpriteRenderer _tileRenderer;
 
-    void Awake() {
+    private void Awake() {
         _tileRenderer.sprite = _sprite;
     }
 
@@ -18,7 +19,12 @@ public class OSTrackController : MonoBehaviour, IPointerDownHandler {
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        GetComponentInParent<OSRouteController>().HandleClick();
+        OSRouteController oSRouteController = GetComponentInParent<OSRouteController>();
+        if (oSRouteController == null) {
+            return;
+        }
+
+        oSRouteController.HandleClick();
     }
 
     private void OnValidate() {

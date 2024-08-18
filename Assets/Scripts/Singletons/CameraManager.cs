@@ -47,7 +47,7 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.SetZoom(MAX_ZOOM, 0.2f);
         _kidCameraZoom.onCompleteZoom += handleZoomOutKidComplete;
 
-        ChrisMorrison.Instance.SetTargetBlur(5f, 0.2f);
+        ChrisMorrison.Instance.SetTargetBlur(2.5f, 0.2f);
 
         AudioManager.Instance.PlaySound(_zoomOutSfx);
     }
@@ -80,7 +80,7 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.SetZoom(MIN_ZOOM, 0.2f);
         _adultCameraZoom.onCompleteZoom += handleZoomInAdultComplete;
-        ChrisMorrison.Instance.SetTargetBlur(5f, 0.2f);
+        ChrisMorrison.Instance.SetTargetBlur(2.5f, 0.2f);
 
         AudioClipOptions options = new AudioClipOptions();
         options.Delay = 0.3f;

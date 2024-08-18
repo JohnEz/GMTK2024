@@ -24,8 +24,7 @@ public class TrackPiece {
     [SerializeField]
     public TrackTemplate Template;
 
-    public TrackPiece Copy()
-    {
+    public TrackPiece Copy() {
         return new TrackPiece() {
             X = X,
             Y = Y,

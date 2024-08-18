@@ -2,26 +2,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class StationManager : MonoBehaviour
-{
-    public List<TrackPiece> Stations => _Stations;
+public class StationManager : Singleton<StationManager> {
 
-    public UnityEvent<TrackPiece> OnStationAdded = new();
+    [SerializeField]
+    private List<TrackPiece> _stations;
 
-    private readonly List<TrackPiece> _Stations = new();
+    public List<TrackPiece> Stations { get { return _stations; } private set { _stations = value; } }
+
+    public event System.Action<TrackPiece> OnStationAdded;
 
     public void AddStation(TrackPiece station) {
-        _Stations.Add(station);
-        OnStationAdded.Invoke(station);
+        Stations.Add(station);
+        OnStationAdded?.Invoke(station);
     }
 
     public (TrackPiece, TrackPiece) ProposeJourney() {
-        int start = Random.Range(0, _Stations.Count);
+        int start = Random.Range(0, Stations.Count);
         int end;
         do {
-            end = Random.Range(0, _Stations.Count);
+            end = Random.Range(0, Stations.Count);
         } while (start == end);
 
-        return (_Stations[start], _Stations[end]);
-    } 
+        return (Stations[start], Stations[end]);
+    }
 }

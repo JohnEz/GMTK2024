@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2805318979392622415}
   - component: {fileID: 1325566716084686422}
+  - component: {fileID: 455045621394921651}
   m_Layer: 0
   m_Name: StationManager
   m_TagString: Untagged
@@ -44,3 +45,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349893030295940188a5efc07bae5687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isGlobal: 0
+  _stations:
+  - X: 0
+    Y: -1
+    Rotation: 0
+    Template: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
+  - X: -3
+    Y: 1
+    Rotation: 0
+    Template: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
+  - X: -6
+    Y: 3
+    Rotation: 0
+    Template: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
+--- !u!114 &455045621394921651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730637650207701284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bfc5f52a87d4419a809ae7566eaba86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spawns: []
