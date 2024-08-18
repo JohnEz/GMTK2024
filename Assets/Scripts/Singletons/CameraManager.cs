@@ -6,6 +6,12 @@ public class CameraManager : Singleton<CameraManager> {
     private float MAX_ZOOM = 200f;
 
     [SerializeField]
+    private AudioClip _zoomOutSfx;
+
+    [SerializeField]
+    private AudioClip _zoomInSfx;
+
+    [SerializeField]
     private CameraControlller _adultCameraZoom;
 
     [SerializeField]
@@ -41,6 +47,8 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.SetZoom(MAX_ZOOM, 0.2f);
         _kidCameraZoom.onCompleteZoom += handleZoomOutKidComplete;
         ChrisMorrison.Instance.SetTargetBlur(10f, 0.2f);
+
+        AudioManager.Instance.PlaySound(_zoomOutSfx);
     }
 
     private void handleZoomOutKidComplete() {
@@ -72,6 +80,10 @@ public class CameraManager : Singleton<CameraManager> {
         _adultCameraZoom.SetZoom(MIN_ZOOM, 0.2f);
         _adultCameraZoom.onCompleteZoom += handleZoomInAdultComplete;
         ChrisMorrison.Instance.SetTargetBlur(10f, 0.2f);
+
+        AudioClipOptions options = new AudioClipOptions();
+        options.Delay = 0.3f;
+        AudioManager.Instance.PlaySound(_zoomInSfx, options);
     }
 
     private void handleZoomInAdultComplete() {

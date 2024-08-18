@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386fc63a02bec5547807010f7c0121e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isGlobal: 0
+  _zoomOutSfx: {fileID: 8300000, guid: 48660197320865c459d03d556f8932ab, type: 3}
+  _zoomInSfx: {fileID: 8300000, guid: ea2e91948ba55f8479c357cf86699910, type: 3}
+  _adultCameraZoom: {fileID: 0}
+  _kidCameraZoom: {fileID: 0}
