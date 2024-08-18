@@ -53,16 +53,17 @@ public class GameStateManager : Singleton<GameStateManager>
             return false;
         }
 
+        GameState previousState = _State;
         _State = state;
         OnStateChange.Invoke(state);
 
         AudioClipOptions options = new AudioClipOptions();
         options.Delay = 1.5f;
-        if (state == GameState.Kid || InitialState == GameState.KidEditing) {
+        if (previousState == GameState.TransitionToPlay) {
             AudioManager.Instance.StopSound(_adultMusic);
             AudioManager.Instance.PlaySound(_kidMusic, options);
         }
-        else if (state == GameState.Adult)
+        else if (previousState == GameState.TransitionToWork)
         {
             AudioManager.Instance.StopSound(_kidMusic);
             AudioManager.Instance.PlaySound(_adultMusic, options);

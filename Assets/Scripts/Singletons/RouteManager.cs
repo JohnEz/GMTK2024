@@ -36,14 +36,13 @@ public class RouteManager : Singleton<RouteManager> {
 
         EditFromTrackPiece = fromTrackPiece;
         NewRoute = new Route();
-        Routes.Add(NewRoute); // TODO: drop this out if we cancel the route
         CreateGhostPiece();
         GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
     }
 
     private void CreateGhostPiece() {
         if (GhostTrackPiece) {
-            Destroy(GhostTrackPiece);
+            Destroy(GhostTrackPiece.gameObject);
         }
 
         GhostTrackPiece = Instantiate(GhostTrackPiecePrefab).GetComponent<GhostTrackPiece>();
@@ -52,8 +51,12 @@ public class RouteManager : Singleton<RouteManager> {
     }
 
     private void StopEditing() {
+        if (!GameStateManager.Instance.TrySetState(GameState.Kid)) {
+            return;
+        }
+
         EditFromTrackPiece = null;
-        Destroy(GhostTrackPiece);
+        Destroy(GhostTrackPiece.gameObject);
         GhostTrackPiece = null;
         NewRoute = null;
     }
@@ -65,6 +68,7 @@ public class RouteManager : Singleton<RouteManager> {
 
         TrackPiece connectingStation = StationManager.Instance.GetConnectingStation(piece);
         if (connectingStation != null) {
+            Routes.Add(NewRoute);
             NewRoute.CalculateSpline();
             StopEditing();
             Debug.Log("Route made!");
@@ -74,6 +78,6 @@ public class RouteManager : Singleton<RouteManager> {
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass nextDirection = piece.Template.ConnectionPoints[1];
         EditFromTrackPiece = piece;
-        GhostTrackPiece.SetPosition(nextDirection.Rotate(piece.Rotation), piece);
+        GhostTrackPiece.SetPosition(nextDirection, piece);
     }
 }

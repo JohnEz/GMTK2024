@@ -25,6 +25,7 @@ public class ToyMapManager : Singleton<ToyMapManager>
 
     void Awake() {
         StationManager.Instance.OnStationAdded += OnStationAdded;
+        StationManager.Instance.Stations.ForEach(station => OnStationAdded(station));
     }
 
     private void OnStationAdded(TrackPiece station) {

@@ -701,7 +701,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e7888cd805c134bc9ae1cb864b058f63, type: 2}
     - target: {fileID: 455045621394921651, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
       propertyPath: Spawns.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 455045621394921651, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
       propertyPath: Spawns.Array.data[0].x
@@ -718,6 +718,18 @@ PrefabInstance:
     - target: {fileID: 455045621394921651, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
       propertyPath: Spawns.Array.data[1].y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325566716084686422, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
+      propertyPath: _stations.Array.data[1].X
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325566716084686422, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
+      propertyPath: _stations.Array.data[2].X
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325566716084686422, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
+      propertyPath: _stations.Array.data[2].Y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2805318979392622415, guid: 17959fe34de7c4df9bae68d178768730, type: 3}
       propertyPath: m_LocalPosition.x

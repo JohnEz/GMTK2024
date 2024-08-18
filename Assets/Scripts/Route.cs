@@ -13,7 +13,8 @@ public class Connection {
     public Compass PreviousPieceDirection;
 
     public static TrackPiece GetNextTrackPiece(TrackPiece fromTrackPiece, Compass direction) {
-        return direction switch
+        Compass trueDirection = direction.Rotate(fromTrackPiece.Rotation);
+        return trueDirection switch
         {
             Compass.North => new TrackPiece()
             {
