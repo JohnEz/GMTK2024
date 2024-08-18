@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
+  _trackPreviewPrefab: {fileID: 5443279100137747462, guid: e15f46f0e9fc04813a21a1cde1756965, type: 3}
   GhostTrackPiecePrefab: {fileID: 8418957568503248173, guid: 7de1efe3a46de4ab98d7eda38cb16bc4, type: 3}

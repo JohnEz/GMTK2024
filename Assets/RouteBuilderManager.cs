@@ -1,9 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RouteBuilderManager : Singleton<RouteBuilderManager> {
+    [SerializeField]
+    private TrackPieceController _trackPreviewPrefab;
+
     private TrackPiece EditFromTrackPiece;
 
     private Route NewRoute;
+
+    private readonly List<TrackPieceController> PreviewTrackPieces = new();
 
     private GhostTrackPiece GhostTrackPiece;
 
@@ -42,6 +48,9 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             return;
         }
 
+
+        PreviewTrackPieces.ForEach(previewTrack => Destroy(previewTrack.gameObject));
+        PreviewTrackPieces.Clear();
         EditFromTrackPiece = null;
         Destroy(GhostTrackPiece.gameObject);
         GhostTrackPiece = null;
@@ -60,6 +69,11 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             Debug.Log("Route made!");
             return;
         }
+
+        TrackPieceController newTrack = Instantiate(_trackPreviewPrefab, transform);
+        newTrack.TrackPiece = piece;
+        newTrack.GetComponentInChildren<SpriteRenderer>().sprite = ToyMapManager.Instance.TrackPieceConfig[piece.Template.TrackPieceType].sprite;
+        PreviewTrackPieces.Add(newTrack);
 
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass nextDirection = piece.Template.ConnectionPoints[1];
