@@ -7,7 +7,7 @@ using UnityEngine;
 public class CameraControlller : MonoBehaviour {
     private float _targetZoom;
     private float _velocity = 0f;
-    private float _smoothTime = 0.25f;
+    private float _smoothTime = 0.2f;
 
     private CinemachineVirtualCamera cam;
 

@@ -23,7 +23,7 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.SetInstantZoom(3f);
         _adultCameraZoom.SetInstantZoom(.01f);
         _adultCameraZoom.DisableCamera();
-        _kidCameraZoom.SetZoom(60f);
+        _kidCameraZoom.SetZoom(30f);
         _kidCameraZoom.onCompleteZoom += handleZoomOutKidComplete;
     }
 
@@ -57,7 +57,7 @@ public class CameraManager : Singleton<CameraManager> {
 
         _adultCameraZoom.EnableCamera();
         _adultCameraZoom.SetInstantZoom(3f);
-        _kidCameraZoom.SetInstantZoom(60f);
+        _kidCameraZoom.SetInstantZoom(30f);
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.SetZoom(.01f);
         _adultCameraZoom.onCompleteZoom += handleZoomInAdultComplete;
