@@ -1,12 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
+[RequireComponent(typeof (TrackPieceController))]
 public class GhostTrackPiece : MonoBehaviour {
+    private TrackPieceController _trackPieceController;
+
+    private Compass _Direction;
+
+    public Compass Direction => _Direction;
+
+    public TrackPiece Position => _trackPieceController.TrackPiece.Copy();
+
     public Action OnOk;
+
+    void Awake() {
+        _trackPieceController = GetComponent<TrackPieceController>();
+    }
 
     void Start() {
         OnButton("ButtonOk", () => OnOk?.Invoke());
@@ -26,17 +38,38 @@ public class GhostTrackPiece : MonoBehaviour {
         btn.onClick.AddListener(callback);
     }
 
-    public TrackPiece IntoTrackPiece() {
-        // TODO: move this to an instance variable,
-        // and toggle properties on it (Rotation, Template) as the user presses buttons
-        var newPiece = new TrackPiece() {
-            X = this.transform.position.x,
-            Y = this.transform.position.y,
-            Rotation = Rotation.None,
-        };
+    public void SetPosition(Compass direction, TrackPiece fromTrackPiece) {
+        _Direction = direction;
 
-        // TODO: when newPiece is an instance variable, we return it here and
-        // create a fresh one in its place for the next tile
-        return newPiece;
+        switch (direction) {
+            case Compass.North:
+                _trackPieceController.TrackPiece = new TrackPiece() {
+                    X = fromTrackPiece.X,
+                    Y = fromTrackPiece.Y + 1,
+                    Rotation = Rotation.Deg270
+                };
+                break;
+            case Compass.East:
+                _trackPieceController.TrackPiece = new TrackPiece() {
+                    X = fromTrackPiece.X + 1,
+                    Y = fromTrackPiece.Y,
+                    Rotation = Rotation.None
+                };
+                break;
+            case Compass.South:
+                _trackPieceController.TrackPiece = new TrackPiece() {
+                    X = fromTrackPiece.X,
+                    Y = fromTrackPiece.Y - 1,
+                    Rotation = Rotation.Deg90
+                };
+                break;
+            case Compass.West:
+                _trackPieceController.TrackPiece = new TrackPiece() {
+                    X = fromTrackPiece.X - 1,
+                    Y = fromTrackPiece.Y,
+                    Rotation = Rotation.Deg180
+                };
+                break;
+        }
     }
 }
