@@ -36,13 +36,15 @@ public class CameraControlller : MonoBehaviour {
         }
     }
 
-    public void SetZoom(float targetZoom) {
+    public void SetZoom(float targetZoom, float zoomTime) {
         _targetZoom = targetZoom;
+        _smoothTime = zoomTime;
         _isTransitioning = true;
     }
 
     public void SetInstantZoom(float zoom) {
         cam.m_Lens.OrthographicSize = zoom;
+        _smoothTime = 0;
         _targetZoom = zoom;
     }
 
