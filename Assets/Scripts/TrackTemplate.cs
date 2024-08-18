@@ -13,7 +13,7 @@ public class TrackTemplate : ScriptableObject {
     public Sprite AdultArt;
 
     [SerializeField]
-    public Compass[] ConnectionPoint;
+    public Compass[] ConnectionPoints;
 
     // ^ length = 2
 

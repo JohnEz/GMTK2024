@@ -26,17 +26,21 @@ public class GameStateManager : Singleton<GameStateManager>
         _State = InitialState;
     }
 
-    public void TrySetState(GameState state)
+    public bool TrySetState(GameState state)
     {
         Debug.Log($"Switching game state: from {_State} to {state}");
 
         if (state == _State)
         {
-            return;
+            return false;
         }
 
-        // Maaaaybe validate transitions
+        if (state == GameState.KidEditing && State != GameState.Kid) {
+            return false;
+        }
+
         _State = state;
         OnStateChange.Invoke(state);
+        return true;
     }
 }

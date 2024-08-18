@@ -15,26 +15,22 @@ public class RouteManager : Singleton<RouteManager>
     [SerializeField]
     public GameObject GhostTrackPiecePrefab;
 
-
-    private bool IsEditing { get { return EditStation != null; } }
-
-    void Start() {
-    }
-
     void Update() {
-        if (IsEditing && Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
             StopEditing();
         }
-        UpdateCursorPos();
     }
 
-    public void StartEditing(Station fromStation) {
-        if(IsEditing) return;
+    public void StartEditing(Station fromStation, Compass direction) {
+        if (!GameStateManager.Instance.TrySetState(GameState.KidEditing)) {
+            return;
+        }
 
         EditStation = fromStation;
         NewRoute = new Route();
         Routes.Add(NewRoute); // TODO: drop this out if we cancel the route
         CreateNewPiece();
+        PlaceGhostPiece(direction);
     }
 
     void CreateNewPiece() {
@@ -63,19 +59,12 @@ public class RouteManager : Singleton<RouteManager>
         );
     }
 
-    void UpdateCursorPos() {
+    void PlaceGhostPiece(Compass direction) {
         if (!GhostTrackPiece) return;
-
-        // maybe cache the last mouse pos:
-        // if it's not changed exit early,
-        // since this method might be expensive
-        var cursorPos = GetCursorPos();
-
-        (var closestStation, var compass) = FindClosestStationAndCompassDir(cursorPos);
 
         Vector3 offset;
         var junctionOffset = 0.15f;
-        switch (compass) {
+        switch (direction) {
             case Compass.East:
                 offset = new Vector3(junctionOffset, 0, 0);
                 break;
@@ -93,7 +82,7 @@ public class RouteManager : Singleton<RouteManager>
                 return;
         }
 
-        Vector3 stationPosition = closestStation.transform.position;
+        Vector3 stationPosition = EditStation.transform.position;
         GhostTrackPiece.transform.position = stationPosition + offset;
     }
 
