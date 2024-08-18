@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class TrackPieceController : MonoBehaviour
 {
+    [SerializeField]
     private TrackPiece _trackPiece;
 
     public UnityEvent<TrackPiece> OnTrackPieceSet = new();
@@ -16,6 +17,10 @@ public class TrackPieceController : MonoBehaviour
             Setup();
             OnTrackPieceSet.Invoke(_trackPiece);
         }
+    }
+
+    void Awake() {
+        Setup();
     }
 
     private void Setup() {

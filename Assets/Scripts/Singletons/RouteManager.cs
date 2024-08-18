@@ -63,10 +63,11 @@ public class RouteManager : Singleton<RouteManager> {
         Compass direction = GhostTrackPiece.Direction;
         NewRoute.AddConnection(piece, direction);
 
-        // TODO: Use templates to determine the piece being placed, so there's actually a `Template` here
         Compass nextDirection = piece.Template.ConnectionPoints.First(
             connection => connection != direction.Reversed()
         );
+
+        EditFromTrackPiece = piece;
         GhostTrackPiece.SetPosition(nextDirection, piece);
     }
 }

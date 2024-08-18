@@ -86,7 +86,7 @@ public class GhostTrackPiece : MonoBehaviour {
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass forwardDirection = connections[1];
         Rotation rotation = forwardDirection.ToRotation();
-        _confirmCanvas.transform.eulerAngles = new Vector3(0, 0, -(int)rotation);
+        _confirmCanvas.transform.localEulerAngles = new Vector3(0, 0, -(int)rotation);
     }
 
     public void SetPosition(Compass direction, TrackPiece fromTrackPiece) {
@@ -132,6 +132,6 @@ public class GhostTrackPiece : MonoBehaviour {
         _trackPieceController.TrackPiece = trackPiece;
 
         // Avert thine eyes, lest your soul forever be scarred from what you see here today.
-        _typeSwitchCanvas.transform.eulerAngles = new Vector3(0, 0, (int)trackPiece.Rotation);
+        _typeSwitchCanvas.transform.localEulerAngles = new Vector3(0, 0, (int)trackPiece.Rotation);
     }
 }

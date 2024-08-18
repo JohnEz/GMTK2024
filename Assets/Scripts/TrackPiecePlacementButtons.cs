@@ -41,7 +41,7 @@ public class TrackPiecePlacementButtons : MonoBehaviour
     }
 
     private void HandleButtonClick(Compass direction) {
-        OnClick.Invoke(direction);
+        OnClick.Invoke(direction.Rotate(_trackPieceController.TrackPiece.Rotation));
     }
 
     private void OnTrackPieceSet(TrackPiece trackPiece)
