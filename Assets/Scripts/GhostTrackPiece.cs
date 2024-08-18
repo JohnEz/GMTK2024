@@ -1,12 +1,44 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
-using Unity.VisualScripting;
+using System.Linq;
+using System.Collections.Generic;
 
 [RequireComponent(typeof (TrackPieceController))]
 public class GhostTrackPiece : MonoBehaviour {
+    [SerializeField]
     private TrackPieceController _trackPieceController;
+
+    [SerializeField]
+    private GameObject _confirmCanvas;
+
+    [SerializeField]
+    private Button _confirmButton;
+
+    [SerializeField]
+    private Button _cancelButton;
+
+    [SerializeField]
+    private GameObject _typeSwitchCanvas;
+
+    [SerializeField]
+    private Button _nextTypeButton;
+
+    [SerializeField]
+    private Button _previousTypeButton;
+
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+
+    private TrackPieceType _trackPieceType;
+
+    public TrackPieceType TrackPieceType {
+        get => _trackPieceType;
+        private set {
+            _trackPieceType = value;
+            OnSetTrackPieceType();
+        }
+    }
 
     private Compass _Direction;
 
@@ -17,59 +49,88 @@ public class GhostTrackPiece : MonoBehaviour {
     public Action OnOk;
 
     void Awake() {
-        _trackPieceController = GetComponent<TrackPieceController>();
+        TrackPieceType = TrackPieceType.Straight;
     }
 
     void Start() {
-        OnButton("ButtonOk", () => OnOk?.Invoke());
-        OnButton("ButtonCancel", OnCancel);
+        _confirmButton.onClick.AddListener(() => OnOk?.Invoke());
+        _cancelButton.onClick.AddListener(OnCancel);
+        _previousTypeButton.onClick.AddListener(OnPreviousType);
+        _nextTypeButton.onClick.AddListener(OnNextType);
     }
 
-    void Update() {
+    private void OnPreviousType() {
+        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPiecePrefabs.Keys.ToList();
+        int currentIndex = types.IndexOf(_trackPieceType);
+        int nextIndex = ((currentIndex == 0 ? types.Count : currentIndex) - 1) % types.Count;
+        TrackPieceType = types[nextIndex];
+    }
+
+    private void OnNextType() {
+        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPiecePrefabs.Keys.ToList();
+        int currentIndex = types.IndexOf(_trackPieceType);
+        int nextIndex = (currentIndex + 1) % types.Count;
+        TrackPieceType = types[nextIndex];
     }
 
     void OnCancel() {
         Debug.Log("TODO: cancel: pop a tile or what?");
     }
 
-    void OnButton(string name, UnityAction callback) {
-        var canvas = transform.Find("Canvas");
-        var btn = canvas.Find(name).GetComponent<Button>();
-        btn.onClick.AddListener(callback);
+    private void OnSetTrackPieceType() {
+        ToyTrackPiecePrefab prefab = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType];
+        _spriteRenderer.sprite = prefab.sprite;
+
+        Compass[] connections = prefab.template.ConnectionPoints;
+
+        // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
+        Compass forwardDirection = connections[0];
+        _confirmCanvas.transform.eulerAngles = new Vector3(0, 0, -(int)forwardDirection);
     }
 
     public void SetPosition(Compass direction, TrackPiece fromTrackPiece) {
         _Direction = direction;
 
+        TrackPiece trackPiece = null;
+
         switch (direction) {
             case Compass.North:
-                _trackPieceController.TrackPiece = new TrackPiece() {
+                trackPiece = new TrackPiece() {
                     X = fromTrackPiece.X,
                     Y = fromTrackPiece.Y + 1,
-                    Rotation = Rotation.Deg270
+                    Rotation = Rotation.Deg270,
+                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
                 };
                 break;
             case Compass.East:
-                _trackPieceController.TrackPiece = new TrackPiece() {
+                trackPiece = new TrackPiece() {
                     X = fromTrackPiece.X + 1,
                     Y = fromTrackPiece.Y,
-                    Rotation = Rotation.None
+                    Rotation = Rotation.None,
+                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
                 };
                 break;
             case Compass.South:
-                _trackPieceController.TrackPiece = new TrackPiece() {
+                trackPiece = new TrackPiece() {
                     X = fromTrackPiece.X,
                     Y = fromTrackPiece.Y - 1,
-                    Rotation = Rotation.Deg90
+                    Rotation = Rotation.Deg90,
+                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
                 };
                 break;
             case Compass.West:
-                _trackPieceController.TrackPiece = new TrackPiece() {
+                trackPiece = new TrackPiece() {
                     X = fromTrackPiece.X - 1,
                     Y = fromTrackPiece.Y,
-                    Rotation = Rotation.Deg180
+                    Rotation = Rotation.Deg180,
+                    Template = ToyMapManager.Instance.TrackPiecePrefabs[_trackPieceType].template
                 };
                 break;
         }
+
+        _trackPieceController.TrackPiece = trackPiece;
+
+        // Avert thine eyes, lest your soul forever be scarred from what you see here today.
+        _typeSwitchCanvas.transform.eulerAngles = new Vector3(0, 0, (int)trackPiece.Rotation);
     }
 }
