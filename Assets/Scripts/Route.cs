@@ -22,6 +22,16 @@ public class Route {
     public Spline RouteSpline { get; private set; } = new Spline();
     public Spline RouteSplineReversed { get; private set; } = new Spline();
 
+    [SerializeField]
+    private TrackPiece _startStation;
+
+    public TrackPiece StartStation { get { return _startStation; } private set { _startStation = value; } }
+
+    [SerializeField]
+    private TrackPiece _endStation;
+
+    public TrackPiece EndStation { get { return _endStation; } private set { _endStation = value; } }
+
     // TODO: happiness, etc
 
     private float TotalHappiness() {

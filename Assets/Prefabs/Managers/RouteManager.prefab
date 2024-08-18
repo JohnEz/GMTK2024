@@ -71,29 +71,49 @@ MonoBehaviour:
         Rotation: 270
         Template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
       PreviousPieceDirection: 1
+    _startStation:
+      X: 0
+      Y: -1
+      Rotation: 0
+      Template: {fileID: 0}
+    _endStation:
+      X: -3
+      Y: 1
+      Rotation: 0
+      Template: {fileID: 0}
   - TrackPieces:
     - Piece:
-        X: 3
+        X: -3
         Y: 2
         Rotation: 90
         Template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
       PreviousPieceDirection: 2
     - Piece:
-        X: 2
+        X: -4
         Y: 2
         Rotation: 90
         Template: {fileID: 11400000, guid: a4a39a16ae2b3400f92f30edf109513e, type: 2}
       PreviousPieceDirection: 1
     - Piece:
-        X: 1
+        X: -5
         Y: 2
         Rotation: 90
         Template: {fileID: 11400000, guid: efdf7b8937ea64d38bc6995719d1ad98, type: 2}
       PreviousPieceDirection: 1
     - Piece:
-        X: 0
+        X: -6
         Y: 2
         Rotation: 270
         Template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
       PreviousPieceDirection: 1
+    _startStation:
+      X: -3
+      Y: 1
+      Rotation: 0
+      Template: {fileID: 0}
+    _endStation:
+      X: -6
+      Y: 3
+      Rotation: 0
+      Template: {fileID: 0}
   GhostTrackPiecePrefab: {fileID: 8418957568503248173, guid: 7de1efe3a46de4ab98d7eda38cb16bc4, type: 3}

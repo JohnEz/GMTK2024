@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4020945706532966753, guid: f5e7c12cf28966a45a98500c84daf9f1, type: 3}
       propertyPath: m_Name
-      value: OSTrack
+      value: OSTrackStraight
       objectReference: {fileID: 0}
     - target: {fileID: 8317538783334481194, guid: f5e7c12cf28966a45a98500c84daf9f1, type: 3}
       propertyPath: m_LocalPosition.x

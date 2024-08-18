@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6488986105878106697, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fa76353593be2814fa7e5a5b62d23212, type: 3}
     - target: {fileID: 7873046958428596606, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
       propertyPath: m_Name
       value: OStrackLoopDaLoop
