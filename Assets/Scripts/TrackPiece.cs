@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,9 +24,13 @@ public class TrackPiece {
     [SerializeField]
     public TrackTemplate Template;
 
-    private void Start() {
-    }
-
-    private void Update() {
+    public TrackPiece Copy()
+    {
+        return new TrackPiece() {
+            X = X,
+            Y = Y,
+            Rotation = Rotation,
+            Template = Template,
+        };
     }
 }

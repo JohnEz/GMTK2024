@@ -28,8 +28,6 @@ public class GameStateManager : Singleton<GameStateManager>
 
     public bool TrySetState(GameState state)
     {
-        Debug.Log($"Switching game state: from {_State} to {state}");
-
         if (state == _State)
         {
             return false;
@@ -39,6 +37,7 @@ public class GameStateManager : Singleton<GameStateManager>
             return false;
         }
 
+        Debug.Log($"Switching game state: from {_State} to {state}");
         _State = state;
         OnStateChange.Invoke(state);
         return true;

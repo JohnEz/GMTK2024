@@ -33,7 +33,8 @@ public class TrackPiecePlacementButtons : MonoBehaviour
         _buttons = GetComponentsInChildren<Button>(includeInactive: true);
 
         for (int i = 0; i < _buttons.Length; i++) {
-            _buttons[i].onClick.AddListener(() => HandleButtonClick(_dirtyAssumptionButtonOrder[i]));
+            Compass direction = _dirtyAssumptionButtonOrder[i];
+            _buttons[i].onClick.AddListener(() => HandleButtonClick(direction));
         }
 
         OnTrackPieceSet(_trackPieceController.TrackPiece);

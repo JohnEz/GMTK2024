@@ -27,16 +27,11 @@ public class Route {
         return 0.0f;
     }
 
-    public void AddConnection(
-        TrackPiece piece,
-        Compass previousPieceDirection
-    ) {
-        Connection conn = new Connection() {
-            Piece = piece,
-            PreviousPieceDirection = previousPieceDirection,
-        };
-
-        TrackPieces.Add(conn);
+    public void AddConnection(TrackPiece trackPiece, Compass direction) {
+        TrackPieces.Add(new Connection() {
+            Piece = trackPiece,
+            PreviousPieceDirection = direction.Reversed()
+        });
     }
 
     public void CalculateSpline() {
