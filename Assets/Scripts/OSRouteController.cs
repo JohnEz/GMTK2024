@@ -18,7 +18,7 @@ public class OSRouteController : MonoBehaviour {
     }
 
     public void Awake() {
-        _trainController =  GetComponent<TrainController>();
+        _trainController = GetComponent<TrainController>();
     }
 
     public void HandleClick() {
@@ -34,6 +34,6 @@ public class OSRouteController : MonoBehaviour {
     }
 
     public void AddTrain() {
-        _trainController.AddTrain();
+        _trainController.AddTrain(transform);
     }
 }

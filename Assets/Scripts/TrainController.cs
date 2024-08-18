@@ -58,8 +58,9 @@ public class TrainController : MonoBehaviour {
         });
     }
 
-    public void AddTrain() {
+    public void AddTrain(Transform parent) {
         GameObject train = Instantiate(trainPrefab);
+        train.transform.SetParent(parent, false);
         SplineAnimate splineAnimate = train.GetComponent<SplineAnimate>();
         splineAnimate.Container = _trackSpline;
         splineAnimate.Restart(true);
