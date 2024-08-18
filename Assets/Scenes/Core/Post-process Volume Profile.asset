@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8802865269088365840
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358f8fd2a889cac419ef7b5a9e960775, type: 3}
+  m_Name: BlurSettings
+  m_EditorClassIdentifier: 
+  active: 1
+  Strength:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!114 &-7816708620425323493
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -31,7 +47,7 @@ MonoBehaviour:
   components:
   - {fileID: 4001987246565051403}
   - {fileID: 3374453724767704141}
-  - {fileID: -7816708620425323493}
+  - {fileID: -8802865269088365840}
 --- !u!114 &3374453724767704141
 MonoBehaviour:
   m_ObjectHideFlags: 3

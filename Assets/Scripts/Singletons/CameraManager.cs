@@ -1,16 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class CameraManager : Singleton<CameraManager> {
     private float MIN_ZOOM = 0.1f;
     private float DEFAULT_ZOOM = 3f;
     private float MAX_ZOOM = 200f;
-
-    private bool _isTransitioning = false;
 
     [SerializeField]
     private CameraControlller _adultCameraZoom;
@@ -18,13 +11,24 @@ public class CameraManager : Singleton<CameraManager> {
     [SerializeField]
     private CameraControlller _kidCameraZoom;
 
-    public void ZoomOut() {
-        if (ZoomManager.Instance.Level == Level.Adult || _isTransitioning) {
-            return;
+    void Awake()
+    {
+        GameStateManager.Instance.OnStateChange.AddListener(OnStateChange);
+    }
+
+    private void OnStateChange(GameState newState)
+    {
+        if (newState == GameState.TransitionToWork)
+        {
+            ZoomOut();
         }
+        else if (newState == GameState.TransitionToPlay)
+        {
+            ZoomIn();
+        }
+    }
 
-        _isTransitioning = true;
-
+    public void ZoomOut() {
         _kidCameraZoom.EnableCamera();
         _kidCameraZoom.SetInstantZoom(DEFAULT_ZOOM);
         _adultCameraZoom.SetInstantZoom(MIN_ZOOM);
@@ -51,18 +55,11 @@ public class CameraManager : Singleton<CameraManager> {
         Debug.Log("Finished zooming out of adult");
 
         _adultCameraZoom.onCompleteZoom -= handleZoomOutAdultComplete;
-        _isTransitioning = false;
 
-        ZoomManager.Instance.CompletedZoomOutAdult();
+        GameStateManager.Instance.TrySetState(GameState.Adult);
     }
 
     public void ZoomIn() {
-        if (ZoomManager.Instance.Level == Level.Kid || _isTransitioning) {
-            return;
-        }
-
-        _isTransitioning = true;
-
         _adultCameraZoom.EnableCamera();
         _adultCameraZoom.SetInstantZoom(DEFAULT_ZOOM);
         _kidCameraZoom.SetInstantZoom(MAX_ZOOM);
@@ -89,8 +86,7 @@ public class CameraManager : Singleton<CameraManager> {
         Debug.Log("Finished zooming in of kid");
 
         _kidCameraZoom.onCompleteZoom -= handleZoomInKidComplete;
-        _isTransitioning = false;
 
-        ZoomManager.Instance.CompletedZoomInKid();
+        GameStateManager.Instance.TrySetState(GameState.Kid);
     }
 }
