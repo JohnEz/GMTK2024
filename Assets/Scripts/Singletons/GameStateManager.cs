@@ -13,9 +13,15 @@ public enum GameState
 
 public class GameStateManager : Singleton<GameStateManager>
 {
-    public GameState InitialState = GameState.Adult;
+    public GameState InitialState = GameState.Kid;
 
     private GameState _State;
+
+    [SerializeField]
+    private AudioClip _kidMusic;
+
+    [SerializeField]
+    private AudioClip _adultMusic;
 
     public GameState State => _State;
 
@@ -24,6 +30,16 @@ public class GameStateManager : Singleton<GameStateManager>
     void Awake()
     {
         _State = InitialState;
+        AudioClipOptions options = new AudioClipOptions();
+        options.Delay = 1.5f;
+        if (InitialState == GameState.Kid || InitialState == GameState.KidEditing)
+        {
+            AudioManager.Instance.PlaySound(_kidMusic, options);
+        }
+        else if (InitialState == GameState.Adult)
+        {
+            AudioManager.Instance.PlaySound(_adultMusic, options);
+        }
     }
 
     public bool TrySetState(GameState state)
@@ -37,9 +53,20 @@ public class GameStateManager : Singleton<GameStateManager>
             return false;
         }
 
-        Debug.Log($"Switching game state: from {_State} to {state}");
         _State = state;
         OnStateChange.Invoke(state);
+
+        AudioClipOptions options = new AudioClipOptions();
+        options.Delay = 1.5f;
+        if (state == GameState.Kid || InitialState == GameState.KidEditing) {
+            AudioManager.Instance.StopSound(_adultMusic);
+            AudioManager.Instance.PlaySound(_kidMusic, options);
+        }
+        else if (state == GameState.Adult)
+        {
+            AudioManager.Instance.StopSound(_kidMusic);
+            AudioManager.Instance.PlaySound(_adultMusic, options);
+        }
         return true;
     }
 }
