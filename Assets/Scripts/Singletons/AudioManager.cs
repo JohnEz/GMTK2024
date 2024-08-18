@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 public class AudioClipOptions {
     public float Volume { get; set; } = 1f;
     public float Pitch { get; set; } = 1f;
+    public float Delay { get; set; } = 0f;
 
     public bool RandomPitch = false;
 
@@ -90,8 +91,7 @@ public class AudioManager : Singleton<AudioManager> {
         audioSource.pitch = pitch;
         audioSource.volume = audioOptions.Volume;
         audioSource.loop = audioOptions.Loop;
-
-        audioSource.Play();
+        audioSource.PlayDelayed(audioOptions.Delay);
 
         Destroy(audioObject, audioSource.clip.length);
     }
