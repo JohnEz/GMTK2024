@@ -9,7 +9,7 @@ public class TrainController : MonoBehaviour {
 
     private bool _isFollowingTrack = false;
 
-    private OSLineController _line;
+    public OSLineController Line { get; private set; }
 
     private void Awake() {
         _splineAnimate = GetComponent<SplineAnimate>();
@@ -20,20 +20,20 @@ public class TrainController : MonoBehaviour {
     }
 
     public void SetLine(OSLineController lineController) {
-        if (_line != null) {
-            _line.OnChange -= (bool a, bool b) => SetupSplineAnimate(a, b, false);
+        if (Line != null) {
+            Line.OnChange -= (bool a, bool b) => SetupSplineAnimate(a, b, false);
         }
 
-        _line = lineController;
+        Line = lineController;
 
         SetupSplineAnimate(true, true, true);
-        _line.OnChange += (bool a, bool b) => SetupSplineAnimate(a, b, false);
+        Line.OnChange += (bool a, bool b) => SetupSplineAnimate(a, b, false);
 
         _splineAnimate.Restart(true);
     }
 
     private void SetupSplineAnimate(bool isAddition, bool isAtEnd, bool isForced) {
-        if (_line == null || _line.SplineContainer.Spline.Count == 0) {
+        if (Line == null || Line.SplineContainer.Spline.Count == 0) {
             if (_splineAnimate != null) {
                 _splineAnimate.Container = null;
             }
@@ -44,8 +44,8 @@ public class TrainController : MonoBehaviour {
         // TODO its only *2 if its pingpong i think
         float initialElapsed = _splineAnimate.ElapsedTime % (initialDuration * 2);
 
-        _splineAnimate.Container = _line.SplineContainer;
-        _splineAnimate.Loop = _line.Line.IsLoop ? SplineAnimate.LoopMode.Loop : SplineAnimate.LoopMode.PingPong;
+        _splineAnimate.Container = Line.SplineContainer;
+        _splineAnimate.Loop = Line.Line.IsLoop ? SplineAnimate.LoopMode.Loop : SplineAnimate.LoopMode.PingPong;
 
         bool isOnReturnJourney = initialElapsed > initialDuration;
         float durationOfAddedOrRemovedRoute = Mathf.Abs(_splineAnimate.Duration - initialDuration);

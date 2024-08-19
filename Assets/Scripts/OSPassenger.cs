@@ -5,6 +5,8 @@ using UnityEngine;
 public class OSPassenger : MonoBehaviour {
     public OSStation CurrentStation { get; private set; }
 
+    public OSStation StartingStation { get; private set; }
+
     public OSStation FinalStation { get; private set; }
 
     public PassengerPath Path { get; private set; }
@@ -18,16 +20,15 @@ public class OSPassenger : MonoBehaviour {
     }
 
     public void Setup(OSStation startingStation) {
-        // kill self?
+        StartingStation = startingStation;
+        CurrentStation = StartingStation;
 
         CalculateRandomEndStation(startingStation);
-
-        CurrentStation = startingStation;
 
         HandleConnectionsChange();
         OSConnectionManager.Instance.OnConnectionsChange += HandleConnectionsChange;
 
-        Debug.Log($"I spawned at {startingStation.name} and I want to go to {FinalStation.name}. It will be {Path.Connections.Count} stops.");
+        // Debug.Log($"I spawned at {startingStation.name} and I want to go to {FinalStation.name}. It will be {Path.Connections.Count} stops.");
     }
 
     private void CalculateRandomEndStation(OSStation startingStation) {
@@ -53,10 +54,23 @@ public class OSPassenger : MonoBehaviour {
     public void ArriveAtStation(OSStation newStation) {
         isRidingTrain = false;
         CurrentStation = newStation;
+
+        if (CurrentStation == FinalStation) {
+            // kill self
+            PassengerManager.Instance.PassengerCompletedJourney(this);
+        }
     }
 
     public bool ShouldGetOnTrain(Color lineColor) {
+        if (Path.Connections.Count == 0) {
+            return false;
+        }
+
         return lineColor == Path.Connections[0].LineColor;
+    }
+
+    public bool ShouldGetOffAtStation(OSStation station) {
+        return station == StationToGetOffAt;
     }
 
     private void HandleConnectionsChange() {

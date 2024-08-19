@@ -105,7 +105,7 @@ public class OSConnectionManager : Singleton<OSConnectionManager> {
         path.End = end;
         path.Connections = new();
 
-        if (start == null || end == null || ConnectionMap.Count == 0) {
+        if (start == null || end == null || ConnectionMap.Count == 0 || start == end) {
             return path;
         }
 

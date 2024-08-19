@@ -30,9 +30,12 @@ public class PassengerManager : Singleton<PassengerManager> {
         PassengerList.Add(newPassenger);
     }
 
-    private void PassengerCompletedJourney(OSPassenger passenger) {
-        PassengerList.Add(passenger);
+    public void PassengerCompletedJourney(OSPassenger passenger) {
+        PassengerList.Remove(passenger);
+        passenger.CurrentStation.RemovePassenger(passenger);
 
         Destroy(passenger.gameObject);
+
+        // Debug.Log($"Passenger completed their journey from {passenger.StartingStation} to {passenger.FinalStation}.");
     }
 }
