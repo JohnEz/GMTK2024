@@ -31,8 +31,11 @@ public class CoolManager : Singleton<CoolManager> {
 
             if (isAdjacent) {
                 ToyType toyType = toys[toyIndex].Item2;
+                TrackPieceType trackType = trackPiece.Template.TrackPieceType;
 
-                value *= AdjacencyMultiplierForToyPieceCombo(toyType, trackPiece.Template.TrackPieceType);
+                var multiplier = AdjacencyMultiplierForToyPieceCombo(toyType, trackType);
+                // Debug.Log($"{trackType} near a {toyType} gives a {multiplier}x multiplier");
+                value *= multiplier;
             }
 
             coolnesses.Add((trackPiece, value, isAdjacent ? toyIndex : -1));
