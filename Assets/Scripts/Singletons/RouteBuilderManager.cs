@@ -121,18 +121,27 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
     private void ShowRouteScores() {
         List<TrackPiece> trackPieces = PreviewTrackPieces.Select(preview => preview.controller.TrackPiece).ToList();
-        (int totalCool, List<(TrackPiece piece, int value)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces);
+        var toys = ToyMapManager
+            .Instance
+            .GetComponentsInChildren<Collider2D>()
+            .Select(collider => new Vector2(
+                collider.transform.position.x,
+                collider.transform.position.y
+            ))
+            .ToList();
+
+        (int totalCool, List<(TrackPiece piece, string coolMessage)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces, toys);
 
         // Max time to show score should be about 2 seconds,
         // ideally about 0.3 seconds between each
         float delayPerScore = Mathf.Min(2.0f / coolnesses.Count, 0.3f);
 
         for (int i = 0; i < coolnesses.Count; i++) {
-            (TrackPiece piece, int value) = coolnesses[i];
+            (TrackPiece piece, string coolMessage) = coolnesses[i];
 
             TrackPieceController scoringTrackPiece = ToyMapManager.Instance.FindTrackPiece(piece);
             if (scoringTrackPiece != null) {
-                FloatingTextManager.Instance.Show($"+{value}", scoringTrackPiece.gameObject, delayPerScore * i);
+                FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delayPerScore * i);
             }
         }
 
