@@ -95,6 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3864911443990513713}
   - component: {fileID: 2232930072531565333}
+  - component: {fileID: 3293590106494567755}
   m_Layer: 0
   m_Name: OSMapManager
   m_TagString: Untagged
@@ -145,6 +146,18 @@ MonoBehaviour:
     prefab: {fileID: 2101659743155389220, guid: 75f0b5b65bae3d5498594a50448dd6d0, type: 3}
   _routePrefab: {fileID: 3789160484161252044, guid: b75ca08dd1d73e247b8cb37ac484011c, type: 3}
   _linePrefab: {fileID: 7325968611100040973, guid: d8dff526a903d984e900bbc8abeca3cf, type: 3}
+--- !u!114 &3293590106494567755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266803524894838310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 217d3ff1e7ee23b4bbb1874b8f9b54b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3634624572191065881
 GameObject:
   m_ObjectHideFlags: 0

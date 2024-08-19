@@ -53,8 +53,6 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     private void handleZoomOutKidComplete() {
-        Debug.Log("Finished zooming out of kid");
-
         _kidCameraZoom.onCompleteZoom -= handleZoomOutKidComplete;
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.EnableCamera();
@@ -66,8 +64,6 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     private void handleZoomOutAdultComplete() {
-        Debug.Log("Finished zooming out of adult");
-
         _adultCameraZoom.onCompleteZoom -= handleZoomOutAdultComplete;
 
         GameStateManager.Instance.TrySetState(GameState.Adult);

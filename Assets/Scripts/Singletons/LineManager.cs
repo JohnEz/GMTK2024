@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
+using static UnityEngine.Rendering.CoreUtils;
 
 public class Line {
     public Color Color { get; private set; }
@@ -22,6 +23,10 @@ public class Line {
     public TrackPiece StartStation { get; private set; }
 
     public TrackPiece EndStation { get; private set; }
+
+    // Has all stations in the line, including duplicates
+    // Could be calculated from routes
+    public List<TrackPiece> Stations { get; private set; } = new List<TrackPiece>();
 
     private Dictionary<Route, bool> _isRouteFlipped = new Dictionary<Route, bool>();
 
@@ -55,6 +60,9 @@ public class Line {
         } else {
             isAddAtEndOfLine = AddRouteAndCalculateStations(route);
         }
+
+        Stations.Add(route.StartStation);
+        Stations.Add(route.EndStation);
 
         CalculateSpline();
         OnSplineChange?.Invoke(Spline, true, isAddAtEndOfLine);
@@ -97,6 +105,9 @@ public class Line {
 
         _isRouteFlipped.Remove(routeToRemove);
         Routes.Remove(routeToRemove);
+        Stations.Remove(routeToRemove.StartStation);
+        Stations.Remove(routeToRemove.EndStation);
+
         CalculateSpline();
         OnSplineChange?.Invoke(Spline, false, isRemovalAtEndOfLine);
     }
@@ -209,6 +220,8 @@ public class LineManager : Singleton<LineManager> {
 
     public event Action<Color> OnLineRemoved;
 
+    public event Action OnRouteLineChange;
+
     private void Awake() {
         Lines = new Dictionary<Color, Line>();
 
@@ -242,6 +255,7 @@ public class LineManager : Singleton<LineManager> {
 
         AddRouteToLine(newLineColor, routeController);
 
+        OnRouteLineChange?.Invoke();
         return true;
     }
 
@@ -318,5 +332,15 @@ public class LineManager : Singleton<LineManager> {
         }
 
         return Color.white;
+    }
+
+    public List<Line> GetLinesForStation(TrackPiece station) {
+        var lines = Lines.Values.Where(line => {
+            return line.Stations.Where(lineStation => {
+                return lineStation.X == station.X && lineStation.Y == station.Y;
+            }).ToList().Count > 0;
+        }).ToList();
+
+        return lines;
     }
 }

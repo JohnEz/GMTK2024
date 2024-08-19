@@ -5,12 +5,16 @@ using UnityEngine;
 public class OSPassenger : MonoBehaviour {
     public OSStation TargetStation { get; private set; }
 
+    public PassengerPath Path { get; private set; }
+
     public void Setup(OSStation startingStation) {
         // kill self?
 
         CalculateRandomEndStation(startingStation);
 
         //Debug.Log($"I spawned at {startingStation.name} and i want to go to {TargetStation.name}");
+
+        CalculatePath();
     }
 
     private void CalculateRandomEndStation(OSStation startingStation) {
@@ -25,5 +29,9 @@ public class OSPassenger : MonoBehaviour {
         } while (targetStation == startingStation && iterations < 1000);
 
         TargetStation = targetStation;
+    }
+
+    private void CalculatePath() {
+        Path = new PassengerPath();
     }
 }

@@ -8,11 +8,17 @@ public class OSStation : MonoBehaviour {
 
     public List<OSPassenger> Passengers { get; private set; } = new List<OSPassenger>();
 
+    public TrackPieceController TrackPieceController { get; private set; }
+
     [SerializeField]
     private TMP_Text titleText;
 
     [SerializeField]
     private TMP_Text passengerCountText;
+
+    private void Awake() {
+        TrackPieceController = GetComponent<TrackPieceController>();
+    }
 
     public void Setup(string name) {
         gameObject.name = name;

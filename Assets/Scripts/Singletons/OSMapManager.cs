@@ -152,4 +152,11 @@ public class OSMapManager : Singleton<OSMapManager> {
             _trackPrefab => _trackPrefab.prefab
         );
     }
+
+    public OSStation GetStationFromTrackPiece(TrackPiece _stationPiece) {
+        return Stations.Where(station =>
+            station.TrackPieceController.TrackPiece.X == _stationPiece.X &&
+            station.TrackPieceController.TrackPiece.Y == _stationPiece.Y
+        ).FirstOrDefault();
+    }
 }
