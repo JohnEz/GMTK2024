@@ -83,6 +83,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
         if (TerminatingStation == OriginStation) {
             FloatingTextManager.Instance.Show($"It's not home-time yet", newTrack.gameObject);
+            Destroy(newTrack);
             return;
         }
 
