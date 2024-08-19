@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,7 +43,6 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         if (!GameStateManager.Instance.TrySetState(GameState.Kid)) {
             return;
         }
-
 
         PreviewTrackPieces.ForEach(preview => Destroy(preview.controller.gameObject));
         PreviewTrackPieces.Clear();

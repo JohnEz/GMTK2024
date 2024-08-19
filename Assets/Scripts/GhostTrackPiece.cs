@@ -7,25 +7,10 @@ using System.Collections.Generic;
 [RequireComponent(typeof (TrackPieceController))]
 public class GhostTrackPiece : MonoBehaviour {
     [SerializeField]
+    private BuilderControlsController _builderControlsController;
+
+    [SerializeField]
     private TrackPieceController _trackPieceController;
-
-    [SerializeField]
-    private GameObject _confirmCanvas;
-
-    [SerializeField]
-    private Button _confirmButton;
-
-    [SerializeField]
-    private Button _cancelButton;
-
-    [SerializeField]
-    private GameObject _typeSwitchCanvas;
-
-    [SerializeField]
-    private Button _nextTypeButton;
-
-    [SerializeField]
-    private Button _previousTypeButton;
 
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
@@ -55,24 +40,8 @@ public class GhostTrackPiece : MonoBehaviour {
     }
 
     void Start() {
-        _confirmButton.onClick.AddListener(() => OnConfirm?.Invoke());
-        _cancelButton.onClick.AddListener(() => OnCancel?.Invoke());
-        _previousTypeButton.onClick.AddListener(OnPreviousType);
-        _nextTypeButton.onClick.AddListener(OnNextType);
-    }
-
-    private void OnPreviousType() {
-        List<TrackPieceType> types = ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
-        int currentIndex = types.IndexOf(_trackPieceType);
-        int nextIndex = ((currentIndex == 0 ? types.Count : currentIndex) - 1) % types.Count;
-        TrackPieceType = types[nextIndex];
-    }
-
-    private void OnNextType() {
-        List<TrackPieceType> types = ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
-        int currentIndex = types.IndexOf(_trackPieceType);
-        int nextIndex = (currentIndex + 1) % types.Count;
-        TrackPieceType = types[nextIndex];
+        _builderControlsController.OnHoverPiece += (template) => TrackPieceType = template.TrackPieceType;
+        _builderControlsController.OnConfirmPiece += (template) => OnConfirm?.Invoke();
     }
 
     private void OnSetTrackPieceType() {
@@ -84,9 +53,6 @@ public class GhostTrackPiece : MonoBehaviour {
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass forwardDirection = connections[1];
         Rotation rotation = forwardDirection.ToRotation();
-
-        // Upon reading this line, now you can be sure to your very heart of hearts, that you have seen the face of evil.
-        _confirmCanvas.transform.localEulerAngles = new Vector3(0, 0, -(int)rotation);
 
         // Bit inefficient but let's not worry about it
         _trackPieceController.TrackPiece = new TrackPiece() {
@@ -103,8 +69,5 @@ public class GhostTrackPiece : MonoBehaviour {
         TrackPiece trackPiece = Connection.GetNextTrackPiece(fromTrackPiece, direction);
         trackPiece.Template = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType].template;
         _trackPieceController.TrackPiece = trackPiece;
-
-        // Avert thine eyes, lest your soul forever be scarred from what you see here today.
-        _typeSwitchCanvas.transform.localEulerAngles = new Vector3(0, 0, (int)trackPiece.Rotation);
     }
 }
