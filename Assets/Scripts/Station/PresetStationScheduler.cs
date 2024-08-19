@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -12,9 +13,23 @@ public class StationSpawn {
     public float delay;
 }
 
+public enum SpawningPhase {
+    Tutorial,
+    Easy,
+    Hard
+}
+
 [RequireComponent(typeof(StationManager))]
 public class PresetStationScheduler : MonoBehaviour {
-    public List<StationSpawn> Spawns = new();
+    public List<Transform> TutorialSpawns = new();
+    public List<Transform> EasySpawns = new();
+    public List<Transform> HardSpawns = new();
+
+    public List<Transform> CurrentStationsToSpawn = new();
+
+    public SpawningPhase SpawningPhase { get; private set; } = SpawningPhase.Tutorial;
+
+    private const float SPAWN_DELAY = 20f;
 
     private StationManager stationManager;
 
@@ -31,11 +46,38 @@ public class PresetStationScheduler : MonoBehaviour {
         stationManager = GetComponent<StationManager>();
     }
 
+    public void Start() {
+        TutorialSpawns.ForEach(spawn => {
+            SpawnStation(spawn);
+        });
+
+        SpawningPhase = SpawningPhase.Tutorial;
+        _spawning = false;
+
+        StartSpawning();
+    }
+
+    public void StartSpawning() {
+        SpawningPhase = SpawningPhase.Easy;
+        CurrentStationsToSpawn = new List<Transform>(EasySpawns);
+        Resume();
+    }
+
     private void Update() {
-        if (_spawning && _nextIndex < Spawns.Count) {
+        if (SpawningPhase == SpawningPhase.Easy && CurrentStationsToSpawn.Count < 1) {
+            CurrentStationsToSpawn = new List<Transform>(HardSpawns);
+            SpawningPhase = SpawningPhase.Hard;
+        }
+
+        if (_spawning && CurrentStationsToSpawn.Count > 0) {
             _timeSinceLastSpawn += Time.deltaTime;
-            if (_timeSinceLastSpawn >= Spawns[_nextIndex].delay) {
-                Spawn();
+
+            if (_timeSinceLastSpawn >= SPAWN_DELAY) {
+                int randomIndex = UnityEngine.Random.Range(0, CurrentStationsToSpawn.Count);
+                Transform stationSpawn = CurrentStationsToSpawn[randomIndex];
+                CurrentStationsToSpawn.RemoveAt(randomIndex);
+
+                SpawnStation(stationSpawn);
                 _timeSinceLastSpawn = 0;
             }
         }
@@ -50,16 +92,26 @@ public class PresetStationScheduler : MonoBehaviour {
     }
 
     private void Spawn() {
-        StationSpawn nextSpawn = Spawns[_nextIndex];
+        //StationSpawn nextSpawn = Spawns[_nextIndex];
 
+        //TrackPiece station = new() {
+        //    X = (int)nextSpawn.locationTransform.position.x,
+        //    Y = (int)nextSpawn.locationTransform.position.y,
+        //    Template = stationTemplate,
+        //};
+
+        //stationManager.AddStation(station);
+
+        //_nextIndex++;
+    }
+
+    private void SpawnStation(Transform transform) {
         TrackPiece station = new() {
-            X = (int)nextSpawn.locationTransform.position.x,
-            Y = (int)nextSpawn.locationTransform.position.y,
+            X = (int)transform.position.x,
+            Y = (int)transform.position.y,
             Template = stationTemplate,
         };
 
         stationManager.AddStation(station);
-
-        _nextIndex++;
     }
 }

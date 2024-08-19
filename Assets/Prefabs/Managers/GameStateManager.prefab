@@ -47,7 +47,4 @@ MonoBehaviour:
   _isGlobal: 0
   InitialState: 4
   _kidMusic: {fileID: 8300000, guid: 2f690e1e557eec44a944ae16a2875f69, type: 3}
-  _adultMusic: {fileID: 8300000, guid: 8486b5f62df3d154a8762f44ea4fc75b, type: 3}
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
+  _adultMusic: {fileID: 8300000, guid: 63337189f8c146a4f9df85b35eb11120, type: 3}
