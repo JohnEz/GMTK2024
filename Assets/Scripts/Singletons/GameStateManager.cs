@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -25,7 +26,7 @@ public class GameStateManager : Singleton<GameStateManager>
 
     public GameState State => _State;
 
-    public UnityEvent<GameState> OnStateChange = new();
+    public event Action<GameState> OnStateChange;
 
     void Awake()
     {

@@ -18,7 +18,7 @@ public class CameraManager : Singleton<CameraManager> {
     private CameraControlller _kidCameraZoom;
 
     private void Awake() {
-        GameStateManager.Instance.OnStateChange.AddListener(OnStateChange);
+        GameStateManager.Instance.OnStateChange += OnStateChange;
     }
 
     private void Start() {

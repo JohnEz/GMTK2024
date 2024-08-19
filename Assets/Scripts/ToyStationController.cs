@@ -13,7 +13,7 @@ public class ToyStationController : MonoBehaviour {
         if (_trackPiecePlacementButtons != null) {
             _trackPiecePlacementButtons.OnClick.AddListener(OnClickPlacement);
 
-            GameStateManager.Instance.OnStateChange.AddListener(OnGameStateChange);
+            GameStateManager.Instance.OnStateChange += OnGameStateChange;
             OnGameStateChange(GameStateManager.Instance.State);
         }
     }
