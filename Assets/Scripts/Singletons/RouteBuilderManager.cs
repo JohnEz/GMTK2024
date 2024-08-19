@@ -121,14 +121,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
     private void ShowRouteScores() {
         List<TrackPiece> trackPieces = PreviewTrackPieces.Select(preview => preview.controller.TrackPiece).ToList();
-        var toys = ToyMapManager
-            .Instance
-            .GetComponentsInChildren<Collider2D>()
-            .Select(collider => new Vector2(
-                collider.transform.position.x,
-                collider.transform.position.y
-            ))
-            .ToList();
+        var toys = ToyMapManager.Instance.Toys;
 
         (int totalCool, List<(TrackPiece piece, string coolMessage)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces, toys);
 

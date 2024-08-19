@@ -21,6 +21,22 @@ public class ToyMapManager : Singleton<ToyMapManager>
     [SerializeField]
     private List<ToyTrackPieceConfig> _trackPieceConfigList = new();
 
+    private List<Vector2> _toys = new();
+
+    public List<Vector2> Toys {
+        get {
+            if (_toys.Count == 0) {
+                _toys = this.GetComponentsInChildren<Collider2D>()
+                    .Select(collider => new Vector2(
+                        collider.transform.position.x,
+                        collider.transform.position.y
+                    ))
+                    .ToList();
+            }
+            return _toys;
+        }
+    }
+
     private readonly Dictionary<int, Dictionary<int, TrackPieceController>> _trackPieces = new();
 
     public Dictionary<TrackPieceType, ToyTrackPieceConfig> TrackPieceConfig {
