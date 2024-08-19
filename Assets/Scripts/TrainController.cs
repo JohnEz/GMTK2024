@@ -7,8 +7,6 @@ using UnityEngine.Splines;
 public class TrainController : MonoBehaviour {
     private SplineAnimate _splineAnimate;
 
-    private bool _isFollowingTrack = false;
-
     public OSLineController Line { get; private set; }
 
     [SerializeField]

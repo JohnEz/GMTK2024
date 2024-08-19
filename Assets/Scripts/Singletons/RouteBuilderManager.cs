@@ -21,10 +21,22 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     private GhostTrackPiece GhostTrackPiece;
 
     void Awake() {
-        _builderControlsController.OnHoverPiece += (template) => GhostTrackPiece.TrackPieceType = template.TrackPieceType;
-        _builderControlsController.OnConfirmPiece += (template) => PlacePiece();
+        _builderControlsController.OnHoverPiece += (template) => {
+            GhostTrackPiece.TrackPieceType = template.TrackPieceType;
+            CheckNextPieceValidity();
+        };
+        _builderControlsController.OnConfirmPiece += (template) => {
+            PlacePiece();
+            CheckNextPieceValidity();
+        };
         _builderControlsController.OnUndoPiece += () => RemovePiece();
         _builderControlsController.OnClearRoute += () => StopEditing();
+    }
+
+    void CheckNextPieceValidity() {
+        TrackPiece piece = GhostTrackPiece.Position;
+        var terminatingStation = StationManager.Instance.GetConnectingStation(piece);
+        GhostTrackPiece.NextStepIsValidPosition = terminatingStation != OriginStation;
     }
 
     void Update() {
@@ -66,11 +78,18 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         Compass direction = GhostTrackPiece.Direction;
 
         TrackPieceController newTrack = Instantiate(_trackPreviewPrefab, transform);
+
+        TerminatingStation = StationManager.Instance.GetConnectingStation(piece);
+
+        if (TerminatingStation == OriginStation) {
+            FloatingTextManager.Instance.Show($"It's not home-time yet", newTrack.gameObject);
+            Destroy(newTrack);
+            return;
+        }
+
         newTrack.TrackPiece = piece;
         newTrack.GetComponentInChildren<SpriteRenderer>().sprite = ToyMapManager.Instance.TrackPieceConfig[piece.Template.TrackPieceType].sprite;
         PreviewTrackPieces.Add((newTrack, direction));
-
-        TerminatingStation = StationManager.Instance.GetConnectingStation(piece);
 
         if (TerminatingStation != null) {
             CommitRoute();

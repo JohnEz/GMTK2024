@@ -36,11 +36,24 @@ public class GhostTrackPiece : MonoBehaviour {
     private bool _isValidPosition = true;
 
     public bool IsValidPosition {
-        get => _isValidPosition;
+        get => _isValidPosition && _nextStepIsValidPosition;
         private set {
             _isValidPosition = value;
-            _spriteRenderer.color = value ? _validHighlight : _invalidHighlight;
+            OnValidityChange();
         }
+    }
+
+    private bool _nextStepIsValidPosition = true;
+
+    public bool NextStepIsValidPosition {
+        set {
+            _nextStepIsValidPosition = value;
+            OnValidityChange();
+        }
+    }
+
+    void OnValidityChange() {
+        _spriteRenderer.color = IsValidPosition ? _validHighlight : _invalidHighlight;
     }
 
     void Awake() {
