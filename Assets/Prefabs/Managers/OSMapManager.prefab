@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 8
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217d3ff1e7ee23b4bbb1874b8f9b54b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isGlobal: 0
 --- !u!1 &1461117613589674768
 GameObject:
   m_ObjectHideFlags: 0

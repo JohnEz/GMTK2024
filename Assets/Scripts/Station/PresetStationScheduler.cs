@@ -4,19 +4,16 @@ using UnityEngine;
 
 [Serializable]
 public class StationSpawn {
-    [SerializeField]
-    public int x;
 
     [SerializeField]
-    public int y;
+    public Transform locationTransform;
 
     [SerializeField]
     public float delay;
 }
 
-[RequireComponent(typeof (StationManager))]
-public class PresetStationScheduler : MonoBehaviour
-{
+[RequireComponent(typeof(StationManager))]
+public class PresetStationScheduler : MonoBehaviour {
     public List<StationSpawn> Spawns = new();
 
     private StationManager stationManager;
@@ -30,11 +27,11 @@ public class PresetStationScheduler : MonoBehaviour
 
     private float _timeSinceLastSpawn = 0.0f;
 
-    void Awake() {
+    private void Awake() {
         stationManager = GetComponent<StationManager>();
     }
 
-    void Update() { 
+    private void Update() {
         if (_spawning && _nextIndex < Spawns.Count) {
             _timeSinceLastSpawn += Time.deltaTime;
             if (_timeSinceLastSpawn >= Spawns[_nextIndex].delay) {
@@ -52,14 +49,12 @@ public class PresetStationScheduler : MonoBehaviour
         _spawning = false;
     }
 
-    private void Spawn()
-    {
+    private void Spawn() {
         StationSpawn nextSpawn = Spawns[_nextIndex];
 
-        TrackPiece station = new()
-        {
-            X = nextSpawn.x,
-            Y = nextSpawn.y,
+        TrackPiece station = new() {
+            X = (int)nextSpawn.locationTransform.position.x,
+            Y = (int)nextSpawn.locationTransform.position.y,
             Template = stationTemplate,
         };
 
