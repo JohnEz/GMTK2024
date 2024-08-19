@@ -150,7 +150,7 @@ public class OSConnectionManager : Singleton<OSConnectionManager> {
 
             OSStation currentStation = nodes.Where(kvp => kvp.Value == u).FirstOrDefault().Key;
 
-            if (currentStation == null && !currentConnectionMap.ContainsKey(currentStation)) {
+            if (currentStation == null || !currentConnectionMap.ContainsKey(currentStation)) {
                 continue;
             }
 
