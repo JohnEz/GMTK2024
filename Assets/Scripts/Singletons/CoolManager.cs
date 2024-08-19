@@ -14,48 +14,52 @@ public class CoolManager : Singleton<CoolManager> {
 
     public event Action<int, int> OnCoolnessUpdate;
 
-    public (int, List<(TrackPiece piece, string coolMessage)>) ScoreRoute(
+    public (int, List<(TrackPiece piece, int value, int toyIndex)>) ScoreRoute(
         List<TrackPiece> route,
         List<Vector2> toys
     ) {
-        List<(TrackPiece, string)> coolnesses = new();
-        int totalCool = route.Aggregate(0, (acc, trackPiece) => {
+        List<(TrackPiece, int, int)> coolnesses = new();
+        int totalCool = 0;
+
+        for (int i = 0; i < route.Count; i++) {
+            var trackPiece = route[i];
+
             // It's cool to be happy, OK?
             int value = trackPiece.Template.Happiness;
 
-            var nearestToyDist = NearestToyDistance(trackPiece.X, trackPiece.Y, toys);
-            string coolMessage;
-            if (nearestToyDist != -1 && nearestToyDist < ADJACENT_TOY_DISTANCE) {
+            (var nearestToyDist, var toyIndex) = NearestToyDistance(trackPiece.X, trackPiece.Y, toys);
+            var isAdjacent = nearestToyDist != -1 && nearestToyDist < ADJACENT_TOY_DISTANCE;
+
+            if (isAdjacent) {
                 value *= ADJACENCY_MULTIPLIER;
-                coolMessage = $"+{value}!!";
-            } else {
-                coolMessage = $"+{value}";
             }
 
-            coolnesses.Add((trackPiece, coolMessage));
-            return acc + value;
-        });
+            coolnesses.Add((trackPiece, value, isAdjacent ? toyIndex : -1));
+
+            totalCool += value;
+        }
 
         UpdateCoolness(totalCool);
         return (totalCool, coolnesses);
     }
 
-    float NearestToyDistance(int x, int y, List<Vector2> toys) {
+    (float, int) NearestToyDistance(int x, int y, List<Vector2> toys) {
         float minDistance = Mathf.Infinity;
-        bool found = false;
+        int index = -1;
 
         Vector2 xy = new Vector2(x, y);
 
-        foreach (var toy in toys) {
+        for (int i = 0; i < toys.Count; i++) {
+            var toy = toys[i];
             float distance = Vector2.Distance(xy, toy);
 
             if (distance < minDistance) {
                 minDistance = distance;
-                found = true;
+                index = i;
             }
         }
 
-        return found ? minDistance : -1;
+        return index >= 0 ? (minDistance, index) : (-1, -1);
     }
 
     private void UpdateCoolness(int diff) {

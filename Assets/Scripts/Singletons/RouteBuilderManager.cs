@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     [SerializeField]
@@ -123,18 +124,40 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         List<TrackPiece> trackPieces = PreviewTrackPieces.Select(preview => preview.controller.TrackPiece).ToList();
         var toys = ToyMapManager.Instance.Toys;
 
-        (int totalCool, List<(TrackPiece piece, string coolMessage)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces, toys);
+        (
+            int totalCool,
+            List<(TrackPiece piece, int value, int toyIndex)> coolnesses
+        ) = CoolManager.Instance.ScoreRoute(
+            trackPieces,
+            toys.Select(toy => (Vector2)toy.transform.position).ToList()
+        );
 
         // Max time to show score should be about 2 seconds,
         // ideally about 0.3 seconds between each
         float delayPerScore = Mathf.Min(2.0f / coolnesses.Count, 0.3f);
 
         for (int i = 0; i < coolnesses.Count; i++) {
-            (TrackPiece piece, string coolMessage) = coolnesses[i];
+            (TrackPiece piece, int value, int toyIndex) = coolnesses[i];
 
             TrackPieceController scoringTrackPiece = ToyMapManager.Instance.FindTrackPiece(piece);
-            if (scoringTrackPiece != null) {
-                FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delayPerScore * i);
+            if (!scoringTrackPiece)
+                continue;
+
+            bool isBonus = toyIndex >= 0;
+            var coolMessage = isBonus ? $"+{value}!!" : $"+{value}";
+            FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delayPerScore * i);
+
+            if (isBonus) {
+                var toy = toys[toyIndex];
+
+                toy
+                    .transform
+                    .DOShakePosition(
+                        duration: 1f,
+                        strength: new Vector3(0.5f, 0.5f, 0),
+                        vibrato: 10,
+                        randomness: 90
+                    );
             }
         }
 
