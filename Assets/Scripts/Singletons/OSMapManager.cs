@@ -25,7 +25,7 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     public List<TrackPieceController> Tracks { get; private set; }
 
-    public List<TrackPieceController> Stations { get; private set; }
+    public List<OSStation> Stations { get; private set; }
 
     public List<OSRouteController> RouteControllers { get; private set; }
 
@@ -61,7 +61,7 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     private void Awake() {
         Tracks = new List<TrackPieceController>();
-        Stations = new List<TrackPieceController>();
+        Stations = new List<OSStation>();
         RouteControllers = new List<OSRouteController>();
         Lines = new Dictionary<Color, OSLineController>();
     }
@@ -138,9 +138,13 @@ public class OSMapManager : Singleton<OSMapManager> {
 
         int randomIndex = UnityEngine.Random.Range(0, StationNames.Count);
         newStation.name = StationNames[randomIndex];
+
+        OSStation newStationController = newStation.GetComponent<OSStation>();
+        newStationController.Setup(StationNames[randomIndex]);
+
         StationNames.RemoveAt(randomIndex);
 
-        Stations.Add(newStation);
+        Stations.Add(newStationController);
     }
 
     private void OnValidate() {
