@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 7561308593146631776}
   - component: {fileID: 2993940385001212517}
   - component: {fileID: 409975886233867389}
+  - component: {fileID: 5570372588464248622}
   m_Layer: 0
   m_Name: BuilderControls
   m_TagString: Untagged
@@ -276,6 +277,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 1
   m_VerticalFit: 1
+--- !u!114 &5570372588464248622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8746111695388607911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de7e23c0d6e41d24aadd6ab09814576a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hiddenPosition: {x: 0, y: -150}
+  startHidden: 1
+  duration: 0.2
+  _enterSound: {fileID: 0}
+  _exitSound: {fileID: 0}
 --- !u!1001 &3940935558762073353
 PrefabInstance:
   m_ObjectHideFlags: 0
