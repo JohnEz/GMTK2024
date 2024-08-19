@@ -49,21 +49,15 @@ public class GhostTrackPiece : MonoBehaviour {
     }
 
     private void OnSetTrackPieceType() {
-        ToyTrackPieceConfig prefab = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType];
-        _spriteRenderer.sprite = prefab.sprite;
-
-        Compass[] connections = prefab.template.ConnectionPoints;
-
-        // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
-        Compass forwardDirection = connections[1];
-        Rotation rotation = forwardDirection.ToRotation();
+        ToyTrackPieceConfig config = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType];
+        _spriteRenderer.sprite = config.sprite;
 
         // Bit inefficient but let's not worry about it
         _trackPieceController.TrackPiece = new TrackPiece() {
             X = _trackPieceController.TrackPiece?.X ?? 0,
             Y = _trackPieceController.TrackPiece?.Y ?? 0,
             Rotation = _trackPieceController.TrackPiece?.Rotation ?? Rotation.None,
-            Template = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType].template
+            Template = config.template
         };
     }
 
