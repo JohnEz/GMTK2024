@@ -8,6 +8,15 @@ public class GhostTrackPiece : MonoBehaviour {
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
 
+    [SerializeField]
+    private Color _validHighlight;
+
+    [SerializeField]
+    private Color _invalidHighlight;
+
+    [SerializeField]
+    private Collider2D _collider;
+
     private TrackPieceType _trackPieceType;
 
     public TrackPieceType TrackPieceType {
@@ -24,7 +33,18 @@ public class GhostTrackPiece : MonoBehaviour {
 
     public TrackPiece Position => _trackPieceController.TrackPiece.Copy();
 
+    private bool _isValidPosition = true;
+
+    public bool IsValidPosition {
+        get => _isValidPosition;
+        private set {
+            _isValidPosition = value;
+            _spriteRenderer.color = value ? _validHighlight : _invalidHighlight;
+        }
+    }
+
     void Awake() {
+        IsValidPosition = true;
         TrackPieceType = TrackPieceType.Straight;
     }
 
@@ -53,5 +73,16 @@ public class GhostTrackPiece : MonoBehaviour {
         TrackPiece trackPiece = Connection.GetNextTrackPiece(fromTrackPiece, direction);
         trackPiece.Template = ToyMapManager.Instance.TrackPieceConfig[_trackPieceType].template;
         _trackPieceController.TrackPiece = trackPiece;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        IsValidPosition = false;
+    }
+
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        IsValidPosition = true;
     }
 }
