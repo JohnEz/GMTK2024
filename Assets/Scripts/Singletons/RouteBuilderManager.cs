@@ -21,10 +21,22 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     private GhostTrackPiece GhostTrackPiece;
 
     void Awake() {
-        _builderControlsController.OnHoverPiece += (template) => GhostTrackPiece.TrackPieceType = template.TrackPieceType;
-        _builderControlsController.OnConfirmPiece += (template) => PlacePiece();
+        _builderControlsController.OnHoverPiece += (template) => {
+            GhostTrackPiece.TrackPieceType = template.TrackPieceType;
+            CheckNextPieceValidity();
+        };
+        _builderControlsController.OnConfirmPiece += (template) => {
+            PlacePiece();
+            CheckNextPieceValidity();
+        };
         _builderControlsController.OnUndoPiece += () => RemovePiece();
         _builderControlsController.OnClearRoute += () => StopEditing();
+    }
+
+    void CheckNextPieceValidity() {
+        TrackPiece piece = GhostTrackPiece.Position;
+        var terminatingStation = StationManager.Instance.GetConnectingStation(piece);
+        GhostTrackPiece.NextStepIsValidPosition = terminatingStation != OriginStation;
     }
 
     void Update() {
