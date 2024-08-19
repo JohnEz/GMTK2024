@@ -4,8 +4,8 @@ using UnityEngine;
 using DG.Tweening;
 
 public class RouteBuilderManager : Singleton<RouteBuilderManager> {
-    private const int VERY_COOL_SCORE = 10;
-    private const int EXTREMELY_COOL_SCORE = 20;
+    private const int VERY_COOL_SCORE = 15;
+    private const int EXTREMELY_COOL_SCORE = 50;
 
     [SerializeField]
     private BuilderControlsController _builderControlsController;
