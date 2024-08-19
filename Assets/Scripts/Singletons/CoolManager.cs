@@ -25,7 +25,7 @@ public class CoolManager : Singleton<CoolManager>
             return acc + value;
         });
 
-        _Coolness += totalCool;
+        Coolness += totalCool;
         return (totalCool, coolnesses);
     }
 }
