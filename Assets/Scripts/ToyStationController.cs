@@ -4,14 +4,14 @@ using UnityEngine;
 public class ToyStationController : MonoBehaviour {
     private TrackPieceController _trackPieceController;
 
-    private TrackPiecePlacementButtons _trackPiecePlacementButtons;
+    private RouteBuildStartButtonsController _routeBuildStartButtons;
 
     void Awake() {
         _trackPieceController = GetComponent<TrackPieceController>();
 
-        _trackPiecePlacementButtons = GetComponentInChildren<TrackPiecePlacementButtons>();
-        if (_trackPiecePlacementButtons != null) {
-            _trackPiecePlacementButtons.OnClick.AddListener(OnClickPlacement);
+        _routeBuildStartButtons = GetComponentInChildren<RouteBuildStartButtonsController>();
+        if (_routeBuildStartButtons != null) {
+            _routeBuildStartButtons.OnClick.AddListener(OnClickPlacement);
 
             GameStateManager.Instance.OnStateChange += OnGameStateChange;
             OnGameStateChange(GameStateManager.Instance.State);
@@ -23,6 +23,6 @@ public class ToyStationController : MonoBehaviour {
     }
 
     void OnGameStateChange(GameState state) {
-        _trackPiecePlacementButtons.gameObject.SetActive(state != GameState.KidEditing);
+        _routeBuildStartButtons.gameObject.SetActive(state != GameState.KidEditing);
     }
 }
