@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     [SerializeField]
+    private BuilderControlsController _builderControlsController;
+
+    [SerializeField]
     private TrackPieceController _trackPreviewPrefab;
 
     private TrackPiece OriginStation;
@@ -18,8 +21,10 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     private GhostTrackPiece GhostTrackPiece;
 
     void Awake() {
-        GhostTrackPiece.OnConfirm += () => PlacePiece();
-        GhostTrackPiece.OnCancel += () => RemovePiece();
+        _builderControlsController.OnHoverPiece += (template) => GhostTrackPiece.TrackPieceType = template.TrackPieceType;
+        _builderControlsController.OnConfirmPiece += (template) => PlacePiece();
+        _builderControlsController.OnUndoPiece += () => RemovePiece();
+        _builderControlsController.OnClearRoute += () => StopEditing();
     }
 
     void Update() {
@@ -119,13 +124,13 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             return;
         }
 
-        Destroy(PreviewTrackPieces[^1].controller.gameObject);
+        (TrackPieceController controller, Compass direction) = PreviewTrackPieces[^1];
+
+        Destroy(controller.gameObject);
         PreviewTrackPieces.RemoveAt(PreviewTrackPieces.Count - 1);
 
         EditFromTrackPiece = PreviewTrackPieces.Count == 0 ? OriginStation : PreviewTrackPieces[^1].controller.TrackPiece;
 
-        // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
-        Compass nextDirection = EditFromTrackPiece.Template.ConnectionPoints[1];
-        GhostTrackPiece.SetPosition(nextDirection, EditFromTrackPiece);
+        GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
     }
 }
