@@ -21,12 +21,16 @@ public class ToyMapManager : Singleton<ToyMapManager>
     [SerializeField]
     private List<ToyTrackPieceConfig> _trackPieceConfigList = new();
 
+    [SerializeField]
+    private GameObject _toyContainer;
+
     private List<Vector2> _toys = new();
 
     public List<Vector2> Toys {
         get {
             if (_toys.Count == 0) {
-                _toys = this.GetComponentsInChildren<Collider2D>()
+                _toys = _toyContainer
+                    .GetComponentsInChildren<Collider2D>()
                     .Select(collider => new Vector2(
                         collider.transform.position.x,
                         collider.transform.position.y
