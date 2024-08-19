@@ -26,3 +26,19 @@ public class TrackTemplate : ScriptableObject {
 
     public int Time = 0;
 }
+
+public static class TrackPieceTypeExtensions {
+    public static bool IsCorner(this TrackPieceType type) {
+        switch (type) {
+            case TrackPieceType.CornerRight:
+            case TrackPieceType.CornerLeft:
+                return true;
+
+            case TrackPieceType.LoopDaLoop:
+            case TrackPieceType.Straight:
+            case TrackPieceType.Station:
+                break;
+        }
+        return false;
+    }
+}

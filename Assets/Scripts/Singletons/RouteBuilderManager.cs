@@ -168,7 +168,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             List<(TrackPiece piece, int value, int toyIndex)> coolnesses
         ) = CoolManager.Instance.ScoreRoute(
             trackPieces,
-            toys.Select(toy => (Vector2)toy.transform.position).ToList()
+            toys.Select(toy => ((Vector2)toy.transform.position, toy.GetComponent<Toy>().Type)).ToList()
         );
 
         // Max time to show score should be about 2 seconds,
