@@ -2365,6 +2365,18 @@ PrefabInstance:
       propertyPath: _builderControlsController
       value: 
       objectReference: {fileID: 2115582027}
+    - target: {fileID: 4098556571397947055, guid: 0f19e144801224fd89f199fdd87d72e0, type: 3}
+      propertyPath: _placementSfx.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 746b1c961329f6444bbe45a17614591a, type: 3}
+    - target: {fileID: 4098556571397947055, guid: 0f19e144801224fd89f199fdd87d72e0, type: 3}
+      propertyPath: _placementSfx.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0f4cd673d23333f4f955bd054097668f, type: 3}
+    - target: {fileID: 4098556571397947055, guid: 0f19e144801224fd89f199fdd87d72e0, type: 3}
+      propertyPath: _placementSfx.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: ca7efd2b5bcfd744392d4413d6d76172, type: 3}
     - target: {fileID: 4308162026054279319, guid: 0f19e144801224fd89f199fdd87d72e0, type: 3}
       propertyPath: m_Name
       value: RouteBuilderManager

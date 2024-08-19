@@ -46,8 +46,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
+  _builderControlsController: {fileID: 0}
   _trackPreviewPrefab: {fileID: 5443279100137747462, guid: e15f46f0e9fc04813a21a1cde1756965, type: 3}
   GhostTrackPiece: {fileID: 5802600370534612934}
+  _routeCompleteSFX: {fileID: 8300000, guid: b7d188c78a186634e923e9512131c1ea, type: 3}
+  _kerchingSFX: {fileID: 8300000, guid: ad805ebc1578fee46bbc674b14657c89, type: 3}
+  _coolSFX: {fileID: 8300000, guid: f93571d4e8980ab4f9deba9d3fe05da9, type: 3}
+  _veryCoolSFX: {fileID: 8300000, guid: f3d74515c8043964798a7976a07559e6, type: 3}
+  _extremelyCoolSFX: {fileID: 8300000, guid: 8ead784ef200f654fb77556525b312af, type: 3}
+  _removeSFX: {fileID: 8300000, guid: 72fa723fca9722647a482a4ac8dcad1f, type: 3}
+  _cancelSFX: {fileID: 8300000, guid: 4bfd91b6e676c934ba175434593cf18e, type: 3}
+  _placementSfx:
+  - {fileID: 8300000, guid: 68253fc255b7d1f45b40239ee53a01c2, type: 3}
+  - {fileID: 8300000, guid: f4f03dc22bde63f4ea073d86c0bfefb3, type: 3}
+  - {fileID: 8300000, guid: 986dae5b0332ce94f94f8622de08a727, type: 3}
+  - {fileID: 8300000, guid: 88a3f85a014a757498fee5fe042415c7, type: 3}
+  - {fileID: 8300000, guid: 17717230ed20b494ba13d4a371fa79a9, type: 3}
 --- !u!1001 &7649248301345171318
 PrefabInstance:
   m_ObjectHideFlags: 0

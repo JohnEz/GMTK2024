@@ -36,6 +36,13 @@ public class AudioManager : Singleton<AudioManager> {
         PlaySound(clip, Camera.main.transform, options);
     }
 
+    public void PlaySound(List<AudioClip> clips, AudioClipOptions options = null) {
+        //get a random sound clip
+        var clip = GetRandomClip(clips);
+
+        PlaySound(clip, Camera.main.transform, options);
+    }
+
     public void PlaySound(List<AudioClip> clips, Vector3 worldPosition, AudioClipOptions options = null) {
         //get a random sound clip
         var clip = GetRandomClip(clips);
@@ -100,7 +107,7 @@ public class AudioManager : Singleton<AudioManager> {
 
         sounds.Add(audioSource);
 
-        Destroy(audioObject, audioSource.clip.length);
+        Destroy(audioObject, audioSource.clip.length + audioOptions.Delay);
     }
 
     private void StopAudioSource(AudioClip clip) {

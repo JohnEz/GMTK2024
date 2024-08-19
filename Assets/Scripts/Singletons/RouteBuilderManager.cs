@@ -4,6 +4,9 @@ using UnityEngine;
 using DG.Tweening;
 
 public class RouteBuilderManager : Singleton<RouteBuilderManager> {
+    private const int VERY_COOL_SCORE = 10;
+    private const int EXTREMELY_COOL_SCORE = 20;
+
     [SerializeField]
     private BuilderControlsController _builderControlsController;
 
@@ -21,7 +24,31 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     [SerializeField]
     private GhostTrackPiece GhostTrackPiece;
 
-    void Awake() {
+    [SerializeField]
+    private AudioClip _routeCompleteSFX;
+
+    [SerializeField]
+    private AudioClip _kerchingSFX;
+
+    [SerializeField]
+    private AudioClip _coolSFX;
+
+    [SerializeField]
+    private AudioClip _veryCoolSFX;
+
+    [SerializeField]
+    private AudioClip _extremelyCoolSFX;
+
+    [SerializeField]
+    private AudioClip _removeSFX;
+
+    [SerializeField]
+    private AudioClip _cancelSFX;
+
+    [SerializeField]
+    private List<AudioClip> _placementSfx;
+
+    private void Awake() {
         _builderControlsController.OnHoverPiece += (template) => {
             GhostTrackPiece.TrackPieceType = template.TrackPieceType;
             CheckNextPieceValidity();
@@ -34,13 +61,13 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         _builderControlsController.OnClearRoute += () => StopEditing();
     }
 
-    void CheckNextPieceValidity() {
+    private void CheckNextPieceValidity() {
         TrackPiece piece = GhostTrackPiece.Position;
         var terminatingStation = StationManager.Instance.GetConnectingStation(piece);
         GhostTrackPiece.NextStepIsValidPosition = terminatingStation != OriginStation;
     }
 
-    void Update() {
+    private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             StopEditing();
         }
@@ -68,6 +95,10 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         OriginStation = null;
         TerminatingStation = null;
         GhostTrackPiece.gameObject.SetActive(false);
+
+        AudioClipOptions cancelSFXOptions = new AudioClipOptions();
+        cancelSFXOptions.Volume = .3f;
+        AudioManager.Instance.PlaySound(_cancelSFX, cancelSFXOptions);
     }
 
     private void PlacePiece() {
@@ -103,6 +134,10 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         Compass nextDirection = piece.Template.ConnectionPoints[1];
         EditFromTrackPiece = piece;
         GhostTrackPiece.SetPosition(nextDirection, piece);
+
+        AudioClipOptions placementSFXOptions = new AudioClipOptions();
+        placementSFXOptions.Volume = .3f;
+        AudioManager.Instance.PlaySound(_placementSfx, placementSFXOptions);
     }
 
     private void CommitRoute() {
@@ -116,6 +151,10 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         });
 
         RouteManager.Instance.AddRoute(route);
+
+        AudioClipOptions _routeCompletedSFXOptions = new AudioClipOptions();
+        _routeCompletedSFXOptions.Volume = .5f;
+        AudioManager.Instance.PlaySound(_routeCompleteSFX, _routeCompletedSFXOptions);
 
         ShowRouteScores();
     }
@@ -145,7 +184,15 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
             bool isBonus = toyIndex >= 0;
             var coolMessage = isBonus ? $"+{value}!!" : $"+{value}";
-            FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delayPerScore * i);
+
+            float delay = delayPerScore * i;
+
+            AudioClipOptions kerchingSFXOptions = new AudioClipOptions();
+            kerchingSFXOptions.Delay = delay;
+            kerchingSFXOptions.Volume = .3f;
+            AudioManager.Instance.PlaySound(_kerchingSFX, kerchingSFXOptions);
+
+            FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delay);
 
             if (isBonus) {
                 var toy = toys[toyIndex];
@@ -162,7 +209,28 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         }
 
         TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
-        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, delayPerScore * coolnesses.Count);
+
+        float finalDelay = delayPerScore * coolnesses.Count;
+        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, finalDelay);
+
+        PlayCoolSound(totalCool, finalDelay);
+    }
+
+    private void PlayCoolSound(int totalCool, float delay) {
+        AudioClip clip;
+
+        if (totalCool >= EXTREMELY_COOL_SCORE) {
+            clip = _extremelyCoolSFX;
+        } else if (totalCool >= VERY_COOL_SCORE) {
+            clip = _veryCoolSFX;
+        } else {
+            clip = _coolSFX;
+        }
+
+        AudioClipOptions coolSFXOptions = new AudioClipOptions();
+        coolSFXOptions.Delay = delay;
+        coolSFXOptions.Volume = .6f;
+        AudioManager.Instance.PlaySound(clip, coolSFXOptions);
     }
 
     private void RemovePiece() {
@@ -180,5 +248,9 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         EditFromTrackPiece = PreviewTrackPieces.Count == 0 ? OriginStation : PreviewTrackPieces[^1].controller.TrackPiece;
 
         GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
+
+        AudioClipOptions removeSFXOptions = new AudioClipOptions();
+        removeSFXOptions.Volume = .3f;
+        AudioManager.Instance.PlaySound(_removeSFX, removeSFXOptions);
     }
 }
