@@ -66,11 +66,17 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         Compass direction = GhostTrackPiece.Direction;
 
         TrackPieceController newTrack = Instantiate(_trackPreviewPrefab, transform);
+
+        TerminatingStation = StationManager.Instance.GetConnectingStation(piece);
+
+        if (TerminatingStation == OriginStation) {
+            FloatingTextManager.Instance.Show($"It's not home-time yet", newTrack.gameObject);
+            return;
+        }
+
         newTrack.TrackPiece = piece;
         newTrack.GetComponentInChildren<SpriteRenderer>().sprite = ToyMapManager.Instance.TrackPieceConfig[piece.Template.TrackPieceType].sprite;
         PreviewTrackPieces.Add((newTrack, direction));
-
-        TerminatingStation = StationManager.Instance.GetConnectingStation(piece);
 
         if (TerminatingStation != null) {
             CommitRoute();
