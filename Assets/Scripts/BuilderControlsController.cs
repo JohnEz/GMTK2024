@@ -28,6 +28,10 @@ public class BuilderControlsController : MonoBehaviour
 
     public event Action<TrackTemplate> OnConfirmPiece;
 
+    public event Action OnUndoPiece;
+
+    public event Action OnClearRoute;
+
     void Awake() {
         _options = new List<TrackPieceOption>(_initialOptions);
         _options.ForEach(AddOption);
@@ -39,5 +43,13 @@ public class BuilderControlsController : MonoBehaviour
 
         button.OnClick += (template) => OnConfirmPiece?.Invoke(template);
         button.OnHover += (template) => OnHoverPiece?.Invoke(template);
+    }
+
+    public void HandleUndoPiece() {
+        OnUndoPiece?.Invoke();
+    }
+
+    public void HandleClearRoute() {
+        OnClearRoute?.Invoke();
     }
 }

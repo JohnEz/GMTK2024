@@ -1,14 +1,7 @@
-using System;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
-using System.Collections.Generic;
 
 [RequireComponent(typeof (TrackPieceController))]
 public class GhostTrackPiece : MonoBehaviour {
-    [SerializeField]
-    private BuilderControlsController _builderControlsController;
-
     [SerializeField]
     private TrackPieceController _trackPieceController;
 
@@ -19,7 +12,7 @@ public class GhostTrackPiece : MonoBehaviour {
 
     public TrackPieceType TrackPieceType {
         get => _trackPieceType;
-        private set {
+        set {
             _trackPieceType = value;
             OnSetTrackPieceType();
         }
@@ -31,17 +24,8 @@ public class GhostTrackPiece : MonoBehaviour {
 
     public TrackPiece Position => _trackPieceController.TrackPiece.Copy();
 
-    public event Action OnConfirm;
-
-    public event Action OnCancel;
-
     void Awake() {
         TrackPieceType = TrackPieceType.Straight;
-    }
-
-    void Start() {
-        _builderControlsController.OnHoverPiece += (template) => TrackPieceType = template.TrackPieceType;
-        _builderControlsController.OnConfirmPiece += (template) => OnConfirm?.Invoke();
     }
 
     private void OnSetTrackPieceType() {
