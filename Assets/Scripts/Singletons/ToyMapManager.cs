@@ -24,14 +24,14 @@ public class ToyMapManager : Singleton<ToyMapManager>
     [SerializeField]
     private GameObject _toyContainer;
 
-    private List<Vector2> _toys = new();
+    private List<GameObject> _toys = new();
 
-    public List<Vector2> Toys {
+    public List<GameObject> Toys {
         get {
             if (_toys.Count == 0) {
                 _toys = _toyContainer
                     .GetComponentsInChildren<Collider2D>()
-                    .Select(collider => (Vector2)collider.transform.position)
+                    .Select(collider => collider.gameObject)
                     .ToList();
             }
             return _toys;
