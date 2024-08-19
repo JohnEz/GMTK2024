@@ -17,6 +17,12 @@ public class CameraManager : Singleton<CameraManager> {
     [SerializeField]
     private CameraControlller _kidCameraZoom;
 
+    [SerializeField]
+    private UICanvasControlller _kidCanvas;
+
+    [SerializeField]
+    private UICanvasControlller _adultCanvas;
+
     private void Awake() {
         GameStateManager.Instance.OnStateChange += OnStateChange;
     }
@@ -49,6 +55,8 @@ public class CameraManager : Singleton<CameraManager> {
 
         ChrisMorrison.Instance.SetTargetBlur(2.5f, 0.2f);
 
+        _kidCanvas.HideUI();
+
         AudioManager.Instance.PlaySound(_zoomOutSfx);
     }
 
@@ -66,6 +74,8 @@ public class CameraManager : Singleton<CameraManager> {
     private void handleZoomOutAdultComplete() {
         _adultCameraZoom.onCompleteZoom -= handleZoomOutAdultComplete;
 
+        _adultCanvas.ShowUI();
+
         GameStateManager.Instance.TrySetState(GameState.Adult);
     }
 
@@ -76,7 +86,10 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.SetZoom(MIN_ZOOM, 0.2f);
         _adultCameraZoom.onCompleteZoom += handleZoomInAdultComplete;
+
         ChrisMorrison.Instance.SetTargetBlur(2.5f, 0.2f);
+
+        _adultCanvas.HideUI();
 
         AudioClipOptions options = new AudioClipOptions();
         options.Delay = 0.3f;
@@ -100,6 +113,8 @@ public class CameraManager : Singleton<CameraManager> {
         Debug.Log("Finished zooming in of kid");
 
         _kidCameraZoom.onCompleteZoom -= handleZoomInKidComplete;
+
+        _kidCanvas.ShowUI();
 
         GameStateManager.Instance.TrySetState(GameState.Kid);
     }

@@ -23,6 +23,9 @@ public class GameStateManager : Singleton<GameStateManager> {
     [SerializeField]
     private AudioClip _adultMusic;
 
+    [SerializeField]
+    private HideableUIComponent _editUI;
+
     public GameState State => _State;
 
     public event Action<GameState> OnStateChange;
@@ -64,6 +67,14 @@ public class GameStateManager : Singleton<GameStateManager> {
             AudioManager.Instance.StopSound(_kidMusic);
             AudioManager.Instance.PlaySound(_adultMusic, options);
         }
+
+        // showing and hiding the edit ui
+        if (_State == GameState.KidEditing) {
+            _editUI.Show();
+        } else if (previousState == GameState.KidEditing) {
+            _editUI.Hide();
+        }
+
         return true;
     }
 
