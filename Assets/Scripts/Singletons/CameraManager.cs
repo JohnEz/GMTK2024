@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraManager : Singleton<CameraManager> {
     private float MIN_ZOOM = 0.01f;
-    private float DEFAULT_ZOOM = 3f;
+    private float DEFAULT_ZOOM = 5f;
     private float MAX_ZOOM = 200f;
 
     [SerializeField]

@@ -9,7 +9,7 @@ public class OSLineController : MonoBehaviour {
 
     public SplineContainer SplineContainer { get; private set; }
 
-    public event Action OnChange;
+    public event Action<bool, bool> OnChange;
 
     private void Awake() {
         SplineContainer = GetComponent<SplineContainer>();
@@ -21,12 +21,12 @@ public class OSLineController : MonoBehaviour {
         }
 
         Line = line;
-        HandleLineSplineChange(Line.Spline);
+        HandleLineSplineChange(Line.Spline, true, true);
         Line.OnSplineChange += HandleLineSplineChange;
     }
 
-    private void HandleLineSplineChange(Spline newSpline) {
+    private void HandleLineSplineChange(Spline newSpline, bool isAddition, bool isAtEnd) {
         SplineContainer.Spline = newSpline;
-        OnChange?.Invoke();
+        OnChange?.Invoke(isAddition, isAtEnd);
     }
 }

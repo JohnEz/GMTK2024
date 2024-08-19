@@ -122,7 +122,7 @@ public class Route {
                 knots.Add(newKnot);
             }
 
-            var tileStartPos = Compass.South; // hardcoded fact about tiles (for now)
+            var tileStartPos = Compass.West; // hardcoded fact about tiles (for now)
 
             var neighbourDirection = connection.PreviousPieceDirection;
             var newStartDirection = tileStartPos.Rotate(connection.Piece.Rotation);

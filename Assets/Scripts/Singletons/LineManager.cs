@@ -17,7 +17,7 @@ public class Line {
 
     public event Action<int> OnTrainCountChange;
 
-    public event Action<Spline> OnSplineChange;
+    public event Action<Spline, bool, bool> OnSplineChange;
 
     public TrackPiece StartStation { get; private set; }
 
@@ -45,19 +45,19 @@ public class Line {
     }
 
     public void AddRoute(Route route) {
+        bool isAddAtEndOfLine = true;
+
         if (Routes.Count == 0) {
             StartStation = route.StartStation;
             EndStation = route.EndStation;
             _isRouteFlipped[route] = false;
             Routes.Add(route);
-
-            Debug.Log($"START: X: {StartStation.X} Y: {StartStation.Y}");
-            Debug.Log($"END: X: {EndStation.X} Y: {EndStation.Y}");
         } else {
-            AddRouteAndCalculateStations(route);
+            isAddAtEndOfLine = AddRouteAndCalculateStations(route);
         }
 
         CalculateSpline();
+        OnSplineChange?.Invoke(Spline, true, isAddAtEndOfLine);
     }
 
     public bool CanRemoveRoute(Route routeToRemove) {
@@ -70,6 +70,8 @@ public class Line {
     }
 
     public void RemoveRoute(Route routeToRemove) {
+        bool isRemovalAtEndOfLine = false;
+
         if (Routes.Count == 1) {
             StartStation = null;
             EndStation = null;
@@ -81,15 +83,12 @@ public class Line {
                 Route nextRoute = Routes[nextIndex];
 
                 StartStation = _isRouteFlipped[nextRoute] ? nextRoute.EndStation : nextRoute.StartStation;
-
-                Debug.Log($"NEW START: X: {StartStation.X} Y: {StartStation.Y}");
             } else if (index == Routes.Count - 1) {
+                isRemovalAtEndOfLine = true;
                 int previousIndex = index - 1;
                 Route previousRoute = Routes[previousIndex];
 
                 EndStation = _isRouteFlipped[previousRoute] ? previousRoute.StartStation : previousRoute.EndStation;
-
-                Debug.Log($"NEW END: X: {EndStation.X} Y: {EndStation.Y}");
             } else {
                 Debug.LogError("Tried to remove a middle track!");
                 return;
@@ -99,9 +98,11 @@ public class Line {
         _isRouteFlipped.Remove(routeToRemove);
         Routes.Remove(routeToRemove);
         CalculateSpline();
+        OnSplineChange?.Invoke(Spline, false, isRemovalAtEndOfLine);
     }
 
-    private void AddRouteAndCalculateStations(Route newRoute) {
+    // returns true if the route was added to the end of the line
+    private bool AddRouteAndCalculateStations(Route newRoute) {
         bool areStartStationsSame = newRoute.StartStation.X == StartStation.X && newRoute.StartStation.Y == StartStation.Y;
         bool areEndStationsSame = newRoute.EndStation.X == EndStation.X && newRoute.EndStation.Y == EndStation.Y;
         bool isNewStartOldEnd = newRoute.StartStation.X == EndStation.X && newRoute.StartStation.Y == EndStation.Y;
@@ -109,12 +110,11 @@ public class Line {
 
         if (!areStartStationsSame && !areEndStationsSame && !isNewStartOldEnd && !isNewEndOldStart) {
             Debug.LogError("Tried to add a route that didnt connect to the line");
-            return;
+            return true;
         }
 
         // if they both start at the same station
         if (areStartStationsSame) {
-            Debug.Log("areStartStationsSame");
             Routes.Insert(0, newRoute);
 
             // and flip its spline
@@ -123,11 +123,10 @@ public class Line {
             // since we added at the start and flipped, its end is the new start
             StartStation = newRoute.EndStation;
 
-            return;
+            return false;
         }
 
         if (areEndStationsSame) {
-            Debug.Log("areEndStationsSame");
             Routes.Add(newRoute);
 
             // and flip its spline
@@ -136,12 +135,10 @@ public class Line {
             // since we added at the end and flipped, its end is the new start
             EndStation = newRoute.StartStation;
 
-            return;
+            return true;
         }
 
         if (isNewStartOldEnd) {
-            Debug.Log("isNewStartOldEnd");
-
             // make the new route the last route
             Routes.Add(newRoute);
 
@@ -149,12 +146,10 @@ public class Line {
 
             EndStation = newRoute.EndStation;
 
-            return;
+            return true;
         }
 
         if (isNewEndOldStart) {
-            Debug.Log("isNewEndOldStart");
-
             // make the new route the first route
             Routes.Insert(0, newRoute);
 
@@ -162,8 +157,10 @@ public class Line {
 
             StartStation = newRoute.StartStation;
 
-            return;
+            return false;
         }
+
+        return true;
     }
 
     public void CalculateSpline() {
@@ -174,8 +171,6 @@ public class Line {
         });
 
         Spline = newSpline;
-
-        OnSplineChange?.Invoke(newSpline);
     }
 
     public void AddTrain(string startingStation, TrainController newTrain) {
@@ -204,8 +199,8 @@ public class LineManager : Singleton<LineManager> {
     public static List<Color> LINE_COLORS = new List<Color> {
         Color.red,
         Color.green,
-        Color.blue,
-        Color.yellow
+        //Color.blue,
+        //Color.yellow
     };
 
     public Dictionary<Color, Line> Lines { get; private set; }
@@ -223,23 +218,36 @@ public class LineManager : Singleton<LineManager> {
         });
     }
 
-    public void HandleRouteClicked(OSRouteController routeController) {
+    // returns false if it cannot be added or removed from a Line
+    public bool HandleRouteClicked(OSRouteController routeController) {
+        bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
+
+        // can the route be removed from its current line?
+        if (isAlreadyInALine) {
+            Color existingColor = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).FirstOrDefault().Key;
+            bool canBeRemoved = Lines[existingColor].CanRemoveRoute(routeController.Route);
+
+            if (!canBeRemoved) {
+                return false;
+            }
+        }
+
         // is it already in a line?
-        Color newLineColor = FindNextPossibleLineForRoute(routeController.Route);
+        Color newLineColor = FindNextPossibleLineForRoute(routeController.Route, isAlreadyInALine);
 
         if (newLineColor == Color.white) {
             Debug.LogError("Route cannot be added to any lines");
-            return;
+            return false;
         }
 
         AddRouteToLine(newLineColor, routeController);
+
+        return true;
     }
 
-    private Color FindNextPossibleLineForRoute(Route route) {
+    private Color FindNextPossibleLineForRoute(Route route, bool isAlreadyInALine) {
         int currentIndex = -1;
         int iterations = 0;
-        // is it already in a line?
-        bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(route)).Count() > 0;
 
         // is it clicked for the first time?
         if (isAlreadyInALine) {
