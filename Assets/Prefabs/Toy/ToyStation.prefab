@@ -351,21 +351,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 669761816415437856, guid: d38a1443a64454065b0a65ef2425b59c, type: 3}
-      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 669761816415437856, guid: d38a1443a64454065b0a65ef2425b59c, type: 3}
-      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3703590019293346857, guid: d38a1443a64454065b0a65ef2425b59c, type: 3}
       propertyPath: m_Name
-      value: TrackPiecePlacementButtons
-      objectReference: {fileID: 0}
-    - target: {fileID: 7496151212653534514, guid: d38a1443a64454065b0a65ef2425b59c, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
+      value: RouteBuildStartButtons
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

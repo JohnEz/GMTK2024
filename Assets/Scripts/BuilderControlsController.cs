@@ -32,7 +32,12 @@ public class BuilderControlsController : MonoBehaviour
 
     public event Action OnClearRoute;
 
+    private bool _enabled = false;
+
     void Awake() {
+        GameStateManager.Instance.OnStateChange += OnGameStateChanged;
+        OnGameStateChanged(GameStateManager.Instance.State);
+
         _options = new List<TrackPieceOption>(_initialOptions);
         _options.ForEach(AddOption);
     }
@@ -41,15 +46,35 @@ public class BuilderControlsController : MonoBehaviour
         BuilderTrackPieceButtonController button = Instantiate(_buttonPrefab, _buttonContainer.transform);
         button.SetOption(option);
 
-        button.OnClick += (template) => OnConfirmPiece?.Invoke(template);
-        button.OnHover += (template) => OnHoverPiece?.Invoke(template);
+        button.OnClick += (template) => HandleClickPiece(template);
+        button.OnHover += (template) => HandleHoverPiece(template);
+    }
+
+    public void OnGameStateChanged(GameState state) {
+        _enabled = state == GameState.KidEditing;
+    }
+
+    public void HandleClickPiece(TrackTemplate template) {
+        if (_enabled) {
+            OnConfirmPiece?.Invoke(template);
+        }
+    }
+
+    public void HandleHoverPiece(TrackTemplate template) {
+        if (_enabled) {
+            OnHoverPiece?.Invoke(template);
+        }
     }
 
     public void HandleUndoPiece() {
-        OnUndoPiece?.Invoke();
+        if (_enabled) {
+            OnUndoPiece?.Invoke();
+        }
     }
 
     public void HandleClearRoute() {
-        OnClearRoute?.Invoke();
+        if (_enabled) {
+            OnClearRoute?.Invoke();
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class TrackPiecePlacementButtons : MonoBehaviour
+public class RouteBuildStartButtonsController : MonoBehaviour
 {
     private TrackPieceController _trackPieceController;
 
