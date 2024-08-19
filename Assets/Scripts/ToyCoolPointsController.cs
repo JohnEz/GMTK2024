@@ -10,8 +10,11 @@ public class ToyCoolPointsController : MonoBehaviour
         CoolManager.Instance.OnCoolnessUpdate += OnCoolnessUpdate;
     }
 
-    private void OnCoolnessUpdate(int value)
+    private void OnCoolnessUpdate(int value, int diff)
     {
-        tmp.text = value.ToString("#,#");
+        tmp.text = value.ToString("N0");
+
+        // TODO: Not working currently
+        FloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{value:N0}", gameObject);
     }
 }

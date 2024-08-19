@@ -50,6 +50,11 @@ public class PassengerManager : Singleton<PassengerManager> {
 
         Destroy(passenger.gameObject);
 
+        BankManager.Instance.OnJourneyComplete(
+            passenger.StartingStation.TrackPieceController.TrackPiece,
+            passenger.FinalStation.TrackPieceController.TrackPiece
+        );
+
         // Debug.Log($"Passenger completed their journey from {passenger.StartingStation} to {passenger.FinalStation}.");
     }
 }

@@ -7,17 +7,12 @@ public class CoolManager : Singleton<CoolManager> {
     private const int ADJACENT_TOY_DISTANCE = 3; // 3 roughly means we've gone next to a toy
     private const int ADJACENCY_MULTIPLIER = 2;
 
-    private int _Coolness = 0;
-
     public int Coolness {
-        get => _Coolness;
-        set {
-            _Coolness = value;
-            OnCoolnessUpdate?.Invoke(value);
-        }
-    }
+        get;
+        private set;
+    } = 0;
 
-    public event Action<int> OnCoolnessUpdate;
+    public event Action<int, int> OnCoolnessUpdate;
 
     public (int, List<(TrackPiece piece, string coolMessage)>) ScoreRoute(
         List<TrackPiece> route,
@@ -41,7 +36,7 @@ public class CoolManager : Singleton<CoolManager> {
             return acc + value;
         });
 
-        Coolness += totalCool;
+        UpdateCoolness(totalCool);
         return (totalCool, coolnesses);
     }
 
@@ -63,4 +58,8 @@ public class CoolManager : Singleton<CoolManager> {
         return found ? minDistance : -1;
     }
 
+    private void UpdateCoolness(int diff) {
+        Coolness += diff;
+        OnCoolnessUpdate(Coolness, diff);
+    }
 }
