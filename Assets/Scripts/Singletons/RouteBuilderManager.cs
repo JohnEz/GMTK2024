@@ -58,6 +58,10 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     }
 
     private void PlacePiece() {
+        if (!GhostTrackPiece.IsValidPosition) {
+            return;
+        }
+
         TrackPiece piece = GhostTrackPiece.Position;
         Compass direction = GhostTrackPiece.Direction;
 
