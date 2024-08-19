@@ -14,6 +14,7 @@ public class OSTrackPiecePrefab {
 }
 
 public class OSMapManager : Singleton<OSMapManager> {
+
     [SerializeField]
     private List<OSTrackPiecePrefab> _trackPiecePrefabs = new();
 
@@ -64,7 +65,7 @@ public class OSMapManager : Singleton<OSMapManager> {
             return;
         }
 
-        Destroy(Lines[key]);
+        Destroy(Lines[key].gameObject);
         Lines.Remove(key);
     }
 

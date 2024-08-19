@@ -58,7 +58,9 @@ public class TrainController : MonoBehaviour {
                 // check if on middle segments
                 // find the end of the first half minus the removedDuration
                 float startOfRemovedRoute = Mathf.Abs(initialDuration - durationOfAddedOrRemovedRoute);
-                float endOfRemovedRoute = startOfRemovedRoute + durationOfAddedOrRemovedRoute;
+                float endOfRemovedRoute = startOfRemovedRoute + (durationOfAddedOrRemovedRoute * 2);
+
+                // endOfRemovedRoute - return journey was bugged!!!
 
                 isOnRemovedTrack = initialElapsed > startOfRemovedRoute && initialElapsed < endOfRemovedRoute;
             } else {
