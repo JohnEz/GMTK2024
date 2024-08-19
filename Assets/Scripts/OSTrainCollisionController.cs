@@ -11,8 +11,12 @@ public class OSTrainCollisionController : MonoBehaviour {
 
     public List<OSPassenger> Passengers { get; private set; } = new List<OSPassenger>();
 
+    [SerializeField]
+    private List<GameObject> passengerSlots;
+
     private void Awake() {
         MyTrainController = GetComponent<TrainController>();
+        ShowPassengers();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -27,6 +31,7 @@ public class OSTrainCollisionController : MonoBehaviour {
 
         DropOffPassengers(station);
         CollectPassengers(station);
+        ShowPassengers();
     }
 
     public void DropOffPassengers(OSStation station) {
@@ -66,6 +71,15 @@ public class OSTrainCollisionController : MonoBehaviour {
             station.RemovePassenger(passengersToPickUp);
             passengersToPickUp.GetOnTrain();
             Passengers.Add(passengersToPickUp);
+        });
+    }
+
+    private void ShowPassengers() {
+        int count = 0;
+
+        passengerSlots.ForEach(passengerSlot => {
+            passengerSlot.gameObject.SetActive(count < Passengers.Count);
+            count++;
         });
     }
 }

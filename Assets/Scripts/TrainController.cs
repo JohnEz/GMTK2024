@@ -11,6 +11,9 @@ public class TrainController : MonoBehaviour {
 
     public OSLineController Line { get; private set; }
 
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+
     private void Awake() {
         _splineAnimate = GetComponent<SplineAnimate>();
     }
@@ -25,11 +28,23 @@ public class TrainController : MonoBehaviour {
         }
 
         Line = lineController;
+        _spriteRenderer.color = Line.Line.Color;
 
         SetupSplineAnimate(true, true, true);
         Line.OnChange += (bool a, bool b) => SetupSplineAnimate(a, b, false);
 
         _splineAnimate.Restart(true);
+    }
+
+    private void Update() {
+        // maybe should only do this if i need to?
+        _splineAnimate.ElapsedTime = _splineAnimate.ElapsedTime % (_splineAnimate.Duration * 2);
+
+        if (_splineAnimate.ElapsedTime > _splineAnimate.Duration) {
+            _splineAnimate.ObjectForwardAxis = SplineComponent.AlignAxis.NegativeYAxis;
+        } else {
+            _splineAnimate.ObjectForwardAxis = SplineComponent.AlignAxis.YAxis;
+        }
     }
 
     private void SetupSplineAnimate(bool isAddition, bool isAtEnd, bool isForced) {
@@ -102,16 +117,5 @@ public class TrainController : MonoBehaviour {
     }
 
     private void onSplineUpdate(Vector3 arg1, Quaternion arg2) {
-        if (!_splineAnimate.IsPlaying) {
-            if (_isFollowingTrack) {
-                HandleCompletedSpline();
-            }
-        } else {
-            _isFollowingTrack = true;
-        }
-    }
-
-    private void HandleCompletedSpline() {
-        _isFollowingTrack = false;
     }
 }
