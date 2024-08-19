@@ -5,7 +5,6 @@ using System.Linq;
 
 public class CoolManager : Singleton<CoolManager> {
     private const int ADJACENT_TOY_DISTANCE = 3; // 3 roughly means we've gone next to a toy
-    private const int ADJACENCY_MULTIPLIER = 2;
 
     public int Coolness {
         get;
@@ -16,7 +15,7 @@ public class CoolManager : Singleton<CoolManager> {
 
     public (int, List<(TrackPiece piece, int value, int toyIndex)>) ScoreRoute(
         List<TrackPiece> route,
-        List<Vector2> toys
+        List<(Vector2, ToyType)> toys
     ) {
         List<(TrackPiece, int, int)> coolnesses = new();
         int totalCool = 0;
@@ -31,7 +30,9 @@ public class CoolManager : Singleton<CoolManager> {
             var isAdjacent = nearestToyDist != -1 && nearestToyDist < ADJACENT_TOY_DISTANCE;
 
             if (isAdjacent) {
-                value *= ADJACENCY_MULTIPLIER;
+                ToyType toyType = toys[toyIndex].Item2;
+
+                value *= AdjacencyMultiplierForToyPieceCombo(toyType, trackPiece.Template.TrackPieceType);
             }
 
             coolnesses.Add((trackPiece, value, isAdjacent ? toyIndex : -1));
@@ -43,15 +44,15 @@ public class CoolManager : Singleton<CoolManager> {
         return (totalCool, coolnesses);
     }
 
-    (float, int) NearestToyDistance(int x, int y, List<Vector2> toys) {
+    (float, int) NearestToyDistance(int x, int y, List<(Vector2, ToyType)> toys) {
         float minDistance = Mathf.Infinity;
         int index = -1;
 
         Vector2 xy = new Vector2(x, y);
 
         for (int i = 0; i < toys.Count; i++) {
-            var toy = toys[i];
-            float distance = Vector2.Distance(xy, toy);
+            Vector2 toyPos = toys[i].Item1;
+            float distance = Vector2.Distance(xy, toyPos);
 
             if (distance < minDistance) {
                 minDistance = distance;
@@ -65,5 +66,26 @@ public class CoolManager : Singleton<CoolManager> {
     private void UpdateCoolness(int diff) {
         Coolness += diff;
         OnCoolnessUpdate(Coolness, diff);
+    }
+
+    private int AdjacencyMultiplierForToyPieceCombo(
+        ToyType toy,
+        TrackPieceType track
+    ) {
+        switch (toy) {
+            case ToyType.Ball:
+                if (track.IsCorner() || track == TrackPieceType.LoopDaLoop) {
+                    return 3;
+                }
+                break;
+            case ToyType.Plane:
+                if (track == TrackPieceType.Straight) {
+                    return 3;
+                }
+                break;
+        }
+
+        // 2x by default
+        return 2;
     }
 }
