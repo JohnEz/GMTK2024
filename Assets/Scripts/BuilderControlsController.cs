@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct TrackPieceOption {
+public class TrackPieceOption {
     public Sprite sprite;
 
     public TrackTemplate template;
 
     public bool isLocked;
+
+    public float price;
 }
 
 public class BuilderControlsController : MonoBehaviour
@@ -44,25 +46,37 @@ public class BuilderControlsController : MonoBehaviour
 
     private void AddOption(TrackPieceOption option) {
         BuilderTrackPieceButtonController button = Instantiate(_buttonPrefab, _buttonContainer.transform);
-        button.SetOption(option);
+        button.Option = option;
 
-        button.OnClick += (template) => HandleClickPiece(template);
-        button.OnHover += (template) => HandleHoverPiece(template);
+        button.OnClick += (option) => HandleClickPiece(option);
+        button.OnHover += (option) => HandleHoverPiece(option);
     }
 
     public void OnGameStateChanged(GameState state) {
         _enabled = state == GameState.KidEditing;
     }
 
-    public void HandleClickPiece(TrackTemplate template) {
+    public void HandleClickPiece(TrackPieceOption option) {
         if (_enabled) {
-            OnConfirmPiece?.Invoke(template);
+            if (option.isLocked) {
+                // Hope we don't lose precision LOL
+                decimal price = (decimal)option.price;
+
+                Debug.Log($"Trying to spend £{price} on {option.template.TrackPieceType}");
+                if (BankManager.Instance.Spend(price)) {
+                    option.isLocked = false;
+                }
+            } else {
+                OnConfirmPiece?.Invoke(option.template);
+            }
         }
     }
 
-    public void HandleHoverPiece(TrackTemplate template) {
+    public void HandleHoverPiece(TrackPieceOption option) {
         if (_enabled) {
-            OnHoverPiece?.Invoke(template);
+            if (!option.isLocked) {
+                OnHoverPiece?.Invoke(option.template);
+            }
         }
     }
 

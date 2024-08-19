@@ -10,6 +10,15 @@ public class BankManager : Singleton<BankManager>
 
     public event Action<decimal, decimal> OnCashUpdate;
 
+    public bool Spend(decimal price) {
+        if (price > Cash) {
+            return false;
+        }
+
+        UpdateCash(-price);
+        return true;
+    }
+
     public void OnJourneyComplete(TrackPiece start, TrackPiece end) {
         Vector2 startLocation = new (start.X, start.Y);
         Vector2 endLocation = new(end.X, end.Y);
