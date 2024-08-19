@@ -46,35 +46,33 @@ public class GhostTrackPiece : MonoBehaviour {
 
     public TrackPiece Position => _trackPieceController.TrackPiece.Copy();
 
-    public Action OnOk;
+    public Action OnConfirm;
+
+    public Action OnCancel;
 
     void Awake() {
         TrackPieceType = TrackPieceType.Straight;
     }
 
     void Start() {
-        _confirmButton.onClick.AddListener(() => OnOk?.Invoke());
-        _cancelButton.onClick.AddListener(OnCancel);
+        _confirmButton.onClick.AddListener(() => OnConfirm?.Invoke());
+        _cancelButton.onClick.AddListener(() => OnCancel?.Invoke());
         _previousTypeButton.onClick.AddListener(OnPreviousType);
         _nextTypeButton.onClick.AddListener(OnNextType);
     }
 
     private void OnPreviousType() {
-        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
+        List<TrackPieceType> types = ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
         int currentIndex = types.IndexOf(_trackPieceType);
         int nextIndex = ((currentIndex == 0 ? types.Count : currentIndex) - 1) % types.Count;
         TrackPieceType = types[nextIndex];
     }
 
     private void OnNextType() {
-        List<TrackPieceType> types =  ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
+        List<TrackPieceType> types = ToyMapManager.Instance.TrackPieceConfig.Keys.ToList();
         int currentIndex = types.IndexOf(_trackPieceType);
         int nextIndex = (currentIndex + 1) % types.Count;
         TrackPieceType = types[nextIndex];
-    }
-
-    void OnCancel() {
-        Debug.Log("TODO: cancel: pop a tile or what?");
     }
 
     private void OnSetTrackPieceType() {
