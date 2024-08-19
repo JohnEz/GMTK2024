@@ -11,16 +11,30 @@ public class PassengerManager : Singleton<PassengerManager> {
 
     private float timePassed = 0;
 
+    private bool _isSpawningAllowed = true;
+
     private void Update() {
-        timePassed += Time.deltaTime;
-        if (timePassed > 1f) {
-            OSStation station = OSMapManager.Instance.Stations[Random.Range(0, OSMapManager.Instance.Stations.Count)];
-            SpawnPassenger(station);
-            timePassed = 0f;
-        }
+        //timePassed += Time.deltaTime;
+        //if (timePassed > 1f) {
+        //    OSStation station = OSMapManager.Instance.Stations[Random.Range(0, OSMapManager.Instance.Stations.Count)];
+        //    SpawnPassenger(station);
+        //    timePassed = 0f;
+        //}
     }
 
-    private void SpawnPassenger(OSStation startingStation) {
+    public void ResumeSpawning() {
+        _isSpawningAllowed = true;
+    }
+
+    public void PauseSpawning() {
+        _isSpawningAllowed = false;
+    }
+
+    public void SpawnPassenger(OSStation startingStation) {
+        if (!_isSpawningAllowed) {
+            return;
+        }
+
         OSPassenger newPassenger = Instantiate(_passengerPrefab);
 
         newPassenger.Setup(startingStation);

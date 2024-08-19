@@ -105,7 +105,9 @@ public class OSConnectionManager : Singleton<OSConnectionManager> {
         path.End = end;
         path.Connections = new();
 
-        if (start == null || end == null || ConnectionMap.Count == 0 || start == end) {
+        Dictionary<OSStation, List<StationConnection>> currentConnectionMap = new Dictionary<OSStation, List<StationConnection>>(ConnectionMap);
+
+        if (start == null || end == null || currentConnectionMap.Count == 0 || start == end) {
             return path;
         }
 
@@ -148,11 +150,11 @@ public class OSConnectionManager : Singleton<OSConnectionManager> {
 
             OSStation currentStation = nodes.Where(kvp => kvp.Value == u).FirstOrDefault().Key;
 
-            if (currentStation == null) {
+            if (currentStation == null && !currentConnectionMap.ContainsKey(currentStation)) {
                 continue;
             }
 
-            ConnectionMap[currentStation].ForEach(connection => {
+            currentConnectionMap[currentStation].ForEach(connection => {
                 OSStation neighbour = connection.Station;
                 bool nodeExists = nodes.ContainsKey(neighbour);
                 Node neighbourNode;
