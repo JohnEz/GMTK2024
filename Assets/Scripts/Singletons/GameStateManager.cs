@@ -2,18 +2,17 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum GameState
-{
+public enum GameState {
     Menu,
     Kid,
     KidEditing,
     TransitionToWork,
     Adult,
     TransitionToPlay,
+    GameOver,
 }
 
-public class GameStateManager : Singleton<GameStateManager>
-{
+public class GameStateManager : Singleton<GameStateManager> {
     public GameState InitialState = GameState.Kid;
 
     private GameState _State;
@@ -28,25 +27,23 @@ public class GameStateManager : Singleton<GameStateManager>
 
     public event Action<GameState> OnStateChange;
 
-    void Awake()
-    {
+    private void Awake() {
         _State = InitialState;
         AudioClipOptions options = new AudioClipOptions();
         options.Delay = 1.5f;
-        if (InitialState == GameState.Kid || InitialState == GameState.KidEditing)
-        {
+        if (InitialState == GameState.Kid || InitialState == GameState.KidEditing) {
             AudioManager.Instance.PlaySound(_kidMusic, options);
-        }
-        else if (InitialState == GameState.Adult)
-        {
+        } else if (InitialState == GameState.Adult) {
             AudioManager.Instance.PlaySound(_adultMusic, options);
         }
     }
 
-    public bool TrySetState(GameState state)
-    {
-        if (state == _State)
-        {
+    public bool TrySetState(GameState state) {
+        if (state == GameState.GameOver) {
+            return false;
+        }
+
+        if (state == _State) {
             return false;
         }
 
@@ -63,12 +60,20 @@ public class GameStateManager : Singleton<GameStateManager>
         if (previousState == GameState.TransitionToPlay) {
             AudioManager.Instance.StopSound(_adultMusic);
             AudioManager.Instance.PlaySound(_kidMusic, options);
-        }
-        else if (previousState == GameState.TransitionToWork)
-        {
+        } else if (previousState == GameState.TransitionToWork) {
             AudioManager.Instance.StopSound(_kidMusic);
             AudioManager.Instance.PlaySound(_adultMusic, options);
         }
         return true;
+    }
+
+    public void GameOver() {
+        if (_State == GameState.GameOver) {
+            return;
+        }
+
+        _State = GameState.GameOver;
+
+        Debug.Log("GAME OVER!");
     }
 }
