@@ -13,7 +13,7 @@ public class PassengerManager : Singleton<PassengerManager> {
 
     private void Update() {
         timePassed += Time.deltaTime;
-        if (timePassed > 5f) {
+        if (timePassed > 1f) {
             OSStation station = OSMapManager.Instance.Stations[Random.Range(0, OSMapManager.Instance.Stations.Count)];
             SpawnPassenger(station);
             timePassed = 0f;
