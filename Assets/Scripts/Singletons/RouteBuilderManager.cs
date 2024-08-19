@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -131,43 +130,23 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             ))
             .ToList();
 
-        (
-            int totalCool,
-            List<(TrackPiece piece, int value)> coolnesses,
-            List<(TrackPiece piece, int bonus)> bonuses
-        ) = CoolManager.Instance.ScoreRoute(trackPieces, toys);
-
-        // Show all bonuses instantly
-        ShowValues(bonuses, 0, value => $"{value}x bonus!");
+        (int totalCool, List<(TrackPiece piece, string coolMessage)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces, toys);
 
         // Max time to show score should be about 2 seconds,
         // ideally about 0.3 seconds between each
         float delayPerScore = Mathf.Min(2.0f / coolnesses.Count, 0.3f);
 
-        ShowValues(coolnesses, delayPerScore, value => $"+{value}");
-
-        TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
-        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, delayPerScore * coolnesses.Count);
-    }
-
-    private void ShowValues(
-        List<(TrackPiece, int)> values,
-        float delayPerScore,
-        Func<int, string> formatter
-    ) {
-        for (int i = 0; i < values.Count; i++) {
-            (TrackPiece piece, int value) = values[i];
+        for (int i = 0; i < coolnesses.Count; i++) {
+            (TrackPiece piece, string coolMessage) = coolnesses[i];
 
             TrackPieceController scoringTrackPiece = ToyMapManager.Instance.FindTrackPiece(piece);
             if (scoringTrackPiece != null) {
-                FloatingTextManager.Instance.Show(
-                    formatter(value),
-                    scoringTrackPiece.gameObject,
-                    delayPerScore * i
-                );
+                FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delayPerScore * i);
             }
         }
 
+        TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
+        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, delayPerScore * coolnesses.Count);
     }
 
     private void RemovePiece() {

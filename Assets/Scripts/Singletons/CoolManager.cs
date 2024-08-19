@@ -19,33 +19,30 @@ public class CoolManager : Singleton<CoolManager> {
 
     public event Action<int> OnCoolnessUpdate;
 
-    public (
-        int,
-        List<(TrackPiece piece, int value)>,
-        List<(TrackPiece piece, int bonus)>
-    ) ScoreRoute(
+    public (int, List<(TrackPiece piece, string coolMessage)>) ScoreRoute(
         List<TrackPiece> route,
         List<Vector2> toys
     ) {
-        List<(TrackPiece, int)> coolnesses = new();
-        List<(TrackPiece, int)> bonuses = new();
-
+        List<(TrackPiece, string)> coolnesses = new();
         int totalCool = route.Aggregate(0, (acc, trackPiece) => {
             // It's cool to be happy, OK?
             int value = trackPiece.Template.Happiness;
 
             var nearestToyDist = NearestToyDistance(trackPiece.X, trackPiece.Y, toys);
+            string coolMessage;
             if (nearestToyDist != -1 && nearestToyDist < ADJACENT_TOY_DISTANCE) {
                 value *= ADJACENCY_MULTIPLIER;
-                bonuses.Add((trackPiece, ADJACENCY_MULTIPLIER));
+                coolMessage = $"+{value}!!";
+            } else {
+                coolMessage = $"+{value}";
             }
 
-            coolnesses.Add((trackPiece, value));
+            coolnesses.Add((trackPiece, coolMessage));
             return acc + value;
         });
 
         Coolness += totalCool;
-        return (totalCool, coolnesses, bonuses);
+        return (totalCool, coolnesses);
     }
 
     float NearestToyDistance(int x, int y, List<Vector2> toys) {
