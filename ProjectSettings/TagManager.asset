@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 1761674093
+    locked: 0
   - name: Shadow
     uniqueID: 3332979389
     locked: 0
@@ -49,4 +52,7 @@ TagManager:
     locked: 0
   - name: Light
     uniqueID: 3680845263
+    locked: 0
+  - name: WorldCanvas
+    uniqueID: 3589027567
     locked: 0

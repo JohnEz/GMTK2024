@@ -208,10 +208,11 @@ public class Line {
 public class LineManager : Singleton<LineManager> {
 
     public static List<Color> LINE_COLORS = new List<Color> {
-        Color.red,
-        Color.green,
-        //Color.blue,
-        //Color.yellow
+        new Color(0.5215686274509804f, 0.4470588235294118f, 0.9725490196078431f),
+        new Color(0.9450980392156862f, 0.6862745098039216f, 0.08235294117647059f),
+        new Color(1, 0.9568627450980393f, 0.1803921568627451f),
+        new Color(0.06666666666666667f, 0.5882352941176471f, 0.3843137254901961f),
+        new Color(0.7686274509803922f, 0.06666666666666667f, 0.49019607843137253f),
     };
 
     public Dictionary<Color, Line> Lines { get; private set; }

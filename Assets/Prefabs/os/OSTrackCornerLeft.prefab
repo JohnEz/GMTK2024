@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 908992933264289611, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b6bf7e69ca0f1ff44bab9cf22ce44569, type: 3}
+      objectReference: {fileID: 21300000, guid: d3f49e51195399349b018c6279efbc11, type: 3}
     - target: {fileID: 4310587253779502204, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
       propertyPath: m_Name
       value: OSTrackCornerLeft
@@ -19,7 +19,7 @@ PrefabInstance:
     - target: {fileID: 6595116961947421037, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
       propertyPath: _sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b6bf7e69ca0f1ff44bab9cf22ce44569, type: 3}
+      objectReference: {fileID: 21300000, guid: d3f49e51195399349b018c6279efbc11, type: 3}
     - target: {fileID: 9183642149142575159, guid: 7d1fd559e8bab4e049c24269406cc347, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

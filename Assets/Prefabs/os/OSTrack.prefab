@@ -102,10 +102,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -155625375
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5ab04be53e871fa42a337c01c2e79ab9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f1c28b2fe299cd49810042611635525, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11d0df85b2ad524697d8a0cf278c9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 21300000, guid: 5ab04be53e871fa42a337c01c2e79ab9, type: 3}
+  _sprite: {fileID: 21300000, guid: 1f1c28b2fe299cd49810042611635525, type: 3}
   _tileRenderer: {fileID: 36707013615675990}
 --- !u!61 &2550252142254374545
 BoxCollider2D:
