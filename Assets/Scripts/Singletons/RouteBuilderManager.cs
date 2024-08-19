@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     [SerializeField]
     private TrackPieceController _trackPreviewPrefab;
 
-    private TrackPiece OriginTrackPiece;
+    private TrackPiece OriginStation;
+
+    private TrackPiece TerminatingStation;
 
     private TrackPiece EditFromTrackPiece;
 
@@ -30,8 +33,8 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             return;
         }
 
-        OriginTrackPiece = fromTrackPiece;
-        EditFromTrackPiece = OriginTrackPiece;
+        OriginStation = fromTrackPiece;
+        EditFromTrackPiece = OriginStation;
         GhostTrackPiece.gameObject.SetActive(true);
         GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
     }
@@ -45,7 +48,8 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         PreviewTrackPieces.ForEach(preview => Destroy(preview.controller.gameObject));
         PreviewTrackPieces.Clear();
         EditFromTrackPiece = null;
-        OriginTrackPiece = null;
+        OriginStation = null;
+        TerminatingStation = null;
         GhostTrackPiece.gameObject.SetActive(false);
     }
 
@@ -58,8 +62,9 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         newTrack.GetComponentInChildren<SpriteRenderer>().sprite = ToyMapManager.Instance.TrackPieceConfig[piece.Template.TrackPieceType].sprite;
         PreviewTrackPieces.Add((newTrack, direction));
 
-        TrackPiece connectingStation = StationManager.Instance.GetConnectingStation(piece);
-        if (connectingStation != null) {
+        TerminatingStation = StationManager.Instance.GetConnectingStation(piece);
+
+        if (TerminatingStation != null) {
             CommitRoute();
             StopEditing();
             Debug.Log("Route made!");
@@ -73,11 +78,34 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     }
 
     private void CommitRoute() {
-        Route route = new();
+        Route route = new() {
+            StartStation = OriginStation,
+            EndStation = TerminatingStation,
+        };
+
         PreviewTrackPieces.ForEach(preview => {
             route.AddConnection(preview.controller.TrackPiece, preview.direction);
         });
+
         RouteManager.Instance.AddRoute(route);
+
+        ShowRouteScores();
+    }
+
+    private void ShowRouteScores() {
+        List<TrackPiece> trackPieces = PreviewTrackPieces.Select(preview => preview.controller.TrackPiece).ToList();
+        (int totalCool, List<(TrackPiece piece, int value)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces);
+
+        coolnesses.ForEach((coolness) => {
+            TrackPieceController scoringTrackPiece = ToyMapManager.Instance.FindTrackPiece(coolness.piece);
+            if (scoringTrackPiece != null) {
+                // TODO: Not working currently, probably the game objects aren't active yet?
+                FloatingTextManager.Instance.Show($"+{coolness.value}", scoringTrackPiece.gameObject);
+            }
+        });
+
+        TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
+        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject);
     }
 
     private void RemovePiece() {
@@ -90,7 +118,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         Destroy(PreviewTrackPieces[^1].controller.gameObject);
         PreviewTrackPieces.RemoveAt(PreviewTrackPieces.Count - 1);
 
-        EditFromTrackPiece = PreviewTrackPieces.Count == 0 ? OriginTrackPiece : PreviewTrackPieces[^1].controller.TrackPiece;
+        EditFromTrackPiece = PreviewTrackPieces.Count == 0 ? OriginStation : PreviewTrackPieces[^1].controller.TrackPiece;
 
         // Big assumption that there's only ever two connections, and the second one is the "exit" or "forward" connector
         Compass nextDirection = EditFromTrackPiece.Template.ConnectionPoints[1];

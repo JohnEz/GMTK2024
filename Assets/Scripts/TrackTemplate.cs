@@ -17,7 +17,7 @@ public class TrackTemplate : ScriptableObject {
     public Compass[] ConnectionPoints;
 
     // ^ length = 2
-    public float Happiness = 0;
+    public int Happiness = 0;
 
     [SerializeField]
     private Spline spline;

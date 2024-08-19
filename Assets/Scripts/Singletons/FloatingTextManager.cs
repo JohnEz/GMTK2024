@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class FloatingTextManager : MonoBehaviour
+public class FloatingTextManager : Singleton<FloatingTextManager>
 {
     public GameObject textPrefab;
 

@@ -57,12 +57,12 @@ public class Route {
     [SerializeField]
     private TrackPiece _startStation;
 
-    public TrackPiece StartStation { get { return _startStation; } private set { _startStation = value; } }
+    public TrackPiece StartStation { get { return _startStation; } set { _startStation = value; } }
 
     [SerializeField]
     private TrackPiece _endStation;
 
-    public TrackPiece EndStation { get { return _endStation; } private set { _endStation = value; } }
+    public TrackPiece EndStation { get { return _endStation; } set { _endStation = value; } }
 
     // TODO: happiness, etc
 

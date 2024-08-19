@@ -21,6 +21,8 @@ public class ToyMapManager : Singleton<ToyMapManager>
     [SerializeField]
     private List<ToyTrackPieceConfig> _trackPieceConfigList = new();
 
+    private Dictionary<int, Dictionary<int, TrackPieceController>> _trackPieces = new();
+
     public Dictionary<TrackPieceType, ToyTrackPieceConfig> TrackPieceConfig {
         private set;
         get;
@@ -34,9 +36,16 @@ public class ToyMapManager : Singleton<ToyMapManager>
         RouteManager.Instance.Routes.ForEach(route => OnRouteAdded(route));
     }
 
+    public TrackPieceController FindTrackPiece(TrackPiece piece) {
+        return _trackPieces.ContainsKey(piece.X) && _trackPieces[piece.X].ContainsKey(piece.Y)
+            ? _trackPieces[piece.X][piece.Y]
+            : null;
+    }
+
     private void OnStationAdded(TrackPiece station) {
         TrackPieceController stationController = Instantiate(_stationPrefab, transform);
         stationController.TrackPiece = station;
+        StoreTrackPiece(stationController);
     }
 
     private void OnRouteAdded(Route route) {
@@ -44,7 +53,16 @@ public class ToyMapManager : Singleton<ToyMapManager>
             TrackPieceController newTrack = Instantiate(_trackPiecePrefab, transform);
             newTrack.TrackPiece = connection.Piece;
             newTrack.GetComponentInChildren<SpriteRenderer>().sprite = TrackPieceConfig[connection.Piece.Template.TrackPieceType].sprite;
+            StoreTrackPiece(newTrack);
         });
+    }
+
+    private void StoreTrackPiece(TrackPieceController controller) {
+        if (!_trackPieces.ContainsKey(controller.TrackPiece.X)) {
+            _trackPieces[controller.TrackPiece.X] = new();
+        }
+
+        _trackPieces[controller.TrackPiece.X][controller.TrackPiece.Y] = controller;
     }
 
     private void OnValidate() {
