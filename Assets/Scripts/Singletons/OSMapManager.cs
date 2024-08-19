@@ -137,7 +137,6 @@ public class OSMapManager : Singleton<OSMapManager> {
         newStation.transform.SetParent(transform, false);
 
         int randomIndex = UnityEngine.Random.Range(0, StationNames.Count);
-        newStation.name = StationNames[randomIndex];
 
         OSStation newStationController = newStation.GetComponent<OSStation>();
         newStationController.Setup(StationNames[randomIndex]);

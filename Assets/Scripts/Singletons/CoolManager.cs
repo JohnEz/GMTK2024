@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CoolManager : Singleton<CoolManager>
-{
+public class CoolManager : Singleton<CoolManager> {
     private int _Coolness = 0;
 
     public int Coolness {
         get => _Coolness;
         set {
             _Coolness = value;
-            OnCoolnessUpdate.Invoke(value);
+            OnCoolnessUpdate?.Invoke(value);
         }
     }
 

@@ -6,7 +6,7 @@ public class OSPassenger : MonoBehaviour {
     public OSStation TargetStation { get; private set; }
 
     public void Setup(OSStation startingStation) {
-        // kill self if there is no starting station or only 1 station currently?
+        // kill self?
 
         CalculateRandomEndStation(startingStation);
 

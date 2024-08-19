@@ -14,28 +14,23 @@ public class Connection {
 
     public static TrackPiece GetNextTrackPiece(TrackPiece fromTrackPiece, Compass direction) {
         Compass trueDirection = direction.Rotate(fromTrackPiece.Rotation);
-        return trueDirection switch
-        {
-            Compass.North => new TrackPiece()
-            {
+        return trueDirection switch {
+            Compass.North => new TrackPiece() {
                 X = fromTrackPiece.X,
                 Y = fromTrackPiece.Y + 1,
                 Rotation = Rotation.Deg270,
             },
-            Compass.East => new TrackPiece()
-            {
+            Compass.East => new TrackPiece() {
                 X = fromTrackPiece.X + 1,
                 Y = fromTrackPiece.Y,
                 Rotation = Rotation.None,
             },
-            Compass.South => new TrackPiece()
-            {
+            Compass.South => new TrackPiece() {
                 X = fromTrackPiece.X,
                 Y = fromTrackPiece.Y - 1,
                 Rotation = Rotation.Deg90,
             },
-            Compass.West => new TrackPiece()
-            {
+            Compass.West => new TrackPiece() {
                 X = fromTrackPiece.X - 1,
                 Y = fromTrackPiece.Y,
                 Rotation = Rotation.Deg180,
@@ -129,7 +124,7 @@ public class Route {
 
             if (neighbourDirection != newStartDirection) {
                 // flip / reverse newTrack
-                knots.Reverse();
+                //knots.Reverse();
             }
 
             foreach (var knot in knots) {

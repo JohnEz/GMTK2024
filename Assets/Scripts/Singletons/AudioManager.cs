@@ -16,7 +16,6 @@ public class AudioClipOptions {
 }
 
 public class AudioManager : Singleton<AudioManager> {
-
     private List<AudioSource> sounds = new List<AudioSource>();
 
     [SerializeField]
@@ -62,9 +61,7 @@ public class AudioManager : Singleton<AudioManager> {
         CreateAudioSource(clip, soundGameObject, options);
     }
 
-    public void StopSound(AudioClip clip)
-    {
-        Debug.Log($"Before StopAudioSource with {clip}");
+    public void StopSound(AudioClip clip) {
         StopAudioSource(clip);
     }
 
@@ -106,15 +103,13 @@ public class AudioManager : Singleton<AudioManager> {
         Destroy(audioObject, audioSource.clip.length);
     }
 
-    private void StopAudioSource(AudioClip clip)
-    {
-        AudioSource audioSource = sounds.Find(delegate(AudioSource source)
-            {
-                if (source != null) {
-                    return source.clip == clip;
-                }
-                return false;
-            });
+    private void StopAudioSource(AudioClip clip) {
+        AudioSource audioSource = sounds.Find(delegate (AudioSource source) {
+            if (source != null) {
+                return source.clip == clip;
+            }
+            return false;
+        });
         sounds.Remove(audioSource);
         audioSource.Stop();
     }
