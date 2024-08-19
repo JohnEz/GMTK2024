@@ -23,6 +23,8 @@ public class PassengerManager : Singleton<PassengerManager> {
     private void SpawnPassenger(OSStation startingStation) {
         OSPassenger newPassenger = Instantiate(_passengerPrefab);
 
+        newPassenger.Setup(startingStation);
+
         startingStation.AddPassenger(newPassenger);
 
         PassengerList.Add(newPassenger);
