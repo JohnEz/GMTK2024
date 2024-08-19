@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
-using UnityEngine.Splines;
-using static UnityEngine.Rendering.CoreUtils;
 
 [Serializable]
 public class OSTrackPiecePrefab {
@@ -33,6 +30,34 @@ public class OSMapManager : Singleton<OSMapManager> {
     public List<OSRouteController> RouteControllers { get; private set; }
 
     public Dictionary<Color, OSLineController> Lines { get; private set; }
+
+    private List<string> StationNames = new List<string>() {
+        "Stoke on trent",
+        "Belper",
+        "Stafford",
+        "Leek",
+        "Warrington",
+        "Derby",
+        "Nottingham",
+        "Stone",
+        "Uttoxeter",
+        "Burton",
+        "Cannock",
+        "Telford",
+        "Shrewsbury",
+        "Coalbrookdale",
+        "Walsall",
+        "Tamworth",
+        "Dudley",
+        "Birmingham",
+        "Nuneaton",
+        "Coventry",
+        "Kidderminster",
+        "Redditch",
+        "Worcester",
+        "Gloucester",
+        "Oxford"
+    };
 
     private void Awake() {
         Tracks = new List<TrackPieceController>();
@@ -110,6 +135,10 @@ public class OSMapManager : Singleton<OSMapManager> {
         newStation.TrackPiece = station;
 
         newStation.transform.SetParent(transform, false);
+
+        int randomIndex = UnityEngine.Random.Range(0, StationNames.Count);
+        newStation.name = StationNames[randomIndex];
+        StationNames.RemoveAt(randomIndex);
 
         Stations.Add(newStation);
     }
