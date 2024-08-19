@@ -58,7 +58,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             CheckNextPieceValidity();
         };
         _builderControlsController.OnUndoPiece += () => RemovePiece();
-        _builderControlsController.OnClearRoute += () => StopEditing();
+        _builderControlsController.OnClearRoute += () => StopEditing(true);
     }
 
     private void CheckNextPieceValidity() {
@@ -69,7 +69,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            StopEditing();
+            StopEditing(true);
         }
     }
 
@@ -84,7 +84,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
     }
 
-    private void StopEditing() {
+    private void StopEditing(bool isCancelRoute) {
         if (!GameStateManager.Instance.TrySetState(GameState.Kid)) {
             return;
         }
@@ -96,9 +96,11 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         TerminatingStation = null;
         GhostTrackPiece.gameObject.SetActive(false);
 
-        AudioClipOptions cancelSFXOptions = new AudioClipOptions();
-        cancelSFXOptions.Volume = .3f;
-        AudioManager.Instance.PlaySound(_cancelSFX, cancelSFXOptions);
+        if (isCancelRoute) {
+            AudioClipOptions cancelSFXOptions = new AudioClipOptions();
+            cancelSFXOptions.Volume = .3f;
+            AudioManager.Instance.PlaySound(_cancelSFX, cancelSFXOptions);
+        }
     }
 
     private void PlacePiece() {
@@ -125,7 +127,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
         if (TerminatingStation != null) {
             CommitRoute();
-            StopEditing();
+            StopEditing(false);
             Debug.Log("Route made!");
             return;
         }
@@ -187,10 +189,12 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
 
             float delay = delayPerScore * i;
 
-            AudioClipOptions kerchingSFXOptions = new AudioClipOptions();
-            kerchingSFXOptions.Delay = delay;
-            kerchingSFXOptions.Volume = .3f;
-            AudioManager.Instance.PlaySound(_kerchingSFX, kerchingSFXOptions);
+            if (isBonus) {
+                AudioClipOptions kerchingSFXOptions = new AudioClipOptions();
+                kerchingSFXOptions.Delay = delay;
+                kerchingSFXOptions.Volume = .3f;
+                AudioManager.Instance.PlaySound(_kerchingSFX, kerchingSFXOptions);
+            }
 
             FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delay);
 
@@ -234,8 +238,12 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
     }
 
     private void RemovePiece() {
+        AudioClipOptions removeSFXOptions = new AudioClipOptions();
+        removeSFXOptions.Volume = .3f;
+        AudioManager.Instance.PlaySound(_removeSFX, removeSFXOptions);
+
         if (PreviewTrackPieces.Count == 0) {
-            StopEditing();
+            StopEditing(false);
             Debug.Log("Route cancelled!");
             return;
         }
@@ -248,9 +256,5 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         EditFromTrackPiece = PreviewTrackPieces.Count == 0 ? OriginStation : PreviewTrackPieces[^1].controller.TrackPiece;
 
         GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
-
-        AudioClipOptions removeSFXOptions = new AudioClipOptions();
-        removeSFXOptions.Volume = .3f;
-        AudioManager.Instance.PlaySound(_removeSFX, removeSFXOptions);
     }
 }
