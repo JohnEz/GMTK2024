@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -96,16 +97,21 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         List<TrackPiece> trackPieces = PreviewTrackPieces.Select(preview => preview.controller.TrackPiece).ToList();
         (int totalCool, List<(TrackPiece piece, int value)> coolnesses) = CoolManager.Instance.ScoreRoute(trackPieces);
 
-        coolnesses.ForEach((coolness) => {
-            TrackPieceController scoringTrackPiece = ToyMapManager.Instance.FindTrackPiece(coolness.piece);
+        // Max time to show score should be about 2 seconds,
+        // ideally about 0.3 seconds between each
+        float delayPerScore = Mathf.Min(2.0f / coolnesses.Count, 0.3f);
+
+        for (int i = 0; i < coolnesses.Count; i++) {
+            (TrackPiece piece, int value) = coolnesses[i];
+
+            TrackPieceController scoringTrackPiece = ToyMapManager.Instance.FindTrackPiece(piece);
             if (scoringTrackPiece != null) {
-                // TODO: Not working currently, probably the game objects aren't active yet?
-                FloatingTextManager.Instance.Show($"+{coolness.value}", scoringTrackPiece.gameObject);
+                FloatingTextManager.Instance.Show($"+{value}", scoringTrackPiece.gameObject, delayPerScore * i);
             }
-        });
+        }
 
         TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
-        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject);
+        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, delayPerScore * coolnesses.Count);
     }
 
     private void RemovePiece() {

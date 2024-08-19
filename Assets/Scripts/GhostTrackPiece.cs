@@ -46,9 +46,9 @@ public class GhostTrackPiece : MonoBehaviour {
 
     public TrackPiece Position => _trackPieceController.TrackPiece.Copy();
 
-    public Action OnConfirm;
+    public event Action OnConfirm;
 
-    public Action OnCancel;
+    public event Action OnCancel;
 
     void Awake() {
         TrackPieceType = TrackPieceType.Straight;

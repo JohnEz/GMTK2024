@@ -21,7 +21,7 @@ public class ToyMapManager : Singleton<ToyMapManager>
     [SerializeField]
     private List<ToyTrackPieceConfig> _trackPieceConfigList = new();
 
-    private Dictionary<int, Dictionary<int, TrackPieceController>> _trackPieces = new();
+    private readonly Dictionary<int, Dictionary<int, TrackPieceController>> _trackPieces = new();
 
     public Dictionary<TrackPieceType, ToyTrackPieceConfig> TrackPieceConfig {
         private set;

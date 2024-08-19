@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -7,18 +8,22 @@ public class FloatingTextManager : Singleton<FloatingTextManager>
 
     public GameObject canvasPrefab;
 
+    public void Show(string text, GameObject parent, float delaySeconds) {
+        StartCoroutine(ShowAfterDelay(text, parent, delaySeconds));
+    }
+
     public void Show(string text, GameObject parent) {
-        Canvas canvas = parent.GetComponentInChildren<Canvas>();
-        if (canvas == null) {
-            GameObject canvasObject = Instantiate(canvasPrefab);
-            canvasObject.transform.SetParent(parent.transform);
+        // TODO: Canvas isn't cleaned up after animation
+        GameObject canvasObject = Instantiate(canvasPrefab, transform);
+        canvasObject.transform.position = new Vector3(parent.transform.position.x, parent.transform.position.y + 1, 0);
 
-            canvas = canvasObject.GetComponent<Canvas>();
-        }
-
-        GameObject floatingText = Instantiate(textPrefab, parent.transform.position, Quaternion.identity);
-        TMP_Text tmp = floatingText.GetComponent<TMP_Text>();
+        TMP_Text tmp = canvasObject.GetComponentInChildren<TMP_Text>();
         tmp.text = text;
-        tmp.transform.SetParent(canvas.transform, worldPositionStays: false);
+    }
+
+    private IEnumerator ShowAfterDelay(string text, GameObject parent, float delaySeconds) {
+        yield return new WaitForSeconds(delaySeconds);
+
+        Show(text, parent);
     }
 }
