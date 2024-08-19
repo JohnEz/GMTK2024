@@ -31,10 +31,7 @@ public class ToyMapManager : Singleton<ToyMapManager>
             if (_toys.Count == 0) {
                 _toys = _toyContainer
                     .GetComponentsInChildren<Collider2D>()
-                    .Select(collider => new Vector2(
-                        collider.transform.position.x,
-                        collider.transform.position.y
-                    ))
+                    .Select(collider => (Vector2)collider.transform.position)
                     .ToList();
             }
             return _toys;
