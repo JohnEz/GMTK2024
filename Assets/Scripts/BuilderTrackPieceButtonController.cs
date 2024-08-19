@@ -1,41 +1,60 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BuilderTrackPieceButtonController : MonoBehaviour
 {
     [SerializeField]
+    private CanvasGroup _button;
+
+    [SerializeField]
     private Image _icon;
 
     [SerializeField]
-    private GameObject _lockedOverlay;
+    private CanvasGroup _lockedOverlay;
+
+    [SerializeField]
+    private TMP_Text _price;
+
+    private TrackPieceOption _option;
 
     public TrackPieceOption Option {
-        get;
-        private set;
+        get => _option;
+        set {
+            _option = value;
+
+            _icon.sprite = value.sprite;
+            _price.text = value.price.ToString("N2");
+            UpdateLocked();
+        }
     }
 
-    public event Action<TrackTemplate> OnClick;
+    public event Action<TrackPieceOption> OnClick;
 
-    public event Action<TrackTemplate> OnHover;
+    public event Action<TrackPieceOption> OnHover;
 
-    public void SetOption(TrackPieceOption option)
-    {
-        Option = option;
-
-        _icon.sprite = option.sprite;
-        _lockedOverlay.SetActive(option.isLocked);
+    void Update() {
+        UpdateLocked();
     }
 
     public void HandleClick() {
-        if (!Option.isLocked) {
-            OnClick?.Invoke(Option.template);
-        }
+        OnClick?.Invoke(Option);
     }
 
     public void HandlePointerEnter() {
-        if (!Option.isLocked) {
-            OnHover?.Invoke(Option.template);
+        if (Option.isLocked) {
+            _lockedOverlay.alpha = 0.7f;
+        } else {
+            OnHover?.Invoke(Option);
         }
+    }
+
+    public void HandlePointerExit() {
+        _lockedOverlay.alpha = 1;
+    }
+
+    private void UpdateLocked() {
+        _lockedOverlay.gameObject.SetActive(Option.isLocked);
     }
 }
