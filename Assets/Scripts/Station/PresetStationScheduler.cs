@@ -29,7 +29,7 @@ public class PresetStationScheduler : MonoBehaviour {
 
     public SpawningPhase SpawningPhase { get; private set; } = SpawningPhase.Tutorial;
 
-    private const float SPAWN_DELAY = 20f;
+    private const float SPAWN_DELAY = 30f;
 
     private StationManager stationManager;
 
