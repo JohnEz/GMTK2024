@@ -30,6 +30,9 @@ public class GameStateManager : Singleton<GameStateManager> {
 
     public event Action<GameState> OnStateChange;
 
+    [SerializeField]
+    private GameOverMenu _gameOverMenu;
+
     private void Awake() {
         _State = InitialState;
         AudioClipOptions options = new AudioClipOptions();
@@ -39,6 +42,10 @@ public class GameStateManager : Singleton<GameStateManager> {
         } else if (InitialState == GameState.Adult) {
             AudioManager.Instance.PlaySound(_adultMusic, options);
         }
+    }
+
+    public bool IsGameOver() {
+        return _State == GameState.GameOver;
     }
 
     public bool TrySetState(GameState state) {
@@ -78,13 +85,13 @@ public class GameStateManager : Singleton<GameStateManager> {
         return true;
     }
 
-    public void GameOver() {
+    public void GameOver(OSStation station) {
         if (_State == GameState.GameOver) {
             return;
         }
 
         _State = GameState.GameOver;
 
-        Debug.Log("GAME OVER!");
+        _gameOverMenu?.Show(station.name, BankManager.Instance.TotalCash, PassengerManager.Instance.CompletedJournyCount, CoolManager.Instance.Coolness);
     }
 }

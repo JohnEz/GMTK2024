@@ -1,9 +1,14 @@
 using System;
 using UnityEngine;
 
-public class BankManager : Singleton<BankManager>
-{
+public class BankManager : Singleton<BankManager> {
+
     public decimal Cash {
+        get;
+        private set;
+    } = 0;
+
+    public decimal TotalCash {
         get;
         private set;
     } = 0;
@@ -20,7 +25,7 @@ public class BankManager : Singleton<BankManager>
     }
 
     public void OnJourneyComplete(TrackPiece start, TrackPiece end) {
-        Vector2 startLocation = new (start.X, start.Y);
+        Vector2 startLocation = new(start.X, start.Y);
         Vector2 endLocation = new(end.X, end.Y);
         float directDistance = (endLocation - startLocation).magnitude;
         decimal routePrice = (decimal)Math.Round(directDistance, 2);
@@ -30,6 +35,11 @@ public class BankManager : Singleton<BankManager>
 
     private void UpdateCash(decimal diff) {
         Cash += diff;
+
+        if (!GameStateManager.Instance.IsGameOver()) {
+            TotalCash += diff;
+        }
+
         OnCashUpdate(Cash, diff);
     }
 }

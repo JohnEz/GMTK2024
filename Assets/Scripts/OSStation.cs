@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class OSStation : MonoBehaviour {
-    private const int MAX_PASSENGERS = 20;
+    private const int MAX_PASSENGERS = 1;
     private const float PASSENGER_SPAWN_DELAY = 5f;
     private const float PASSENGER_SPAWN_DELAY_DECAY = .05f;
     private const float MIN_PASSENGER_SPAWN_DELAY = .2f;
@@ -64,7 +64,7 @@ public class OSStation : MonoBehaviour {
             _timeFailing += Time.deltaTime;
 
             if (_timeFailing >= FAILURE_TIMER) {
-                GameStateManager.Instance.GameOver();
+                GameStateManager.Instance.GameOver(this);
             }
         } else if (_timeFailing > 0) {
             _timeFailing -= Time.deltaTime;

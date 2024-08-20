@@ -13,6 +13,11 @@ public class PassengerManager : Singleton<PassengerManager> {
 
     private bool _isSpawningAllowed = true;
 
+    public int CompletedJournyCount {
+        get;
+        private set;
+    } = 0;
+
     private void Update() {
         //timePassed += Time.deltaTime;
         //if (timePassed > 1f) {
@@ -54,6 +59,10 @@ public class PassengerManager : Singleton<PassengerManager> {
             passenger.StartingStation.TrackPieceController.TrackPiece,
             passenger.FinalStation.TrackPieceController.TrackPiece
         );
+
+        if (!GameStateManager.Instance.IsGameOver()) {
+            CompletedJournyCount++;
+        }
 
         // Debug.Log($"Passenger completed their journey from {passenger.StartingStation} to {passenger.FinalStation}.");
     }
