@@ -123,8 +123,10 @@ public class OSMapManager : Singleton<OSMapManager> {
         _connectedStations.Add(startStation);
         _connectedStations.Add(endStation);
 
+        Debug.Log($"DONE");
+            GameStateManager.Instance.GameWon(newStation);
         if (PresetStationScheduler.Instance.SpawningPhase == SpawningPhase.EndGame) {
-            CheckGameWon(newStation);
+            // CheckGameWon(newStation);
         }
     }
 
