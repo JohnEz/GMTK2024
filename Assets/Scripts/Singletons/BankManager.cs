@@ -71,7 +71,7 @@ public class BankManager : Singleton<BankManager> {
 
         Cash += diff;
 
-        if (!GameStateManager.Instance.IsGameOver()) {
+        if (!GameStateManager.Instance.IsGameOver() && diff > 0) {
             TotalCash += diff;
         }
 
@@ -80,10 +80,6 @@ public class BankManager : Singleton<BankManager> {
 
     private void InitCash(decimal value) {
         Cash = value;
-
-        if (!GameStateManager.Instance.IsGameOver()) {
-            TotalCash = value;
-        }
 
         OnCashInit?.Invoke(Cash);
     }
