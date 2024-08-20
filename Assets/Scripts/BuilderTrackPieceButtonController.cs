@@ -25,7 +25,7 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
             _option = value;
 
             _icon.sprite = value.sprite;
-            _price.text = value.price.ToString("N2");
+            _price.text = value.unlockPrice.ToString("N2");
             UpdateLocked();
         }
     }
@@ -34,18 +34,45 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
 
     public event Action<TrackPieceOption> OnHover;
 
-    void Update() {
-        UpdateLocked();
+    private bool _enabled = false;
+
+    void Awake() {
+        GameStateManager.Instance.OnStateChange += OnGameStateChanged;
+        OnGameStateChanged(GameStateManager.Instance.State);
+    }
+
+    public void OnGameStateChanged(GameState state) {
+        _enabled = state == GameState.KidEditing;
     }
 
     public void HandleClick() {
-        OnClick?.Invoke(Option);
+        if (!_enabled) {
+            return;
+        }
+
+        if (!Option.isLocked) {
+            if (BankManager.Instance.Spend(Option.placePrice)) {
+                OnClick?.Invoke(Option);
+            } else {
+                HandleBegging();
+            }
+
+            return;
+        }
+
+        Debug.Log($"Trying to spend £{Option.unlockPrice} on {Option.template.TrackPieceType}");
+        if (BankManager.Instance.Spend(Option.unlockPrice)) {
+            Option.isLocked = false;
+            UpdateLocked();
+        } else {
+            HandleBegging();
+        }
     }
 
     public void HandlePointerEnter() {
         if (Option.isLocked) {
             _lockedOverlay.alpha = 0.7f;
-        } else {
+        } else if (_enabled) {
             OnHover?.Invoke(Option);
         }
     }
@@ -56,5 +83,9 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
 
     private void UpdateLocked() {
         _lockedOverlay.gameObject.SetActive(Option.isLocked);
+    }
+
+    private void HandleBegging() {
+        UIFloatingTextManager.Instance.Show("Not enough\ncash!", gameObject);
     }
 }

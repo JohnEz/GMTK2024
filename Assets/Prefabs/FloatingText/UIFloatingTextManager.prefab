@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7134929040200099806}
-  - component: {fileID: 1850861177349226173}
+  - component: {fileID: 5730243374160356526}
   m_Layer: 0
-  m_Name: FloatingTextManager
+  m_Name: UIFloatingTextManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1850861177349226173
+--- !u!114 &5730243374160356526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,9 +41,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 699442816258070646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daaeb607a8716452cbcb2bcc5b4a6e71, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c4494adde847440bb95f376ffffb820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textPrefab: {fileID: 4057785217870313195, guid: b1cd451fd668348a5b2ebc279738ea0e, type: 3}
+  _isGlobal: 0
   canvasPrefab: {fileID: 3179142428803857376, guid: cd4624813093c40ccbfc040d21e04615, type: 3}
-  cnvs: {fileID: 0}
