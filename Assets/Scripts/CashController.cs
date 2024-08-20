@@ -4,6 +4,12 @@ using UnityEngine;
 public class CashController : MonoBehaviour
 {
     [SerializeField]
+    private string Format;
+
+    [SerializeField]
+    private bool IsAdult;
+
+    [SerializeField]
     private TMP_Text tmp;
 
     void Awake() {
@@ -13,10 +19,14 @@ public class CashController : MonoBehaviour
 
     private void OnCashUpdate(decimal value, decimal diff)
     {
-        tmp.text = value.ToString("N2");
+        decimal displayValue = IsAdult ? BankManager.Instance.GetAdultValue(value) : value;
+        Debug.Log($"Displaying cash: {value}, {IsAdult}, {displayValue}, {displayValue.ToString(Format)}");
+        tmp.text = displayValue.ToString(Format);
 
         if (diff > 0) {
-            UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{diff:N2}", tmp.gameObject);
+            decimal displayDiff = IsAdult ? BankManager.Instance.GetAdultValue(diff) : diff;
+            string formattedDif = displayDiff.ToString(Format);
+            UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{formattedDif}", tmp.gameObject);
         }
     }
 }
