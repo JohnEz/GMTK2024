@@ -56,3 +56,6 @@ TagManager:
   - name: WorldCanvas
     uniqueID: 3589027567
     locked: 0
+  - name: Floating Text
+    uniqueID: 3225662045
+    locked: 0

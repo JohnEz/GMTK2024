@@ -61,7 +61,7 @@ public class PassengerManager : Singleton<PassengerManager> {
         );
         decimal adultPrice = BankManager.Instance.GetAdultValue(routePrice);
 
-        WorldFloatingTextManager.Instance.Show($"+£{adultPrice}", passenger.FinalStation.gameObject);
+        WorldFloatingTextManager.Instance.Show($"+£{adultPrice:N0}", passenger.FinalStation.gameObject, isAdult: true);
 
         if (!GameStateManager.Instance.IsGameOver()) {
             CompletedJournyCount++;
