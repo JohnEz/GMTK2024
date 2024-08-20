@@ -12,10 +12,10 @@ public class CashController : MonoBehaviour
 
     private void OnCashUpdate(decimal value, decimal diff)
     {
-
         tmp.text = value.ToString("N2");
 
-        // TODO: Not working currently
-        FloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{diff:N2}", gameObject);
+        if (diff > 0) {
+            UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{diff:N2}", tmp.gameObject);
+        }
     }
 }

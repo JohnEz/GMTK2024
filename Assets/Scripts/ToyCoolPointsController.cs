@@ -14,7 +14,6 @@ public class ToyCoolPointsController : MonoBehaviour
     {
         tmp.text = value.ToString("N0");
 
-        // TODO: Not working currently
-        FloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{value:N0}", gameObject);
+        UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{value:N0}", tmp.gameObject);
     }
 }

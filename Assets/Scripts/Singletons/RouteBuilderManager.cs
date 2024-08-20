@@ -116,7 +116,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         TerminatingStation = StationManager.Instance.GetConnectingStation(piece);
 
         if (TerminatingStation == OriginStation) {
-            FloatingTextManager.Instance.Show($"It's not home-time yet", newTrack.gameObject);
+            WorldFloatingTextManager.Instance.Show($"It's not home-time yet", newTrack.gameObject);
             Destroy(newTrack);
             return;
         }
@@ -196,7 +196,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
                 AudioManager.Instance.PlaySound(_kerchingSFX, kerchingSFXOptions);
             }
 
-            FloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delay);
+            WorldFloatingTextManager.Instance.Show(coolMessage, scoringTrackPiece.gameObject, delay);
 
             if (isBonus) {
                 var toy = toys[toyIndex];
@@ -215,7 +215,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
 
         float finalDelay = delayPerScore * coolnesses.Count;
-        FloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, finalDelay);
+        WorldFloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, finalDelay);
 
         PlayCoolSound(totalCool, finalDelay);
     }

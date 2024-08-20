@@ -10,7 +10,9 @@ public class TrackPieceOption {
 
     public bool isLocked;
 
-    public float price;
+    public float unlockPrice;
+
+    public float placePrice;
 }
 
 public class BuilderControlsController : MonoBehaviour
@@ -48,36 +50,12 @@ public class BuilderControlsController : MonoBehaviour
         BuilderTrackPieceButtonController button = Instantiate(_buttonPrefab, _buttonContainer.transform);
         button.Option = option;
 
-        button.OnClick += (option) => HandleClickPiece(option);
-        button.OnHover += (option) => HandleHoverPiece(option);
+        button.OnClick += (option) => OnConfirmPiece?.Invoke(option.template);
+        button.OnHover += (option) => OnHoverPiece?.Invoke(option.template);
     }
 
     public void OnGameStateChanged(GameState state) {
         _enabled = state == GameState.KidEditing;
-    }
-
-    public void HandleClickPiece(TrackPieceOption option) {
-        if (_enabled) {
-            if (option.isLocked) {
-                // Hope we don't lose precision LOL
-                decimal price = (decimal)option.price;
-
-                Debug.Log($"Trying to spend £{price} on {option.template.TrackPieceType}");
-                if (BankManager.Instance.Spend(price)) {
-                    option.isLocked = false;
-                }
-            } else {
-                OnConfirmPiece?.Invoke(option.template);
-            }
-        }
-    }
-
-    public void HandleHoverPiece(TrackPieceOption option) {
-        if (_enabled) {
-            if (!option.isLocked) {
-                OnHoverPiece?.Invoke(option.template);
-            }
-        }
     }
 
     public void HandleUndoPiece() {

@@ -5,7 +5,7 @@ public class BankManager : Singleton<BankManager> {
 
     public decimal Cash {
         get;
-        private set;
+        set;
     } = 0;
 
     public decimal TotalCash {
@@ -15,12 +15,16 @@ public class BankManager : Singleton<BankManager> {
 
     public event Action<decimal, decimal> OnCashUpdate;
 
-    public bool Spend(decimal price) {
-        if (price > Cash) {
+    public bool Spend(float amount) {
+        // Unity can't serialize decimals, so we expect callers want work with floats
+        // Hope we don't lose precision LOL
+        decimal decAmount = (decimal) amount;
+
+        if (decAmount > Cash) {
             return false;
         }
 
-        UpdateCash(-price);
+        UpdateCash(-decAmount);
         return true;
     }
 
@@ -34,6 +38,10 @@ public class BankManager : Singleton<BankManager> {
     }
 
     private void UpdateCash(decimal diff) {
+        if (diff == 0) {
+            return;
+        }
+
         Cash += diff;
 
         if (!GameStateManager.Instance.IsGameOver()) {

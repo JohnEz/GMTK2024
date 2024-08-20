@@ -2,10 +2,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class FloatingTextManager : Singleton<FloatingTextManager>
+public class FloatingTextManager<T> : Singleton<T> where T : MonoBehaviour
 {
-    public GameObject textPrefab;
-
     public GameObject canvasPrefab;
 
     public void Show(string text, GameObject parent, float delaySeconds) {

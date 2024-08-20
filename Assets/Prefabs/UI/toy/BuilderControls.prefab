@@ -223,23 +223,28 @@ MonoBehaviour:
   - sprite: {fileID: 21300000, guid: 0b6cee00ba31e402e8ffedec18504c3e, type: 3}
     template: {fileID: 11400000, guid: a4a39a16ae2b3400f92f30edf109513e, type: 2}
     isLocked: 0
-    price: 0
+    unlockPrice: 0
+    placePrice: 0.1
   - sprite: {fileID: 21300000, guid: 362368119c68142bbbedbf2baaadf994, type: 3}
     template: {fileID: 11400000, guid: ad47c17f0eb4643079afd61af86e8216, type: 2}
     isLocked: 0
-    price: 0
+    unlockPrice: 0
+    placePrice: 0.2
   - sprite: {fileID: 21300000, guid: abfa21ec0b9ca421db8f9c49e3de26fb, type: 3}
     template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
     isLocked: 0
-    price: 0
+    unlockPrice: 0
+    placePrice: 0.2
   - sprite: {fileID: 21300000, guid: 8d94ad355de224facac23a0da1b81464, type: 3}
     template: {fileID: 11400000, guid: efdf7b8937ea64d38bc6995719d1ad98, type: 2}
     isLocked: 1
-    price: 8
+    unlockPrice: 8
+    placePrice: 0.5
   - sprite: {fileID: 21300000, guid: 0b6cee00ba31e402e8ffedec18504c3e, type: 3}
     template: {fileID: 11400000, guid: efdf7b8937ea64d38bc6995719d1ad98, type: 2}
     isLocked: 1
-    price: 15
+    unlockPrice: 15
+    placePrice: 1
   _buttonContainer: {fileID: 804308881648479365}
   _buttonPrefab: {fileID: 2668070191984440518, guid: f519404859efa436d88866f49ef71fce, type: 3}
 --- !u!114 &2993940385001212517
