@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -13,10 +14,13 @@ public class AudioClipOptions {
     public float PitchRange = 0.1f;
 
     public bool Loop = false;
+    public bool Persist = false;
 }
 
 public class AudioManager : Singleton<AudioManager> {
     private List<AudioSource> sounds = new List<AudioSource>();
+
+    private float fadeTime = 2f;
 
     [SerializeField]
     private AudioMixerGroup masterMixer;
@@ -30,6 +34,18 @@ public class AudioManager : Singleton<AudioManager> {
     private AudioClip GetRandomClip(List<AudioClip> clips) {
         int randomIndex = Random.Range(0, clips.Count);
         return clips[randomIndex];
+    }
+
+    private AudioSource FindSource(AudioClip clip)
+    {
+        AudioSource audioSource = sounds.Find(delegate (AudioSource source) {
+            if (source != null)
+            {
+                return source.clip == clip;
+            }
+            return false;
+        });
+        return audioSource;
     }
 
     public void PlaySound(AudioClip clip, AudioClipOptions options = null) {
@@ -105,23 +121,28 @@ public class AudioManager : Singleton<AudioManager> {
         audioSource.loop = audioOptions.Loop;
         audioSource.PlayDelayed(audioOptions.Delay);
 
-        sounds.Add(audioSource);
+        if (audioOptions.Persist)
+        {
+            sounds.Add(audioSource);
+        }
 
         Destroy(audioObject, audioSource.clip.length + audioOptions.Delay);
     }
 
     private void StopAudioSource(AudioClip clip) {
-        AudioSource audioSource = sounds.Find(delegate (AudioSource source) {
-            if (source != null) {
-                return source.clip == clip;
-            }
-            return false;
-        });
+
+        AudioSource audioSource = FindSource(clip);
         sounds.Remove(audioSource);
         audioSource.Stop();
     }
 
-    public void SetMasterVolume(float volume) {
+    private void StopAudioSource(AudioSource source)
+    {
+        sounds.Remove(source);
+        source.Stop();
+    }
+
+        public void SetMasterVolume(float volume) {
         float MAX_VOLUME = 20f;
         float MIN_VOLUME = -50f;
 
@@ -165,4 +186,44 @@ public class AudioManager : Singleton<AudioManager> {
 
         return min + (VOLUME_RANGE * percent);
     }
+
+    public IEnumerator FadeOut(AudioClip clip, float duration)
+    {
+        AudioSource audioSource = FindSource(clip);
+        float currentTime = 0;
+        float targetVolume = 0;
+        float start = audioSource.volume;
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
+            yield return null;
+        }
+        StopAudioSource(audioSource);
+        yield break;
+    }
+
+    public IEnumerator FadeIn(AudioClip clip, float duration, float targetVolume)
+    {
+        AudioClipOptions options = new AudioClipOptions();
+
+        options.Delay = 1f;
+        options.Loop = true;
+        options.Persist = true;
+        options.Volume = 0f;
+
+        PlaySound(clip, options);
+
+        AudioSource audioSource = FindSource(clip);
+        float currentTime = 0;
+        float start = audioSource.volume;
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
+            yield return null;
+        }
+        yield break;
+    }
+
 }

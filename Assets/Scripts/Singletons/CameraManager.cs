@@ -7,11 +7,19 @@ public class CameraManager : Singleton<CameraManager> {
     public const float DEFAULT_ZOOM_3 = 8f;
     public const float MAX_ZOOM = 200f;
 
+    private float fadeTime = 2f;
+
     [SerializeField]
     private AudioClip _zoomOutSfx;
 
     [SerializeField]
     private AudioClip _zoomInSfx;
+
+    [SerializeField]
+    private AudioClip _kidMusic;
+
+    [SerializeField]
+    private AudioClip _adultMusic;
 
     [SerializeField]
     private CameraControlller _adultCameraZoom;
@@ -29,17 +37,31 @@ public class CameraManager : Singleton<CameraManager> {
 
     private float _currentDefaultZoom = DEFAULT_ZOOM;
 
+    private void SetAudioOptions()
+    {
+        
+    }
+
     private void Awake() {
         GameStateManager.Instance.OnStateChange += OnStateChange;
+        SetAudioOptions();
     }
 
     private void Start() {
+        AudioClipOptions options = new AudioClipOptions();
+
+        options.Loop = true;
+        options.Persist = true;
+
         if (GameStateManager.Instance.State == GameState.Kid) {
             _kidCameraZoom.EnableCamera();
             _adultCameraZoom.DisableCamera();
-        } else {
+            AudioManager.Instance.PlaySound(_kidMusic, options);
+        }
+        else {
             _kidCameraZoom.DisableCamera();
             _adultCameraZoom.EnableCamera();
+            AudioManager.Instance.PlaySound(_adultMusic, options);
         }
     }
 
@@ -53,6 +75,11 @@ public class CameraManager : Singleton<CameraManager> {
 
     public void ZoomOut() {
         _isTransitioning = true;
+
+        StartCoroutine(AudioManager.Instance.FadeOut(
+                _kidMusic, fadeTime));
+        StartCoroutine(AudioManager.Instance.FadeIn(
+            _adultMusic, fadeTime, 1f));
 
         _kidCameraZoom.EnableCamera();
         _kidCameraZoom.SetInstantZoom(_currentDefaultZoom);
@@ -91,6 +118,11 @@ public class CameraManager : Singleton<CameraManager> {
 
     public void ZoomIn() {
         _isTransitioning = true;
+
+        StartCoroutine(AudioManager.Instance.FadeOut(
+                _adultMusic, fadeTime));
+        StartCoroutine(AudioManager.Instance.FadeIn(
+            _kidMusic, fadeTime, 1f));
 
         _adultCameraZoom.EnableCamera();
         _adultCameraZoom.SetInstantZoom(_currentDefaultZoom);
