@@ -45,12 +45,19 @@ public class TutorialManager : Singleton<TutorialManager>
 
     void DisplayIntroduction() {
         DisplayDialog(Speaker.Lenny, introduction);
-        RouteManager.Instance.OnRouteAdded += DisplayScaleUpTutorial;
+        GameStateManager.Instance.OnStateChange += DisplayBuildTutorial;
+    }
+
+    void DisplayBuildTutorial(GameState state) {
+        if (state == GameState.KidEditing) {
+            GameStateManager.Instance.OnStateChange -= DisplayBuildTutorial;
+            DisplayDialog(Speaker.Lenny, buildTutorial);
+            RouteManager.Instance.OnRouteAdded += DisplayScaleUpTutorial;
+        }
     }
 
     void DisplayScaleUpTutorial(Route route) {
         RouteManager.Instance.OnRouteAdded -= DisplayScaleUpTutorial;
-        HideDialog();
         DisplayDialog(Speaker.Lenny, scaleUpTutorial);
         GameStateManager.Instance.OnStateChange += DisplayLineTutorial;
     }
@@ -65,7 +72,6 @@ public class TutorialManager : Singleton<TutorialManager>
 
     void DisplayReturnToKidTutorial(Color color, Line line) {
         LineManager.Instance.OnLineAdded -= DisplayReturnToKidTutorial;
-        HideDialog();
         PresetStationScheduler.Instance.StartSpawning();      
         DisplayDialog(Speaker.Terrence, returnToKidTutorial);
         GameStateManager.Instance.OnStateChange += DisplayCoolPointsTutorial;

@@ -47,6 +47,7 @@ public class DialogManager : Singleton<DialogManager> {
     }
 
     public void DisplayDialog(Speaker speaker, string dialog) {
+        HideDialog();
         if (speaker == Speaker.Lenny) {
             terrence.Hide();
             lenny.Show();
