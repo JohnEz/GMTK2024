@@ -218,10 +218,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         }
 
         TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
-
         float finalDelay = delayPerScore * coolnesses.Count;
-        WorldFloatingTextManager.Instance.Show($"+{totalCool}", endStation.gameObject, finalDelay);
-
         PlayCoolSound(totalCool, finalDelay);
     }
 

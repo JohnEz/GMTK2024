@@ -26,7 +26,7 @@ public class CashController : MonoBehaviour
         if (diff > 0) {
             decimal displayDiff = IsAdult ? BankManager.Instance.GetAdultValue(diff) : diff;
             string formattedDif = displayDiff.ToString(Format);
-            UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{formattedDif}", tmp.gameObject);
+            UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{formattedDif}", tmp.gameObject, down: true);
         }
     }
 }
