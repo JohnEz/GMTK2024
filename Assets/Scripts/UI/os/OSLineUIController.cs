@@ -44,7 +44,7 @@ public class OSLineUIController : MonoBehaviour {
             AudioManager.Instance.PlaySound(_clickClip);
         } else {
             decimal convertedTrainCost = BankManager.Instance.GetAdultValue(trainCost);
-            UIFloatingTextManager.Instance.Show($"Trains cost\n£{convertedTrainCost}!", gameObject, true, true);
+            UIFloatingTextManager.Instance.Show($"Trains cost\nÂ£{convertedTrainCost}!", gameObject, true, true);
 
             AudioManager.Instance.PlaySound(_failClip);
         }
