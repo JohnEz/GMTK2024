@@ -45,4 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
+  kidTextPrefab: {fileID: 6114808387539717715, guid: b1cd451fd668348a5b2ebc279738ea0e, type: 3}
+  adultTextPrefab: {fileID: 4654155735102358794, guid: e197960f8b6e94ff999e40b8f052ab59, type: 3}
   canvasPrefab: {fileID: 3179142428803857376, guid: cd4624813093c40ccbfc040d21e04615, type: 3}
