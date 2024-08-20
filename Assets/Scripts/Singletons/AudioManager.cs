@@ -20,8 +20,6 @@ public class AudioClipOptions {
 public class AudioManager : Singleton<AudioManager> {
     private List<AudioSource> sounds = new List<AudioSource>();
 
-    private float fadeTime = 2f;
-
     [SerializeField]
     private AudioMixerGroup masterMixer;
 

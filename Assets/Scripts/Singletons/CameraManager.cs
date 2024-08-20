@@ -56,12 +56,14 @@ public class CameraManager : Singleton<CameraManager> {
         if (GameStateManager.Instance.State == GameState.Kid) {
             _kidCameraZoom.EnableCamera();
             _adultCameraZoom.DisableCamera();
-            AudioManager.Instance.PlaySound(_kidMusic, options);
+            StartCoroutine(AudioManager.Instance.FadeIn(
+                        _kidMusic, fadeTime, 1f));
         }
         else {
             _kidCameraZoom.DisableCamera();
             _adultCameraZoom.EnableCamera();
-            AudioManager.Instance.PlaySound(_adultMusic, options);
+            StartCoroutine(AudioManager.Instance.FadeIn(
+                        _adultMusic, fadeTime, 1f));
         }
     }
 
