@@ -226,6 +226,8 @@ MonoBehaviour:
     prefab: {fileID: 5456812835172892198, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
   - pieceType: 3
     prefab: {fileID: 3134439708579648781, guid: 820d3801d880c4c27a7abe056a92dc48, type: 3}
+  - pieceType: 5
+    prefab: {fileID: 2101659743155389220, guid: cd7d72a9f3797394ab8443160bf250ae, type: 3}
   - pieceType: 4
     prefab: {fileID: 2101659743155389220, guid: 75f0b5b65bae3d5498594a50448dd6d0, type: 3}
   _routePrefab: {fileID: 3789160484161252044, guid: b75ca08dd1d73e247b8cb37ac484011c, type: 3}
