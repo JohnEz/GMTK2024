@@ -89,7 +89,11 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             return;
         }
 
-        PreviewTrackPieces.ForEach(preview => Destroy(preview.controller.gameObject));
+        float reclaimAmount = 0;
+        PreviewTrackPieces.ForEach(preview => {
+            reclaimAmount += preview.controller.TrackPiece.Template.Price;
+            Destroy(preview.controller.gameObject);
+        });
         PreviewTrackPieces.Clear();
         EditFromTrackPiece = null;
         OriginStation = null;
@@ -100,6 +104,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             AudioClipOptions cancelSFXOptions = new AudioClipOptions();
             cancelSFXOptions.Volume = .3f;
             AudioManager.Instance.PlaySound(_cancelSFX, cancelSFXOptions);
+            BankManager.Instance.Reclaim(reclaimAmount);
         }
     }
 
@@ -249,6 +254,8 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         }
 
         (TrackPieceController controller, Compass direction) = PreviewTrackPieces[^1];
+
+        BankManager.Instance.Reclaim(controller.TrackPiece.Template.Price);
 
         Destroy(controller.gameObject);
         PreviewTrackPieces.RemoveAt(PreviewTrackPieces.Count - 1);

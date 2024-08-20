@@ -51,7 +51,7 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
         }
 
         if (!Option.isLocked) {
-            if (BankManager.Instance.Spend(Option.placePrice)) {
+            if (BankManager.Instance.Spend(Option.template.Price)) {
                 OnClick?.Invoke(Option);
             } else {
                 HandleBegging();

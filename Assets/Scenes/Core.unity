@@ -900,6 +900,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BankManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5876374974379922197, guid: 75c80a23790ac478b9408f13484a97e4, type: 3}
+      propertyPath: StartingCash
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1954,7 +1958,7 @@ Transform:
   m_GameObject: {fileID: 2092708137}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 1000, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

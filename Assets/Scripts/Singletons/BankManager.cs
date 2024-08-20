@@ -2,10 +2,11 @@ using System;
 using UnityEngine;
 
 public class BankManager : Singleton<BankManager> {
+    public float StartingCash;
 
     public decimal Cash {
         get;
-        set;
+        private set;
     } = 0;
 
     public decimal TotalCash {
@@ -14,6 +15,10 @@ public class BankManager : Singleton<BankManager> {
     } = 0;
 
     public event Action<decimal, decimal> OnCashUpdate;
+
+    void Awake() {
+        Cash = (decimal) StartingCash;
+    }
 
     public bool Spend(float amount) {
         // Unity can't serialize decimals, so we expect callers want work with floats
@@ -26,6 +31,13 @@ public class BankManager : Singleton<BankManager> {
 
         UpdateCash(-decAmount);
         return true;
+    }
+
+    public void Reclaim(float amount) {
+        // Unity can't serialize decimals, so we expect callers want work with floats
+        // Hope we don't lose precision LOL
+        decimal decAmount = (decimal) amount;
+        UpdateCash(decAmount);
     }
 
     public void OnJourneyComplete(TrackPiece start, TrackPiece end) {

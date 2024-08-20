@@ -11,8 +11,6 @@ public class TrackPieceOption {
     public bool isLocked;
 
     public float unlockPrice;
-
-    public float placePrice;
 }
 
 public class BuilderControlsController : MonoBehaviour

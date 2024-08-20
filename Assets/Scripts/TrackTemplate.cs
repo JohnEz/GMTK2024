@@ -20,6 +20,8 @@ public class TrackTemplate : ScriptableObject {
     // ^ length = 2
     public int Happiness = 0;
 
+    public float Price;
+
     [SerializeField]
     private Spline spline;
 

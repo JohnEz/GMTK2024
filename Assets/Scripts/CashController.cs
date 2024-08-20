@@ -8,6 +8,7 @@ public class CashController : MonoBehaviour
 
     void Awake() {
         BankManager.Instance.OnCashUpdate += OnCashUpdate;
+        OnCashUpdate(BankManager.Instance.Cash, 0);
     }
 
     private void OnCashUpdate(decimal value, decimal diff)
