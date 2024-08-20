@@ -29,8 +29,18 @@ public class CashController : MonoBehaviour
     {
         SetDisplayedCash(value);
 
-        decimal displayDiff = IsAdult ? BankManager.Instance.GetAdultValue(diff) : diff;
-        string formattedDif = displayDiff.ToString(Format);
-        UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{formattedDif}", tmp.gameObject, down: true);
+        if (ShowDiff) {
+            decimal displayDiff = IsAdult ? BankManager.Instance.GetAdultValue(diff) : diff;
+            string formattedDif = displayDiff.ToString(Format);
+            UIFloatingTextManager.Instance.Show($"{(diff > 0 ? "+" : "")}{formattedDif}", tmp.gameObject, down: true);
+        }
+    }
+
+    private bool ShowDiff {
+        get =>
+            (IsAdult && GameStateManager.Instance.State == GameState.Adult)
+            || (!IsAdult &&
+                (GameStateManager.Instance.State == GameState.Kid || GameStateManager.Instance.State == GameState.KidEditing)
+            );
     }
 }
