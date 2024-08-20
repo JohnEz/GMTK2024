@@ -17,7 +17,7 @@ public class BankManager : Singleton<BankManager> {
     public event Action<decimal, decimal> OnCashUpdate;
 
     void Awake() {
-        Cash = (decimal) StartingCash;
+        UpdateCash((decimal)StartingCash);
     }
 
     public bool Spend(float amount) {
