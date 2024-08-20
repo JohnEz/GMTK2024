@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialManager : Singleton<TutorialManager>
-{
+public class TutorialManager : Singleton<TutorialManager> {
+
     [TextAreaAttribute]
     public string introduction;
 
@@ -43,43 +43,43 @@ public class TutorialManager : Singleton<TutorialManager>
     private Route _firstRoute;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Start() {
         bool tutorialEnabled = SettingsManager.Instance.tutorialEnabled;
         if (tutorialEnabled) {
             StartTutorial();
         } else {
             PresetStationScheduler.Instance.StartSpawning();
         }
-
     }
 
-    void StartTutorial() {
+    private void StartTutorial() {
         DisplayIntroduction();
         PassengerManager.Instance.PauseSpawning();
         GameStateManager.Instance.OnStateChange += HandleStateChange;
+
+        ZoomManager.Instance.IsZoomingEnabled = false;
     }
 
-    void DisplayDialog(Speaker speaker, string dialog) {
+    private void DisplayDialog(Speaker speaker, string dialog) {
         DialogManager.Instance.DisplayDialog(speaker, dialog);
     }
 
-    void HideDialog() {
+    private void HideDialog() {
         DialogManager.Instance.HideDialog();
     }
 
-    void HandleStateChange(GameState state) {
+    private void HandleStateChange(GameState state) {
         if (state == GameState.TransitionToWork || state == GameState.TransitionToPlay) {
             HideDialog();
         }
     }
 
-    void DisplayIntroduction() {
+    private void DisplayIntroduction() {
         DisplayDialog(Speaker.Lenny, introduction);
         GameStateManager.Instance.OnStateChange += DisplayBuildTutorial;
     }
 
-    void DisplayBuildTutorial(GameState state) {
+    private void DisplayBuildTutorial(GameState state) {
         if (state == GameState.KidEditing) {
             GameStateManager.Instance.OnStateChange -= DisplayBuildTutorial;
             DisplayDialog(Speaker.Lenny, buildTutorial);
@@ -87,14 +87,16 @@ public class TutorialManager : Singleton<TutorialManager>
         }
     }
 
-    void DisplayScaleUpTutorial(Route route) {
+    private void DisplayScaleUpTutorial(Route route) {
         _firstRoute = route;
         RouteManager.Instance.OnRouteAdded -= DisplayScaleUpTutorial;
         DisplayDialog(Speaker.Lenny, scaleUpTutorial);
         GameStateManager.Instance.OnStateChange += DisplayLineTutorial;
+
+        ZoomManager.Instance.IsZoomingEnabled = true;
     }
 
-    void DisplayLineTutorial(GameState state) {
+    private void DisplayLineTutorial(GameState state) {
         if (state == GameState.Adult) {
             GameStateManager.Instance.OnStateChange -= DisplayLineTutorial;
             DisplayDialog(Speaker.Terrence, lineTutorial);
@@ -102,20 +104,20 @@ public class TutorialManager : Singleton<TutorialManager>
         }
     }
 
-    void DisplayReturnToKidTutorial(Color color, Line line) {
+    private void DisplayReturnToKidTutorial(Color color, Line line) {
         LineManager.Instance.OnLineAdded -= DisplayReturnToKidTutorial;
         PresetStationScheduler.Instance.StartSpawning();
-        StationManager.Instance.OnStationAdded += StopStationsSpawning;      
+        StationManager.Instance.OnStationAdded += StopStationsSpawning;
         DisplayDialog(Speaker.Terrence, returnToKidTutorial);
         GameStateManager.Instance.OnStateChange += ConnectStationTutorial;
     }
 
-    void StopStationsSpawning(TrackPiece track) {
-        StationManager.Instance.OnStationAdded -= StopStationsSpawning;     
+    private void StopStationsSpawning(TrackPiece track) {
+        StationManager.Instance.OnStationAdded -= StopStationsSpawning;
         PresetStationScheduler.Instance.Pause();
     }
 
-    void ConnectStationTutorial(GameState state) {
+    private void ConnectStationTutorial(GameState state) {
         if (state == GameState.Kid) {
             GameStateManager.Instance.OnStateChange -= ConnectStationTutorial;
             BankManager.Instance.Spend(-1);
@@ -124,13 +126,13 @@ public class TutorialManager : Singleton<TutorialManager>
         }
     }
 
-    void ReturnToAdultTutorial(Route route) {
+    private void ReturnToAdultTutorial(Route route) {
         RouteManager.Instance.OnRouteAdded -= ReturnToAdultTutorial;
         DisplayDialog(Speaker.Lenny, returnToAdultTutorial);
         GameStateManager.Instance.OnStateChange += SecondLineTutorial;
     }
 
-    void SecondLineTutorial(GameState state) {
+    private void SecondLineTutorial(GameState state) {
         if (state == GameState.Adult) {
             // GAME STARTS
             PassengerManager.Instance.ResumeSpawning();
@@ -142,19 +144,19 @@ public class TutorialManager : Singleton<TutorialManager>
         }
     }
 
-    void ChangeLineTutorial() {
-            LineManager.Instance.OnRouteLineChange -= ChangeLineTutorial;
-            DisplayDialog(Speaker.Terrence, changeLineTutorial);
-            LineManager.Instance.OnRouteLineChange += Break;
+    private void ChangeLineTutorial() {
+        LineManager.Instance.OnRouteLineChange -= ChangeLineTutorial;
+        DisplayDialog(Speaker.Terrence, changeLineTutorial);
+        LineManager.Instance.OnRouteLineChange += Break;
     }
 
-    void Break() {
+    private void Break() {
         LineManager.Instance.OnRouteLineChange -= Break;
         HideDialog();
         GameStateManager.Instance.OnStateChange += DisplayCoolPointsTutorial;
     }
 
-    void DisplayCoolPointsTutorial(GameState state) {
+    private void DisplayCoolPointsTutorial(GameState state) {
         if (state == GameState.Kid) {
             GameStateManager.Instance.OnStateChange -= DisplayCoolPointsTutorial;
             DisplayDialog(Speaker.Lenny, coolPointsTutorial);
@@ -162,13 +164,13 @@ public class TutorialManager : Singleton<TutorialManager>
         }
     }
 
-    void DisplayMoneyTutorial(Route route) {
+    private void DisplayMoneyTutorial(Route route) {
         RouteManager.Instance.OnRouteAdded -= DisplayMoneyTutorial;
         DisplayDialog(Speaker.Lenny, moneyTutorial);
         GameStateManager.Instance.OnStateChange += DisplayAddTrainsTutorial;
     }
 
-    void DisplayAddTrainsTutorial(GameState state) {
+    private void DisplayAddTrainsTutorial(GameState state) {
         if (state == GameState.Adult) {
             GameStateManager.Instance.OnStateChange -= DisplayAddTrainsTutorial;
             DisplayDialog(Speaker.Terrence, addTrainsTutorial);

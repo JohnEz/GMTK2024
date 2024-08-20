@@ -348,6 +348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7693260578356554112}
   - component: {fileID: 7118199563518985655}
+  - component: {fileID: 3060437549203114200}
   m_Layer: 0
   m_Name: Dialog
   m_TagString: Untagged
@@ -374,7 +375,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -149, y: 54.410004}
-  m_SizeDelta: {x: 457.5, y: 118.5}
+  m_SizeDelta: {x: 457.5, y: 145.88}
   m_Pivot: {x: 1, y: 0}
 --- !u!225 &7118199563518985655
 CanvasGroup:
@@ -388,6 +389,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &3060437549203114200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3044763164644213727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!1 &5733194338191110718
 GameObject:
   m_ObjectHideFlags: 0
