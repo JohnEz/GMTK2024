@@ -73,6 +73,6 @@ public class BankManager : Singleton<BankManager> {
             TotalCash += diff;
         }
 
-        OnCashUpdate(Cash, diff);
+        OnCashUpdate?.Invoke(Cash, diff);
     }
 }
