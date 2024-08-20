@@ -2,8 +2,13 @@ using System;
 using UnityEngine;
 
 public class BankManager : Singleton<BankManager> {
+    // How much adult money is worth one kid money
     [SerializeField]
     private float exchangeRate;
+
+    // How much kid money one unit of direct distance costs
+    [SerializeField]
+    private float distanceRate;
 
     public float StartingCash;
 
@@ -43,13 +48,14 @@ public class BankManager : Singleton<BankManager> {
         UpdateCash(decAmount);
     }
 
-    public void OnJourneyComplete(TrackPiece start, TrackPiece end) {
+    public decimal OnJourneyComplete(TrackPiece start, TrackPiece end) {
         Vector2 startLocation = new(start.X, start.Y);
         Vector2 endLocation = new(end.X, end.Y);
         float directDistance = (endLocation - startLocation).magnitude;
-        decimal routePrice = (decimal)Math.Round(directDistance, 2);
-        // Debug.Log($"Completed journey from {start.X}, {start.Y} to {end.X}, {end.Y} costing {routePrice}");
+        decimal routePrice = (decimal)Math.Round(directDistance * distanceRate, 2);
+        Debug.Log($"Completed journey from {start.X}, {start.Y} to {end.X}, {end.Y} costing {routePrice} ({directDistance} * {distanceRate} = {directDistance * distanceRate})");
         UpdateCash(routePrice);
+        return routePrice;
     }
 
     public decimal GetAdultValue(decimal value) {

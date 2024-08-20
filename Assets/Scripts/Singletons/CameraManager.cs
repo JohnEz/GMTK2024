@@ -37,21 +37,11 @@ public class CameraManager : Singleton<CameraManager> {
 
     private float _currentDefaultZoom = DEFAULT_ZOOM;
 
-    private void SetAudioOptions()
-    {
-        
-    }
-
     private void Awake() {
         GameStateManager.Instance.OnStateChange += OnStateChange;
-        SetAudioOptions();
     }
 
     private void Start() {
-        AudioClipOptions options = new AudioClipOptions();
-
-        options.Loop = true;
-        options.Persist = true;
 
         if (GameStateManager.Instance.State == GameState.Kid) {
             _kidCameraZoom.EnableCamera();

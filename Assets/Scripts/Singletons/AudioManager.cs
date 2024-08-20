@@ -205,6 +205,7 @@ public class AudioManager : Singleton<AudioManager> {
         PlaySound(clip, options);
 
         AudioSource audioSource = FindSource(clip);
+        audioSource.loop = true;
         float currentTime = 0;
         float start = audioSource.volume;
         while (currentTime < duration) {

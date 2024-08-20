@@ -47,8 +47,8 @@ MonoBehaviour:
   _isGlobal: 0
   _zoomOutSfx: {fileID: 8300000, guid: 48660197320865c459d03d556f8932ab, type: 3}
   _zoomInSfx: {fileID: 8300000, guid: ea2e91948ba55f8479c357cf86699910, type: 3}
-  _kidMusic: {fileID: 8300000, guid: 2f690e1e557eec44a944ae16a2875f69, type: 3}
-  _adultMusic: {fileID: 8300000, guid: 63337189f8c146a4f9df85b35eb11120, type: 3}
+  _kidMusic: {fileID: 8300000, guid: b6c7e49936f08554ba7fc73dd4cd199b, type: 3}
+  _adultMusic: {fileID: 8300000, guid: e21301601ab90a04cb2513a6b5114e3a, type: 3}
   _adultCameraZoom: {fileID: 0}
   _kidCameraZoom: {fileID: 0}
   _kidCanvas: {fileID: 0}
