@@ -64,16 +64,16 @@ public class PresetStationScheduler : Singleton<PresetStationScheduler> {
     }
 
     private void Update() {
-        if (SpawningPhase == SpawningPhase.Easy && CurrentStationsToSpawn.Count < 1) {
-            CurrentStationsToSpawn = new List<Transform>(HardSpawns);
-            SpawningPhase = SpawningPhase.Hard;
-            CameraManager.Instance.UpdateCameraDefaultZoom(CameraManager.DEFAULT_ZOOM_3);
-        }
-
-        if (_spawning && CurrentStationsToSpawn.Count > 0) {
+        if (_spawning) {
             _timeSinceLastSpawn += Time.deltaTime;
 
             if (_timeSinceLastSpawn >= SPAWN_DELAY) {
+                if (SpawningPhase == SpawningPhase.Easy && CurrentStationsToSpawn.Count < 1) {
+                    CurrentStationsToSpawn = new List<Transform>(HardSpawns);
+                    SpawningPhase = SpawningPhase.Hard;
+                    CameraManager.Instance.UpdateCameraDefaultZoom(CameraManager.DEFAULT_ZOOM_3);
+                }
+
                 int randomIndex = UnityEngine.Random.Range(0, CurrentStationsToSpawn.Count);
                 Transform stationSpawn = CurrentStationsToSpawn[randomIndex];
                 CurrentStationsToSpawn.RemoveAt(randomIndex);

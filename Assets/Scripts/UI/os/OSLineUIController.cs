@@ -35,10 +35,10 @@ public class OSLineUIController : MonoBehaviour {
     }
 
     public void AddTrainClicked() {
-        decimal trainCost = (decimal)2;
+        decimal trainCost = 2;
 
         if (BankManager.Instance.Cash > trainCost) {
-            BankManager.Instance.Spend(.2f);
+            BankManager.Instance.Spend((float)trainCost);
             TrainManager.Instance.SpawnTrain("station", _line);
 
             AudioManager.Instance.PlaySound(_clickClip);

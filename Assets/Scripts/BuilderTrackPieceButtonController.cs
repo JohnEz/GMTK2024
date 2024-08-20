@@ -3,8 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuilderTrackPieceButtonController : MonoBehaviour
-{
+public class BuilderTrackPieceButtonController : MonoBehaviour {
+
     [SerializeField]
     private CanvasGroup _button;
 
@@ -17,6 +17,9 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
     [SerializeField]
     private TMP_Text _price;
 
+    [SerializeField]
+    private TMP_Text _costToBuild;
+
     private TrackPieceOption _option;
 
     public TrackPieceOption Option {
@@ -25,7 +28,8 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
             _option = value;
 
             _icon.sprite = value.sprite;
-            _price.text = value.unlockPrice.ToString("N2");
+            _price.text = $"£{value.unlockPrice.ToString("N2")}";
+            _costToBuild.text = $"£{value.template.Price.ToString("N2")}";
             UpdateLocked();
         }
     }
@@ -36,7 +40,7 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
 
     private bool _enabled = false;
 
-    void Awake() {
+    private void Awake() {
         GameStateManager.Instance.OnStateChange += OnGameStateChanged;
         OnGameStateChanged(GameStateManager.Instance.State);
     }
@@ -46,24 +50,23 @@ public class BuilderTrackPieceButtonController : MonoBehaviour
     }
 
     public void HandleClick() {
+        if (Option.isLocked) {
+            Debug.Log($"Trying to spend £{Option.unlockPrice} on {Option.template.TrackPieceType}");
+            if (BankManager.Instance.Spend(Option.unlockPrice)) {
+                Option.isLocked = false;
+                UpdateLocked();
+            } else {
+                HandleBegging();
+            }
+            return;
+        }
+
         if (!_enabled) {
             return;
         }
 
-        if (!Option.isLocked) {
-            if (BankManager.Instance.Spend(Option.template.Price)) {
-                OnClick?.Invoke(Option);
-            } else {
-                HandleBegging();
-            }
-
-            return;
-        }
-
-        Debug.Log($"Trying to spend £{Option.unlockPrice} on {Option.template.TrackPieceType}");
-        if (BankManager.Instance.Spend(Option.unlockPrice)) {
-            Option.isLocked = false;
-            UpdateLocked();
+        if (BankManager.Instance.Spend(Option.template.Price)) {
+            OnClick?.Invoke(Option);
         } else {
             HandleBegging();
         }

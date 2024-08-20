@@ -681,6 +681,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7851570069815419650, guid: 3db38a29137574571bdbb714f13143ed, type: 3}
+      propertyPath: tutorialEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5959133041267526927, guid: 3db38a29137574571bdbb714f13143ed, type: 3}
       propertyPath: m_Name
       value: SettingsManager

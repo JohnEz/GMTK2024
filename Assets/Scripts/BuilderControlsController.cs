@@ -13,8 +13,8 @@ public class TrackPieceOption {
     public float unlockPrice;
 }
 
-public class BuilderControlsController : MonoBehaviour
-{
+public class BuilderControlsController : MonoBehaviour {
+
     [SerializeField]
     private List<TrackPieceOption> _initialOptions = new();
 
@@ -36,7 +36,7 @@ public class BuilderControlsController : MonoBehaviour
 
     private bool _enabled = false;
 
-    void Awake() {
+    private void Awake() {
         GameStateManager.Instance.OnStateChange += OnGameStateChanged;
         OnGameStateChanged(GameStateManager.Instance.State);
 
