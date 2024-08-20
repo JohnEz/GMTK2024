@@ -45,3 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
+  exchangeRate: 100
+  distanceRate: 0.01
+  StartingCash: 1
