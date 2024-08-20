@@ -460,9 +460,9 @@ MonoBehaviour:
   dialogBox: {fileID: 7118199563518985655}
   dialogBackground: {fileID: 8035372866218301982}
   dialogText: {fileID: 2449980712515816157}
-  lennyColor: {r: 1, g: 1, b: 1, a: 0.49019608}
+  lennyColor: {r: 0.94509804, g: 0.6117647, b: 0.10980392, a: 0.9019608}
   lennyFont: {fileID: 11400000, guid: 836d883fbb57642f5bf8b34c63d0a1ef, type: 2}
-  terrenceColor: {r: 0, g: 0, b: 0, a: 0.49019608}
+  terrenceColor: {r: 0.09803922, g: 0.4392157, b: 0.36862746, a: 0.9019608}
   terranceFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
 --- !u!1 &7171189708784281557
 GameObject:
