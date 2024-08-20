@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 450403536223432354}
   - component: {fileID: 8019922993457089968}
-  - component: {fileID: 7325968611100040973}
+  - component: {fileID: 952667332332750495}
   m_Layer: 0
-  m_Name: OSLine
+  m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       m_Data: []
   m_Knots:
     m_KnotsLink: []
---- !u!114 &7325968611100040973
+--- !u!114 &952667332332750495
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,6 +82,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8815088990752120782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e7453741d6b5dd4d9d5fe9e5fc38581, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ce5e2192a753a842b388014fb097055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

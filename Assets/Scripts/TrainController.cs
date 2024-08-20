@@ -4,10 +4,18 @@ using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Splines;
 
+public enum TrainVisual {
+    OS,
+    Toy
+}
+
 public class TrainController : MonoBehaviour {
     private SplineAnimate _splineAnimate;
 
-    public OSLineController Line { get; private set; }
+    [SerializeField]
+    private Sprite _toyTrainSprite;
+
+    public LineController Line { get; private set; }
 
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
@@ -20,7 +28,13 @@ public class TrainController : MonoBehaviour {
         _splineAnimate.Updated += onSplineUpdate;
     }
 
-    public void SetLine(OSLineController lineController) {
+    public void SetTrainVisual(TrainVisual trainVisual) {
+        if (trainVisual == TrainVisual.Toy) {
+            _spriteRenderer.sprite = _toyTrainSprite;
+        }
+    }
+
+    public void SetLine(LineController lineController) {
         if (Line != null) {
             Line.OnChange -= (bool a, bool b) => SetupSplineAnimate(a, b, false);
         }

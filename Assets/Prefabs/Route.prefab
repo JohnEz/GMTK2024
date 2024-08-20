@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3789160484161252044}
   - component: {fileID: -7771258204057546160}
   m_Layer: 0
-  m_Name: OSRoute
+  m_Name: Route
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

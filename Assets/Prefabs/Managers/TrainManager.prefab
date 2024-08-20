@@ -45,4 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
-  trainPrefab: {fileID: -1270387984565912708, guid: 3ce66df25df9e4a6a9bb611b2a6d365a, type: 3}
+  _osTrainPrefab: {fileID: -1270387984565912708, guid: 3ce66df25df9e4a6a9bb611b2a6d365a, type: 3}
+  trainNames:
+  - Jamie
+  - Toby
+  - Thomas
+  - Andy
+  - Micky
+  - Elliot
+  - Jim
+  - Jimbob
+  - James
+  - Chris Morrison
+  - Akbo

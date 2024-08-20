@@ -34,11 +34,9 @@ public class AudioManager : Singleton<AudioManager> {
         return clips[randomIndex];
     }
 
-    private AudioSource FindSource(AudioClip clip)
-    {
+    private AudioSource FindSource(AudioClip clip) {
         AudioSource audioSource = sounds.Find(delegate (AudioSource source) {
-            if (source != null)
-            {
+            if (source != null) {
                 return source.clip == clip;
             }
             return false;
@@ -119,8 +117,7 @@ public class AudioManager : Singleton<AudioManager> {
         audioSource.loop = audioOptions.Loop;
         audioSource.PlayDelayed(audioOptions.Delay);
 
-        if (audioOptions.Persist)
-        {
+        if (audioOptions.Persist) {
             sounds.Add(audioSource);
         }
 
@@ -128,19 +125,17 @@ public class AudioManager : Singleton<AudioManager> {
     }
 
     private void StopAudioSource(AudioClip clip) {
-
         AudioSource audioSource = FindSource(clip);
         sounds.Remove(audioSource);
         audioSource.Stop();
     }
 
-    private void StopAudioSource(AudioSource source)
-    {
+    private void StopAudioSource(AudioSource source) {
         sounds.Remove(source);
         source.Stop();
     }
 
-        public void SetMasterVolume(float volume) {
+    public void SetMasterVolume(float volume) {
         float MAX_VOLUME = 20f;
         float MIN_VOLUME = -50f;
 
@@ -185,14 +180,12 @@ public class AudioManager : Singleton<AudioManager> {
         return min + (VOLUME_RANGE * percent);
     }
 
-    public IEnumerator FadeOut(AudioClip clip, float duration)
-    {
+    public IEnumerator FadeOut(AudioClip clip, float duration) {
         AudioSource audioSource = FindSource(clip);
         float currentTime = 0;
         float targetVolume = 0;
         float start = audioSource.volume;
-        while (currentTime < duration)
-        {
+        while (currentTime < duration) {
             currentTime += Time.deltaTime;
             audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
             yield return null;
@@ -201,8 +194,7 @@ public class AudioManager : Singleton<AudioManager> {
         yield break;
     }
 
-    public IEnumerator FadeIn(AudioClip clip, float duration, float targetVolume)
-    {
+    public IEnumerator FadeIn(AudioClip clip, float duration, float targetVolume) {
         AudioClipOptions options = new AudioClipOptions();
 
         options.Delay = 1f;
@@ -215,13 +207,11 @@ public class AudioManager : Singleton<AudioManager> {
         AudioSource audioSource = FindSource(clip);
         float currentTime = 0;
         float start = audioSource.volume;
-        while (currentTime < duration)
-        {
+        while (currentTime < duration) {
             currentTime += Time.deltaTime;
             audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
             yield return null;
         }
         yield break;
     }
-
 }

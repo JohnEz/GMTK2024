@@ -3,21 +3,24 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class OSRouteController : MonoBehaviour {
+public class RouteController : MonoBehaviour {
     private Route _route;
 
     private TrainManager _trainController;
 
     public SplineContainer SplineContainer { get; private set; }
 
+    private bool _isClickable;
+
     public Route Route {
         get { return _route; }
         set { SetRoute(value); }
     }
 
-    private void SetRoute(Route route) {
+    private void SetRoute(Route route, bool isClickable = true) {
         _route = route;
         SetSpline(route.RouteSpline);
+        _isClickable = isClickable;
     }
 
     public void Awake() {
@@ -30,6 +33,10 @@ public class OSRouteController : MonoBehaviour {
     }
 
     public void HandleClick() {
+        if (!_isClickable) {
+            return;
+        }
+
         LineManager.Instance.HandleRouteClicked(this);
     }
 
