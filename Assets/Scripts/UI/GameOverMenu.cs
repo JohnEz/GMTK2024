@@ -58,7 +58,7 @@ public class GameOverMenu : MonoBehaviour {
         statusText.text = won
             ? $"By creating a route to {station}, you finalised rail infrastructure connecting all the key regions of the Midlands' coal and steel industries."
             : $"{station} got overcrowded and Terrence was fired and broken down for parts.";
-        statsText.text = $"You earned £{cash} and delivered {passengers} passengers";
+        statsText.text = $"You earned £{cash:N2} and delivered {passengers} passengers";
         scoreText.text = $"but who cares because you got {coolpoints} cool points!!";
 
         _canvasGroup.DOFade(1f, .75f);
