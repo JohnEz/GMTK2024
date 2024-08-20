@@ -58,6 +58,11 @@ public class OSMapManager : Singleton<OSMapManager> {
         Stations = new List<OSStation>();
         _connectedStations = new HashSet<OSStation>();
         _mapManager = GetComponent<MapManager>();
+
+        _trackPiecePrefabMap = _trackPiecePrefabs.ToDictionary(
+            _trackPrefab => _trackPrefab.pieceType,
+            _trackPrefab => _trackPrefab.prefab
+        );
     }
 
     private void Start() {
@@ -128,13 +133,6 @@ public class OSMapManager : Singleton<OSMapManager> {
         if (Stations.Count == _connectedStations.Count) {
             GameStateManager.Instance.GameWon(newStation);
         }
-    }
-
-    private void OnValidate() {
-        _trackPiecePrefabMap = _trackPiecePrefabs.ToDictionary(
-            _trackPrefab => _trackPrefab.pieceType,
-            _trackPrefab => _trackPrefab.prefab
-        );
     }
 
     public OSStation GetStationFromTrackPiece(TrackPiece _stationPiece) {

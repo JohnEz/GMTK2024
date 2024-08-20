@@ -50,6 +50,11 @@ public class ToyMapManager : Singleton<ToyMapManager> {
 
     private void Awake() {
         _mapManager = GetComponent<MapManager>();
+
+        TrackPieceConfig = _trackPieceConfigList.ToDictionary(
+            _trackPrefab => _trackPrefab.template.TrackPieceType,
+            _trackPrefab => _trackPrefab
+        );
     }
 
     private void Start() {
@@ -87,13 +92,6 @@ public class ToyMapManager : Singleton<ToyMapManager> {
         }
 
         _trackPieces[controller.TrackPiece.X][controller.TrackPiece.Y] = controller;
-    }
-
-    private void OnValidate() {
-        TrackPieceConfig = _trackPieceConfigList.ToDictionary(
-            _trackPrefab => _trackPrefab.template.TrackPieceType,
-            _trackPrefab => _trackPrefab
-        );
     }
 
     public LineController GetLine(Color lineColor) {

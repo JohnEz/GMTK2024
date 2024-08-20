@@ -26,8 +26,4 @@ public class OSTrackController : MonoBehaviour, IPointerDownHandler {
 
         oSRouteController.HandleClick();
     }
-
-    private void OnValidate() {
-        _tileRenderer.sprite = _sprite;
-    }
 }
