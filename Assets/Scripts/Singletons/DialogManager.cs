@@ -38,7 +38,6 @@ public class DialogManager : Singleton<DialogManager> {
     private TMP_FontAsset terranceFont;
 
     private void Start() {
-        DisplayDialog(Speaker.Lenny, "Welcome to Train Set Go!");
     }
 
     private void Update() {
