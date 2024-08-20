@@ -202,7 +202,8 @@ public class AudioManager : Singleton<AudioManager> {
         options.Persist = true;
         options.Volume = 0f;
 
-        PlaySound(clip, options);
+        GameObject soundGameObject = CreateSoundGameObject(clip.name, Camera.main.transform);
+        CreateMusicAudioSource(clip, soundGameObject, options);
 
         AudioSource audioSource = FindSource(clip);
         audioSource.loop = true;
@@ -214,5 +215,29 @@ public class AudioManager : Singleton<AudioManager> {
             yield return null;
         }
         yield break;
+    }
+
+    private void CreateMusicAudioSource(AudioClip clip, GameObject audioObject, AudioClipOptions options) {
+        AudioClipOptions audioOptions = options != null ? options : new AudioClipOptions();
+
+        float pitch = audioOptions.RandomPitch ?
+            Random.Range(audioOptions.Pitch - audioOptions.PitchRange, audioOptions.Pitch + audioOptions.PitchRange) :
+            audioOptions.Pitch;
+
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        audioSource.maxDistance = 100f;
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.dopplerLevel = 0f;
+        audioSource.outputAudioMixerGroup = sfxMixer;
+        audioSource.pitch = pitch;
+        audioSource.volume = audioOptions.Volume;
+        audioSource.loop = audioOptions.Loop;
+        audioSource.PlayDelayed(audioOptions.Delay);
+
+        if (audioOptions.Persist) {
+            sounds.Add(audioSource);
+        }
     }
 }
