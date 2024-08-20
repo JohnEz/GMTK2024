@@ -21,6 +21,8 @@ public class OSMapManager : Singleton<OSMapManager> {
 
     public List<OSStation> Stations { get; private set; }
 
+    private HashSet<OSStation> _connectedStations;
+
     private MapManager _mapManager;
 
     private List<string> StationNames = new List<string>() {
@@ -54,6 +56,7 @@ public class OSMapManager : Singleton<OSMapManager> {
     private void Awake() {
         Tracks = new List<TrackPieceController>();
         Stations = new List<OSStation>();
+        _connectedStations = new HashSet<OSStation>();
         _mapManager = GetComponent<MapManager>();
     }
 
@@ -107,6 +110,24 @@ public class OSMapManager : Singleton<OSMapManager> {
         //Color lineColor = LineManager.Instance.GetLineByRoute(newRouteObject);
 
         //newRouteObject.UpdateRouteColor(lineColor);
+
+        OSStation startStation = GetStationFromTrackPiece(route.StartStation);
+        OSStation endStation = GetStationFromTrackPiece(route.EndStation);
+        OSStation newStation = _connectedStations.Contains(startStation) ? endStation : startStation;
+
+        _connectedStations.Add(startStation);
+        _connectedStations.Add(endStation);
+
+        if (PresetStationScheduler.Instance.SpawningPhase == SpawningPhase.EndGame) {
+            CheckGameWon(newStation);
+        }
+    }
+
+    private void CheckGameWon(OSStation newStation) {
+        Debug.Log($"Did we win? (Spawned stations: {Stations.Count}, Connected stations: {_connectedStations.Count})");
+        if (Stations.Count == _connectedStations.Count) {
+            GameStateManager.Instance.GameWon(newStation);
+        }
     }
 
     private void OnValidate() {
