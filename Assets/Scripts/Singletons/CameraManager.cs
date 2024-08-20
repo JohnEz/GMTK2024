@@ -1,9 +1,11 @@
 using UnityEngine;
 
 public class CameraManager : Singleton<CameraManager> {
-    private float MIN_ZOOM = 0.01f;
-    private float DEFAULT_ZOOM = 8f;
-    private float MAX_ZOOM = 200f;
+    public const float MIN_ZOOM = 0.01f;
+    public const float DEFAULT_ZOOM = 3f;
+    public const float DEFAULT_ZOOM_2 = 5f;
+    public const float DEFAULT_ZOOM_3 = 8f;
+    public const float MAX_ZOOM = 200f;
 
     [SerializeField]
     private AudioClip _zoomOutSfx;
@@ -22,6 +24,10 @@ public class CameraManager : Singleton<CameraManager> {
 
     [SerializeField]
     private UICanvasControlller _adultCanvas;
+
+    private bool _isTransitioning = false;
+
+    private float _currentDefaultZoom = DEFAULT_ZOOM;
 
     private void Awake() {
         GameStateManager.Instance.OnStateChange += OnStateChange;
@@ -46,8 +52,10 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     public void ZoomOut() {
+        _isTransitioning = true;
+
         _kidCameraZoom.EnableCamera();
-        _kidCameraZoom.SetInstantZoom(DEFAULT_ZOOM);
+        _kidCameraZoom.SetInstantZoom(_currentDefaultZoom);
         _adultCameraZoom.SetInstantZoom(MIN_ZOOM);
         _adultCameraZoom.DisableCamera();
         _kidCameraZoom.SetZoom(MAX_ZOOM, 0.2f);
@@ -64,7 +72,7 @@ public class CameraManager : Singleton<CameraManager> {
         _kidCameraZoom.onCompleteZoom -= handleZoomOutKidComplete;
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.EnableCamera();
-        _adultCameraZoom.SetZoom(DEFAULT_ZOOM, .2f);
+        _adultCameraZoom.SetZoom(_currentDefaultZoom, .2f);
         _adultCameraZoom.onCompleteZoom += handleZoomOutAdultComplete;
         ChrisMorrison.Instance.SetTargetBlur(0, 0.2f);
 
@@ -72,6 +80,8 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     private void handleZoomOutAdultComplete() {
+        _isTransitioning = false;
+
         _adultCameraZoom.onCompleteZoom -= handleZoomOutAdultComplete;
 
         _adultCanvas.ShowUI();
@@ -80,8 +90,10 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     public void ZoomIn() {
+        _isTransitioning = true;
+
         _adultCameraZoom.EnableCamera();
-        _adultCameraZoom.SetInstantZoom(DEFAULT_ZOOM);
+        _adultCameraZoom.SetInstantZoom(_currentDefaultZoom);
         _kidCameraZoom.SetInstantZoom(MAX_ZOOM);
         _kidCameraZoom.DisableCamera();
         _adultCameraZoom.SetZoom(MIN_ZOOM, 0.2f);
@@ -97,12 +109,10 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     private void handleZoomInAdultComplete() {
-        Debug.Log("Finished zooming in of adult");
-
         _adultCameraZoom.onCompleteZoom -= handleZoomInAdultComplete;
         _adultCameraZoom.DisableCamera();
         _kidCameraZoom.EnableCamera();
-        _kidCameraZoom.SetZoom(DEFAULT_ZOOM, 0.2f);
+        _kidCameraZoom.SetZoom(_currentDefaultZoom, 0.2f);
         _kidCameraZoom.onCompleteZoom += handleZoomInKidComplete;
         ChrisMorrison.Instance.SetTargetBlur(0, 0.2f);
 
@@ -110,12 +120,21 @@ public class CameraManager : Singleton<CameraManager> {
     }
 
     private void handleZoomInKidComplete() {
-        Debug.Log("Finished zooming in of kid");
+        _isTransitioning = false;
 
         _kidCameraZoom.onCompleteZoom -= handleZoomInKidComplete;
 
         _kidCanvas.ShowUI();
 
         GameStateManager.Instance.TrySetState(GameState.Kid);
+    }
+
+    public void UpdateCameraDefaultZoom(float newDefaultZoom) {
+        _currentDefaultZoom = newDefaultZoom;
+
+        if (!_isTransitioning) {
+            _kidCameraZoom.SetZoom(_currentDefaultZoom, 0.75f);
+            _adultCameraZoom.SetZoom(_currentDefaultZoom, 0.75f);
+        }
     }
 }

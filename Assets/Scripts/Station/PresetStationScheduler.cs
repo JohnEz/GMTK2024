@@ -60,6 +60,7 @@ public class PresetStationScheduler : MonoBehaviour {
     public void StartSpawning() {
         SpawningPhase = SpawningPhase.Easy;
         CurrentStationsToSpawn = new List<Transform>(EasySpawns);
+        CameraManager.Instance.UpdateCameraDefaultZoom(CameraManager.DEFAULT_ZOOM_2);
         Resume();
     }
 
@@ -67,6 +68,7 @@ public class PresetStationScheduler : MonoBehaviour {
         if (SpawningPhase == SpawningPhase.Easy && CurrentStationsToSpawn.Count < 1) {
             CurrentStationsToSpawn = new List<Transform>(HardSpawns);
             SpawningPhase = SpawningPhase.Hard;
+            CameraManager.Instance.UpdateCameraDefaultZoom(CameraManager.DEFAULT_ZOOM_3);
         }
 
         if (_spawning && CurrentStationsToSpawn.Count > 0) {

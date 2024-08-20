@@ -17,9 +17,6 @@ public class CameraControlller : MonoBehaviour {
 
     private void Awake() {
         cam = GetComponent<CinemachineVirtualCamera>();
-    }
-
-    private void Start() {
         _targetZoom = cam.m_Lens.OrthographicSize;
     }
 
@@ -43,6 +40,7 @@ public class CameraControlller : MonoBehaviour {
     }
 
     public void SetInstantZoom(float zoom) {
+        Debug.Log($"instantly Setting camera {name} zoom to {zoom}");
         cam.m_Lens.OrthographicSize = zoom;
         _smoothTime = 0;
         _targetZoom = zoom;
