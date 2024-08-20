@@ -19,7 +19,7 @@ public class OSTrackController : MonoBehaviour, IPointerDownHandler {
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        OSRouteController oSRouteController = GetComponentInParent<OSRouteController>();
+        RouteController oSRouteController = GetComponentInParent<RouteController>();
         if (oSRouteController == null) {
             return;
         }

@@ -838,6 +838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8580410577657250344}
   - component: {fileID: 7400165378718462998}
+  - component: {fileID: 7632925039362044341}
   m_Layer: 0
   m_Name: ToyMapManager
   m_TagString: Untagged
@@ -889,7 +890,23 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 18dedb7422472d446b810673e85dbd54, type: 3}
   - template: {fileID: 11400000, guid: 5d7153dff3af1974eb3dead9763caae5, type: 2}
     sprite: {fileID: 21300000, guid: c1e95814c0ce93749ad17fec7f9c3921, type: 3}
+  _routePrefab: {fileID: 0}
+  _linePrefab: {fileID: 0}
   _toyContainer: {fileID: 1068140264745567690}
+--- !u!114 &7632925039362044341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7295192914460985438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3de902ea05faa4cb444288190fa6e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _routePrefab: {fileID: 3789160484161252044, guid: b75ca08dd1d73e247b8cb37ac484011c, type: 3}
+  _linePrefab: {fileID: 952667332332750495, guid: d8dff526a903d984e900bbc8abeca3cf, type: 3}
 --- !u!1 &8241429292997402846
 GameObject:
   m_ObjectHideFlags: 0

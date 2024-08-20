@@ -10,8 +10,8 @@ public class ToyTrackPieceConfig {
     public Sprite sprite;
 }
 
-public class ToyMapManager : Singleton<ToyMapManager>
-{
+public class ToyMapManager : Singleton<ToyMapManager> {
+
     [SerializeField]
     private TrackPieceController _stationPrefab;
 
@@ -23,6 +23,9 @@ public class ToyMapManager : Singleton<ToyMapManager>
 
     [SerializeField]
     private GameObject _toyContainer;
+
+    [SerializeField]
+    private MapManager _mapManager;
 
     private List<GameObject> _toys = new();
 
@@ -45,7 +48,11 @@ public class ToyMapManager : Singleton<ToyMapManager>
         get;
     }
 
-    void Start() {
+    private void Awake() {
+        _mapManager = GetComponent<MapManager>();
+    }
+
+    private void Start() {
         StationManager.Instance.OnStationAdded += OnStationAdded;
         StationManager.Instance.Stations.ForEach(station => OnStationAdded(station));
 
@@ -87,5 +94,9 @@ public class ToyMapManager : Singleton<ToyMapManager>
             _trackPrefab => _trackPrefab.template.TrackPieceType,
             _trackPrefab => _trackPrefab
         );
+    }
+
+    public LineController GetLine(Color lineColor) {
+        return _mapManager.Lines[lineColor];
     }
 }

@@ -40,7 +40,6 @@ public class CameraControlller : MonoBehaviour {
     }
 
     public void SetInstantZoom(float zoom) {
-        Debug.Log($"instantly Setting camera {name} zoom to {zoom}");
         cam.m_Lens.OrthographicSize = zoom;
         _smoothTime = 0;
         _targetZoom = zoom;

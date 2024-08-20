@@ -233,7 +233,7 @@ public class LineManager : Singleton<LineManager> {
     }
 
     // returns false if it cannot be added or removed from a Line
-    public bool HandleRouteClicked(OSRouteController routeController) {
+    public bool HandleRouteClicked(RouteController routeController) {
         bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
 
         // can the route be removed from its current line?
@@ -291,7 +291,7 @@ public class LineManager : Singleton<LineManager> {
         return newColor;
     }
 
-    private void AddRouteToLine(Color lineColor, OSRouteController routeController) {
+    private void AddRouteToLine(Color lineColor, RouteController routeController) {
         bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
 
         if (isAlreadyInALine) {
@@ -311,7 +311,7 @@ public class LineManager : Singleton<LineManager> {
         }
     }
 
-    private void RemoveRouteFromLine(Color lineColor, OSRouteController routeController) {
+    private void RemoveRouteFromLine(Color lineColor, RouteController routeController) {
         Lines[lineColor].RemoveRoute(routeController.Route);
         routeController.UpdateRouteColor(Color.white);
 
@@ -324,7 +324,7 @@ public class LineManager : Singleton<LineManager> {
         }
     }
 
-    public Color GetLineByRoute(OSRouteController routeController) {
+    public Color GetLineByRoute(RouteController routeController) {
         bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
 
         if (isAlreadyInALine) {

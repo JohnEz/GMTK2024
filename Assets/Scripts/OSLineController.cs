@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class OSLineController : MonoBehaviour {
+public class LineController : MonoBehaviour {
     public Line Line { get; private set; }
 
     public SplineContainer SplineContainer { get; private set; }
