@@ -41,10 +41,10 @@ public class GameOverMenu : MonoBehaviour {
     }
 
     public void PlayAgain() {
-        SceneManager.LoadScene("Core");
+        SceneChanger.Instance.ChangeScene("Core");
     }
 
     public void Exit() {
-        SceneManager.LoadScene("MainMenu");
+        SceneChanger.Instance.ChangeScene("MainMenu");
     }
 }
