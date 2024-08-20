@@ -2,34 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial {
-    public Speaker speaker;
-    public string dialog;
-}
-
 public class TutorialManager : Singleton<TutorialManager>
 {
-    private void DisplayDialog(Tutorial tutorial) {
-        DialogManager.Instance.DisplayDialog(tutorial.speaker, tutorial.dialog);
-    }
+    [TextAreaAttribute]
+    public string introduction;
 
-    private void DisplayDialog(Speaker speaker, string dialog) {
-        DialogManager.Instance.DisplayDialog(speaker, dialog);
-    }
+    [TextAreaAttribute]
+    public string buildTutorial;
 
-    private void HideDialog() {
-        DialogManager.Instance.HideDialog();
-    }
+    [TextAreaAttribute]
+    public string scaleUpTutorial;
 
+    [TextAreaAttribute]
+    public string lineTutorial;
+
+    [TextAreaAttribute]
+    public string returnToKidTutorial;
+
+    [TextAreaAttribute]
+    public string coolPointsTutorial;
 
     // Start is called before the first frame update
     void Start()
     {
-        // _tutorialIndex = startingIndex;
-        // Tutorial tutorial = tutorials[_tutorialIndex];
-        // DisplayDialog(tutorial);
         DisplayIntroduction();
         GameStateManager.Instance.OnStateChange += HandleStateChange;
+    }
+
+    void DisplayDialog(Speaker speaker, string dialog) {
+        DialogManager.Instance.DisplayDialog(speaker, dialog);
+    }
+
+    void HideDialog() {
+        DialogManager.Instance.HideDialog();
     }
 
     void HandleStateChange(GameState state) {
@@ -39,43 +44,38 @@ public class TutorialManager : Singleton<TutorialManager>
     }
 
     void DisplayIntroduction() {
-        string dialog = "intro dialog";
-        DisplayDialog(Speaker.Lenny, dialog);
-        RouteManager.Instance.OnRouteAdded += DisplayScaleTutorial;
-        // Wait for first route, then DisplayScaleTutorial
+        DisplayDialog(Speaker.Lenny, introduction);
+        RouteManager.Instance.OnRouteAdded += DisplayScaleUpTutorial;
     }
 
-    void DisplayScaleTutorial(Route route) {
-        RouteManager.Instance.OnRouteAdded -= DisplayScaleTutorial;
+    void DisplayScaleUpTutorial(Route route) {
+        RouteManager.Instance.OnRouteAdded -= DisplayScaleUpTutorial;
         HideDialog();
-        string dialog = "push the scale button (or SPACE)";
-        DisplayDialog(Speaker.Lenny, dialog);
-        // Wait for arriving in adult mode, then DisplayLineTutorial
+        DisplayDialog(Speaker.Lenny, scaleUpTutorial);
         GameStateManager.Instance.OnStateChange += DisplayLineTutorial;
     }
 
     void DisplayLineTutorial(GameState state) {
         if (state == GameState.Adult) {
             GameStateManager.Instance.OnStateChange -= DisplayLineTutorial;
-            string dialog = "click on a route to make a line";
-            DisplayDialog(Speaker.Terrence, dialog);
-            GameStateManager.Instance.OnStateChange += DisplayReturnToKidTutorial;
-            // Wait for making a line
+            DisplayDialog(Speaker.Terrence, lineTutorial);
+            LineManager.Instance.OnLineAdded += DisplayReturnToKidTutorial;
         }
-
     }
 
-    void DisplayReturnToKidTutorial(GameState state) {
-        // Trigger new station spawn
-        // Show scale button
-        string dialog = "click on the scale button to return to kid mode";
-        DisplayDialog(Speaker.Terrence, dialog);
-        // Wait for return to kid mode, trigger cool mode tutorial
+    void DisplayReturnToKidTutorial(Color color, Line line) {
+        LineManager.Instance.OnLineAdded -= DisplayReturnToKidTutorial;
+        HideDialog();
+        PresetStationScheduler.Instance.StartSpawning();      
+        DisplayDialog(Speaker.Terrence, returnToKidTutorial);
+        GameStateManager.Instance.OnStateChange += DisplayCoolPointsTutorial;
     }
 
-    void DisplayCoolModeTutorial() {
-        string dialog = "get more cool points";
-        DisplayDialog(Speaker.Terrence, dialog);
+    void DisplayCoolPointsTutorial(GameState state) {
+        if (state == GameState.Kid) {
+            GameStateManager.Instance.OnStateChange -= DisplayCoolPointsTutorial;
+            DisplayDialog(Speaker.Lenny, coolPointsTutorial);
+        }
     }
 
     // Update is called once per frame

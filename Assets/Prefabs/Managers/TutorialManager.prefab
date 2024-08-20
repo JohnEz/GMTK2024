@@ -45,4 +45,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGlobal: 0
-  startingIndex: 0
+  introduction: 'Oh hi! Welcome to Train Set GO!
+
+    I''m Lenny the Locomotive.
+    Let''s build a cool railway together!
+
+    Click an arrow to get started.'
+  buildTutorial: OK great, now click one of the line pieces at the bottom of the
+    screen to place it. We need to connect these stations together to make a route.
+  scaleUpTutorial: "Very cool! Placing tracks costs \xA3 though, and we're running
+    low. Whenever I run out of money, I just talk to my mate Terry. Click the Scale
+    Up button to visit him. "
+  lineTutorial: 'They''re gone! All gone! All my train tracks have disappeared!
+
+    Wait,
+    who are you? We need to fix this before the stations becoem overcrowded.
+
+    Click
+    on a route to create a line.'
+  returnToKidTutorial: 'Phew! I''m Terrence the Train, by the way.
+
+    We still
+    have work to do: can you see that new station? We need to connect it to the network.
+    Can you help?'
+  coolPointsTutorial: Whoa! We wiped out Terry's precious tracks with a "Built to
+    Scale" model of our toy line? I guess we could give him a hand, by connecting
+    the new station with a cool track.
