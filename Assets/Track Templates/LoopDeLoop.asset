@@ -15,7 +15,7 @@ MonoBehaviour:
   TrackPieceType: 3
   ConnectionPoints: 0300000001000000
   Happiness: 10
-  Price: 0.5
+  Price: 0.3
   spline:
     m_EditModeType: 1
     m_Knots:

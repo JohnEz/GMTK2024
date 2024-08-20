@@ -1427,6 +1427,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7405186540149073324, guid: f498d5e772fd24111b3372fb7a3fca02, type: 3}
+      propertyPath: _initialOptions.Array.data[3].unlockPrice
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7405186540149073324, guid: f498d5e772fd24111b3372fb7a3fca02, type: 3}
+      propertyPath: _initialOptions.Array.data[4].unlockPrice
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8051913813862919202, guid: f498d5e772fd24111b3372fb7a3fca02, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
