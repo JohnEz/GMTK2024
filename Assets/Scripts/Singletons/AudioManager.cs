@@ -29,6 +29,15 @@ public class AudioManager : Singleton<AudioManager> {
     [SerializeField]
     private AudioMixerGroup sfxMixer;
 
+    public bool IsMusicMuted { get; private set; } = false;
+
+    public bool IsSoundMuted { get; private set; } = false;
+
+    public void Start() {
+        SetMasterVolume(60);
+        SetMusicVolume(40);
+    }
+
     private AudioClip GetRandomClip(List<AudioClip> clips) {
         int randomIndex = Random.Range(0, clips.Count);
         return clips[randomIndex];
@@ -230,7 +239,7 @@ public class AudioManager : Singleton<AudioManager> {
         audioSource.spatialBlend = 1f;
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.dopplerLevel = 0f;
-        audioSource.outputAudioMixerGroup = sfxMixer;
+        audioSource.outputAudioMixerGroup = musicMixer;
         audioSource.pitch = pitch;
         audioSource.volume = audioOptions.Volume;
         audioSource.loop = audioOptions.Loop;
@@ -238,6 +247,32 @@ public class AudioManager : Singleton<AudioManager> {
 
         if (audioOptions.Persist) {
             sounds.Add(audioSource);
+        }
+    }
+
+    public void ToggleMusic() {
+        float currentVolume;
+        musicMixer.audioMixer.GetFloat("MusicVolume", out currentVolume);
+
+        if (currentVolume > -80f) {
+            SetMusicVolume(0);
+            IsMusicMuted = true;
+        } else {
+            SetMusicVolume(40);
+            IsMusicMuted = false;
+        }
+    }
+
+    public void ToggleSFX() {
+        float currentVolume;
+        musicMixer.audioMixer.GetFloat("SFXVolume", out currentVolume);
+
+        if (currentVolume > -80f) {
+            SetSfxVolume(0);
+            IsSoundMuted = true;
+        } else {
+            SetSfxVolume(60);
+            IsSoundMuted = false;
         }
     }
 }
