@@ -41,7 +41,11 @@ public class GameStateManager : Singleton<GameStateManager> {
             return false;
         }
 
-        if (state == GameState.KidEditing && State != GameState.Kid) {
+        if ((state == GameState.KidEditing || state == GameState.TransitionToWork) && State != GameState.Kid) {
+            return false;
+        }
+
+        if (state == GameState.TransitionToPlay && State != GameState.Adult) {
             return false;
         }
 
