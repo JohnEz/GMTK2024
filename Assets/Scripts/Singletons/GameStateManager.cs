@@ -17,9 +17,6 @@ public class GameStateManager : Singleton<GameStateManager> {
 
     private GameState _State;
 
-    [SerializeField]
-    private HideableUIComponent _editUI;
-
     public GameState State => _State;
 
     public event Action<GameState> OnStateChange;
@@ -47,18 +44,10 @@ public class GameStateManager : Singleton<GameStateManager> {
         if (state == GameState.KidEditing && State != GameState.Kid) {
             return false;
         }
-        
 
         GameState previousState = _State;
         _State = state;
         OnStateChange.Invoke(state);
-
-        // showing and hiding the edit ui
-        if (_State == GameState.KidEditing) {
-            _editUI.Show();
-        } else if (previousState == GameState.KidEditing) {
-            _editUI.Hide();
-        }
 
         return true;
     }

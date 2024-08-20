@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hiddenPosition: {x: 0, y: -150}
-  startHidden: 1
+  startHidden: 0
   duration: 0.2
   _enterSound: {fileID: 0}
   _exitSound: {fileID: 0}

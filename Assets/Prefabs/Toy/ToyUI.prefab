@@ -365,6 +365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dca0ac8a4cb24dd79bafb9cc2469d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Format: 
+  IsAdult: 0
   tmp: {fileID: 8167337961252940729}
 --- !u!114 &8533227090955629727
 MonoBehaviour:
