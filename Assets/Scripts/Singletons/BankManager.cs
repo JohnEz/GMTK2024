@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 
 public class BankManager : Singleton<BankManager> {
+    [SerializeField]
+    private float exchangeRate;
+
     public float StartingCash;
 
     public decimal Cash {
@@ -47,6 +50,10 @@ public class BankManager : Singleton<BankManager> {
         decimal routePrice = (decimal)Math.Round(directDistance, 2);
         // Debug.Log($"Completed journey from {start.X}, {start.Y} to {end.X}, {end.Y} costing {routePrice}");
         UpdateCash(routePrice);
+    }
+
+    public decimal GetAdultValue(decimal value) {
+        return value * (decimal) exchangeRate;
     }
 
     private void UpdateCash(decimal diff) {
