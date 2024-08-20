@@ -1,10 +1,6 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameOverMenu : MonoBehaviour {
 
@@ -12,7 +8,13 @@ public class GameOverMenu : MonoBehaviour {
     private CanvasGroup _canvasGroup;
 
     [SerializeField]
+    private TMP_Text successText;
+
+    [SerializeField]
     private TMP_Text failureText;
+
+    [SerializeField]
+    private TMP_Text statusText;
 
     [SerializeField]
     private TMP_Text statsText;
@@ -26,9 +28,14 @@ public class GameOverMenu : MonoBehaviour {
         _canvasGroup.blocksRaycasts = false;
     }
 
-    public void Show(string station, decimal cash, int passengers, int coolpoints) {
-        failureText.text = $"{station} got overcrowded and Terrence was fired and broken down for parts.";
-        statsText.text = $"You earned £{cash} and delivered {passengers} passengers";
+    public void Show(bool won, string station, decimal cash, int passengers, int coolpoints) {
+        failureText.gameObject.SetActive(!won);
+        successText.gameObject.SetActive(won);
+
+        statusText.text = won
+            ? $"By creating a route to {station}, you finalised rail infrastructure connecting all the key regions of the Midlands' coal and steel industries."
+            : $"{station} got overcrowded and Terrence was fired and broken down for parts.";
+        statsText.text = $"You earned Â£{cash} and delivered {passengers} passengers";
         scoreText.text = $"but who cares because you got {coolpoints} cool points!!";
 
         _canvasGroup.DOFade(1f, .75f);

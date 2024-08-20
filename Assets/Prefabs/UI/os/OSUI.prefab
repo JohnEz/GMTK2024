@@ -712,7 +712,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3465413758808719044, guid: 5e3967f15ed20497e92f93444c4b98e6, type: 3}
       propertyPath: m_Name
-      value: AdultScore
+      value: Cash
       objectReference: {fileID: 0}
     - target: {fileID: 3868221784839839561, guid: 5e3967f15ed20497e92f93444c4b98e6, type: 3}
       propertyPath: m_Pivot.x

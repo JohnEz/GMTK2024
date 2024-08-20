@@ -24,6 +24,9 @@ public class GameStateManager : Singleton<GameStateManager> {
     [SerializeField]
     private GameOverMenu _gameOverMenu;
 
+    [SerializeField]
+    private GameOverMenu _gameWonMenu;
+
     private void Awake() {
         _State = InitialState;
     }
@@ -63,6 +66,16 @@ public class GameStateManager : Singleton<GameStateManager> {
 
         _State = GameState.GameOver;
 
-        _gameOverMenu?.Show(station.name, BankManager.Instance.TotalCash, PassengerManager.Instance.CompletedJournyCount, CoolManager.Instance.Coolness);
+        _gameOverMenu.Show(false, station.name, BankManager.Instance.TotalCash, PassengerManager.Instance.CompletedJournyCount, CoolManager.Instance.Coolness);
+    }
+
+    public void GameWon(OSStation station) {
+        if (_State == GameState.GameOver) {
+            return;
+        }
+
+        _State = GameState.GameOver;
+
+        _gameOverMenu.Show(true, station.name, BankManager.Instance.TotalCash, PassengerManager.Instance.CompletedJournyCount, CoolManager.Instance.Coolness);
     }
 }
