@@ -32,6 +32,12 @@ public class GameOverMenu : MonoBehaviour {
     [SerializeField]
     private Button continueButton;
 
+    [SerializeField]
+    private Image Lenny;
+
+    [SerializeField]
+    private Image Terrence;
+
     public void Awake() {
         _canvasGroup = GetComponent<CanvasGroup>();
         _canvasGroup.alpha = 0f;
@@ -45,6 +51,9 @@ public class GameOverMenu : MonoBehaviour {
         playButton.gameObject.SetActive(!won);
         exitButton.gameObject.SetActive(!won);
         continueButton.gameObject.SetActive(won);
+
+        Lenny.gameObject.SetActive(won);
+        Terrence.gameObject.SetActive(!won);
 
         statusText.text = won
             ? $"By creating a route to {station}, you finalised rail infrastructure connecting all the key regions of the Midlands' coal and steel industries."
