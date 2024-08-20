@@ -9,22 +9,16 @@ public class Tutorial {
 
 public class TutorialManager : Singleton<TutorialManager>
 {
-    private int _tutorialIndex = 0;
-    public List<Tutorial> tutorials;
-    public int startingIndex = 0;
-
-    public void StepForward() {
-        _tutorialIndex += 1;
-        Tutorial nextTutorial = tutorials[_tutorialIndex];
-        DisplayDialog(nextTutorial);
-    }
-
     private void DisplayDialog(Tutorial tutorial) {
         DialogManager.Instance.DisplayDialog(tutorial.speaker, tutorial.dialog);
     }
 
     private void DisplayDialog(Speaker speaker, string dialog) {
         DialogManager.Instance.DisplayDialog(speaker, dialog);
+    }
+
+    private void HideDialog() {
+        DialogManager.Instance.HideDialog();
     }
 
 
@@ -35,6 +29,13 @@ public class TutorialManager : Singleton<TutorialManager>
         // Tutorial tutorial = tutorials[_tutorialIndex];
         // DisplayDialog(tutorial);
         DisplayIntroduction();
+        GameStateManager.Instance.OnStateChange += HandleStateChange;
+    }
+
+    void HandleStateChange(GameState state) {
+        if (state == GameState.TransitionToWork || state == GameState.TransitionToPlay) {
+            HideDialog();
+        }
     }
 
     void DisplayIntroduction() {
@@ -45,18 +46,26 @@ public class TutorialManager : Singleton<TutorialManager>
     }
 
     void DisplayScaleTutorial(Route route) {
+        RouteManager.Instance.OnRouteAdded -= DisplayScaleTutorial;
+        HideDialog();
         string dialog = "push the scale button (or SPACE)";
         DisplayDialog(Speaker.Lenny, dialog);
-        // Wait for arriving in adult mode, then DisplayScaleTutorial
+        // Wait for arriving in adult mode, then DisplayLineTutorial
+        GameStateManager.Instance.OnStateChange += DisplayLineTutorial;
     }
 
-    void DisplayLineTutorial() {
-        string dialog = "click on a route to make a line";
-        DisplayDialog(Speaker.Terrence, dialog);
-        // Wait for making a line
+    void DisplayLineTutorial(GameState state) {
+        if (state == GameState.Adult) {
+            GameStateManager.Instance.OnStateChange -= DisplayLineTutorial;
+            string dialog = "click on a route to make a line";
+            DisplayDialog(Speaker.Terrence, dialog);
+            GameStateManager.Instance.OnStateChange += DisplayReturnToKidTutorial;
+            // Wait for making a line
+        }
+
     }
 
-    void DisplayReturnToKidTutorial() {
+    void DisplayReturnToKidTutorial(GameState state) {
         // Trigger new station spawn
         // Show scale button
         string dialog = "click on the scale button to return to kid mode";
