@@ -56,21 +56,21 @@ MonoBehaviour:
   scaleUpTutorial: 'Very cool! Placing tracks costs money though, and we''re running
     low. Whenever I run out of money, I just talk to my mate Terry. Click the Scale
     Up button to visit him. '
-  lineTutorial: 'They''re gone! All gone! All my train tracks have disappeared!
+  lineTutorial: 'They''re gone! All gone! The ENTIRE NETWORK has disappeared!
 
     Wait,
-    who are you? We need to fix this before the stations become overcrowded.
+    who are you? We need to fix this before the stations become overcrowded!
 
     Click
     on a route to create a line.'
-  returnToKidTutorial: 'Phew! I''m Terrence the Train, by the way.
+  returnToKidTutorial: 'Phew! That''s better. My name Terrence the Train, by the
+    way, not Terry.
 
-    We still
-    have work to do: can you see that new station? We need to connect it to the network.
-    Can you help?'
+    We still have work to do: can you see that new station?
+    We need to connect it to the network. Maybe Lenny can help?'
   connectStationTutorial: Whoa! We wiped out Terry's precious tracks with a "Built
-    to Scale" model of our toy line? I guess we could give him a hand, by connecting
-    the new station with a cool track.
+    to Scale" model of our toy line? I guess we could help by connecting the new
+    station with a cool track?
   returnToAdultTutorial: 'Nice route!
 
     Now Terry will be fretting about adding
@@ -88,5 +88,5 @@ MonoBehaviour:
     I guess
     we can help him out too..'
   addTrainsTutorial: A well-oiled railway requires high capacity. We can add new
-    trains to lines to increase the number of passengers we can carry. Click the
-    plus button next to the line on the left to buy a new train.
+    trains to lines to increase the number of passengers we can carry. We can't afford
+    one just yet though.
