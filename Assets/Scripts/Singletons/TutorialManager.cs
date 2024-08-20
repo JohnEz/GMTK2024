@@ -45,6 +45,16 @@ public class TutorialManager : Singleton<TutorialManager>
     // Start is called before the first frame update
     void Start()
     {
+        bool tutorialEnabled = SettingsManager.Instance.tutorialEnabled;
+        if (tutorialEnabled) {
+            StartTutorial();
+        } else {
+            PresetStationScheduler.Instance.StartSpawning();
+        }
+
+    }
+
+    void StartTutorial() {
         DisplayIntroduction();
         PassengerManager.Instance.PauseSpawning();
         GameStateManager.Instance.OnStateChange += HandleStateChange;
