@@ -22,10 +22,12 @@ public class BankManager : Singleton<BankManager> {
         private set;
     } = 0;
 
+    public event Action<decimal> OnCashInit;
+
     public event Action<decimal, decimal> OnCashUpdate;
 
     void Awake() {
-        UpdateCash((decimal)StartingCash);
+        InitCash((decimal)StartingCash);
     }
 
     public bool Spend(float amount) {
@@ -74,5 +76,15 @@ public class BankManager : Singleton<BankManager> {
         }
 
         OnCashUpdate?.Invoke(Cash, diff);
+    }
+
+    private void InitCash(decimal value) {
+        Cash = value;
+
+        if (!GameStateManager.Instance.IsGameOver()) {
+            TotalCash = value;
+        }
+
+        OnCashInit?.Invoke(Cash);
     }
 }

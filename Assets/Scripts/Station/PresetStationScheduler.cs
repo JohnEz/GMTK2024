@@ -20,7 +20,7 @@ public enum SpawningPhase {
 }
 
 [RequireComponent(typeof(StationManager))]
-public class PresetStationScheduler : MonoBehaviour {
+public class PresetStationScheduler : Singleton<PresetStationScheduler> {
     public List<Transform> TutorialSpawns = new();
     public List<Transform> EasySpawns = new();
     public List<Transform> HardSpawns = new();
@@ -53,14 +53,13 @@ public class PresetStationScheduler : MonoBehaviour {
 
         SpawningPhase = SpawningPhase.Tutorial;
         _spawning = false;
-
-        StartSpawning();
     }
 
     public void StartSpawning() {
         SpawningPhase = SpawningPhase.Easy;
         CurrentStationsToSpawn = new List<Transform>(EasySpawns);
         CameraManager.Instance.UpdateCameraDefaultZoom(CameraManager.DEFAULT_ZOOM_2);
+        _timeSinceLastSpawn = SPAWN_DELAY - 2f;
         Resume();
     }
 
