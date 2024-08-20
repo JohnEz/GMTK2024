@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public enum GameState {
     Menu,
@@ -26,6 +25,8 @@ public class GameStateManager : Singleton<GameStateManager> {
 
     [SerializeField]
     private GameOverMenu _gameWonMenu;
+
+    private bool _GameWonHandled = false;
 
     private void Awake() {
         _State = InitialState;
@@ -70,12 +71,11 @@ public class GameStateManager : Singleton<GameStateManager> {
     }
 
     public void GameWon(OSStation station) {
-        if (_State == GameState.GameOver) {
+        if (_State == GameState.GameOver || _GameWonHandled) {
             return;
         }
 
-        _State = GameState.GameOver;
-
+        _GameWonHandled = true;
         _gameOverMenu.Show(true, station.name, BankManager.Instance.TotalCash, PassengerManager.Instance.CompletedJournyCount, CoolManager.Instance.Coolness);
     }
 }

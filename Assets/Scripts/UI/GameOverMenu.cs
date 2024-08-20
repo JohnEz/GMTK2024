@@ -1,6 +1,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverMenu : MonoBehaviour {
 
@@ -22,6 +23,15 @@ public class GameOverMenu : MonoBehaviour {
     [SerializeField]
     private TMP_Text scoreText;
 
+    [SerializeField]
+    private Button playButton;
+
+    [SerializeField]
+    private Button exitButton;
+
+    [SerializeField]
+    private Button continueButton;
+
     public void Awake() {
         _canvasGroup = GetComponent<CanvasGroup>();
         _canvasGroup.alpha = 0f;
@@ -31,6 +41,10 @@ public class GameOverMenu : MonoBehaviour {
     public void Show(bool won, string station, decimal cash, int passengers, int coolpoints) {
         failureText.gameObject.SetActive(!won);
         successText.gameObject.SetActive(won);
+
+        playButton.gameObject.SetActive(!won);
+        exitButton.gameObject.SetActive(!won);
+        continueButton.gameObject.SetActive(won);
 
         statusText.text = won
             ? $"By creating a route to {station}, you finalised rail infrastructure connecting all the key regions of the Midlands' coal and steel industries."
