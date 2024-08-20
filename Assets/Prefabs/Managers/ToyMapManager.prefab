@@ -886,7 +886,7 @@ MonoBehaviour:
   - template: {fileID: 11400000, guid: b10cd279181194e8c8c13a21aaaccf8a, type: 2}
     sprite: {fileID: 21300000, guid: b2205cecfe1dac14ab30373a36aa1298, type: 3}
   - template: {fileID: 11400000, guid: efdf7b8937ea64d38bc6995719d1ad98, type: 2}
-    sprite: {fileID: 21300000, guid: 8c7b42abf1cb4ce41bdfca6a0ff6b2da, type: 3}
+    sprite: {fileID: 21300000, guid: 18dedb7422472d446b810673e85dbd54, type: 3}
   - template: {fileID: 11400000, guid: 5d7153dff3af1974eb3dead9763caae5, type: 2}
     sprite: {fileID: 21300000, guid: c1e95814c0ce93749ad17fec7f9c3921, type: 3}
   _toyContainer: {fileID: 1068140264745567690}
