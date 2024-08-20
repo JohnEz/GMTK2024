@@ -6,12 +6,20 @@ using System.Linq;
 public class CoolManager : Singleton<CoolManager> {
     private const int ADJACENT_TOY_DISTANCE = 3; // 3 roughly means we've gone next to a toy
 
+    public int StartingCoolness;
+
     public int Coolness {
         get;
         private set;
     } = 0;
 
+    public event Action<int> OnCoolnessInit;
+
     public event Action<int, int> OnCoolnessUpdate;
+
+    void Awake() {
+        InitCoolness(StartingCoolness);
+    }
 
     public (int, List<(TrackPiece piece, int value, int toyIndex)>) ScoreRoute(
         List<TrackPiece> route,
@@ -66,7 +74,16 @@ public class CoolManager : Singleton<CoolManager> {
         return index >= 0 ? (minDistance, index) : (-1, -1);
     }
 
+    private void InitCoolness(int value) {
+        Coolness = value;
+        OnCoolnessInit?.Invoke(Coolness);
+    }
+
     private void UpdateCoolness(int diff) {
+        if (diff == 0) {
+            return;
+        }
+
         Coolness += diff;
         OnCoolnessUpdate(Coolness, diff);
     }
