@@ -48,6 +48,7 @@ public class GameOverMenu : MonoBehaviour {
     }
 
     public void PlayAgain() {
+        SettingsManager.Instance.tutorialEnabled = false;
         SceneChanger.Instance.ChangeScene("Core");
     }
 
