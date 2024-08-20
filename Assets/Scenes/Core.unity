@@ -1071,8 +1071,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5876374974379922197, guid: 75c80a23790ac478b9408f13484a97e4, type: 3}
+      propertyPath: distanceRate
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876374974379922197, guid: 75c80a23790ac478b9408f13484a97e4, type: 3}
       propertyPath: exchangeRate
-      value: 1000
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

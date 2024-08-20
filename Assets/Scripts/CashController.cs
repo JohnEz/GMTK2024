@@ -20,7 +20,7 @@ public class CashController : MonoBehaviour
     private void OnCashUpdate(decimal value, decimal diff)
     {
         decimal displayValue = IsAdult ? BankManager.Instance.GetAdultValue(value) : value;
-        Debug.Log($"Displaying cash: {value}, {IsAdult}, {displayValue}, {displayValue.ToString(Format)}");
+        // Debug.Log($"Displaying cash: {value}, {IsAdult}, {displayValue}, {displayValue.ToString(Format)}");
         tmp.text = displayValue.ToString(Format);
 
         if (diff > 0) {

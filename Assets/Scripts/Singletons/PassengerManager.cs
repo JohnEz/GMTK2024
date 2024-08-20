@@ -55,10 +55,13 @@ public class PassengerManager : Singleton<PassengerManager> {
 
         Destroy(passenger.gameObject);
 
-        BankManager.Instance.OnJourneyComplete(
+        decimal routePrice = BankManager.Instance.OnJourneyComplete(
             passenger.StartingStation.TrackPieceController.TrackPiece,
             passenger.FinalStation.TrackPieceController.TrackPiece
         );
+        decimal adultPrice = BankManager.Instance.GetAdultValue(routePrice);
+
+        WorldFloatingTextManager.Instance.Show($"+£{adultPrice}", passenger.FinalStation.gameObject);
 
         if (!GameStateManager.Instance.IsGameOver()) {
             CompletedJournyCount++;
