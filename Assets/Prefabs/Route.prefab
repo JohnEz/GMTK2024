@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd43ee52a65f8534298b86ee98f019e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickClip: {fileID: 8300000, guid: 1ab6a9ee161f78840820afd2b753242d, type: 3}
 --- !u!114 &-7771258204057546160
 MonoBehaviour:
   m_ObjectHideFlags: 0

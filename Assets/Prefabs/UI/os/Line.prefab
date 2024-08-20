@@ -400,6 +400,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineImage: {fileID: 6542475199133256507}
   _trainCountText: {fileID: 1883571184957019757}
+  _clickClip: {fileID: 8300000, guid: 5ace6a1aa5ac7164abd0e59e8948936c, type: 3}
+  _failClip: {fileID: 8300000, guid: c7ddcaa07188f0549b2cb7fbbc7e7b45, type: 3}
 --- !u!1 &8775621311262598962
 GameObject:
   m_ObjectHideFlags: 0

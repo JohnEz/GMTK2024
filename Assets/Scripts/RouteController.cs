@@ -6,9 +6,10 @@ using UnityEngine.Splines;
 public class RouteController : MonoBehaviour {
     private Route _route;
 
-    private TrainManager _trainController;
-
     public SplineContainer SplineContainer { get; private set; }
+
+    [SerializeField]
+    private AudioClip _clickClip;
 
     private bool _isClickable;
 
@@ -24,7 +25,6 @@ public class RouteController : MonoBehaviour {
     }
 
     public void Awake() {
-        _trainController = GetComponent<TrainManager>();
         SplineContainer = GetComponent<SplineContainer>();
     }
 
@@ -36,6 +36,8 @@ public class RouteController : MonoBehaviour {
         if (!_isClickable) {
             return;
         }
+
+        AudioManager.Instance.PlaySound(_clickClip, transform);
 
         LineManager.Instance.HandleRouteClicked(this);
     }

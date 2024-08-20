@@ -11,6 +11,12 @@ public class OSLineUIController : MonoBehaviour {
     [SerializeField]
     private TMP_Text _trainCountText;
 
+    [SerializeField]
+    private AudioClip _clickClip;
+
+    [SerializeField]
+    private AudioClip _failClip;
+
     public void SetLine(Color color, Line line) {
         if (_line != null) {
             _line.OnTrainCountChange -= HandleTrainCountChange;
@@ -34,9 +40,13 @@ public class OSLineUIController : MonoBehaviour {
         if (BankManager.Instance.Cash > trainCost) {
             BankManager.Instance.Spend(.2f);
             TrainManager.Instance.SpawnTrain("station", _line);
+
+            AudioManager.Instance.PlaySound(_clickClip);
         } else {
             decimal convertedTrainCost = BankManager.Instance.GetAdultValue(trainCost);
             UIFloatingTextManager.Instance.Show($"Trains cost\n£{convertedTrainCost}!", gameObject, true, true);
+
+            AudioManager.Instance.PlaySound(_failClip);
         }
     }
 }
