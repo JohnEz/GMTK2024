@@ -61,6 +61,13 @@ public class OSPassenger : MonoBehaviour {
         }
     }
 
+    public void TeleportToStation(OSStation newStation) {
+        isRidingTrain = false;
+        CurrentStation = newStation;
+
+        HandleConnectionsChange();
+    }
+
     public bool ShouldGetOnTrain(Color lineColor) {
         if (Path.Connections.Count == 0) {
             return false;

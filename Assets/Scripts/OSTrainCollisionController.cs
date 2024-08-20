@@ -5,7 +5,7 @@ using UnityEngine;
 public class OSTrainCollisionController : MonoBehaviour {
     private const int MAX_PASSENGERS = 8;
 
-    private OSStation _lastStation;
+    public OSStation LastStation { get; private set; }
 
     public TrainController MyTrainController { get; private set; }
 
@@ -22,12 +22,12 @@ public class OSTrainCollisionController : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         OSStation station = collision.gameObject.GetComponent<OSStation>();
 
-        if (station == null || station == _lastStation) {
+        if (station == null || station == LastStation) {
             return;
         }
 
         // Debug.Log($"{name} arrived at station {station.name}");
-        _lastStation = station;
+        LastStation = station;
 
         DropOffPassengers(station);
         CollectPassengers(station);

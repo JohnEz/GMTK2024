@@ -36,7 +36,7 @@ public class OSLineUIController : MonoBehaviour {
             TrainManager.Instance.SpawnTrain("station", _line);
         } else {
             decimal convertedTrainCost = BankManager.Instance.GetAdultValue(trainCost);
-            UIFloatingTextManager.Instance.Show($"Trains cost\n{convertedTrainCost}!", gameObject, true, true);
+            UIFloatingTextManager.Instance.Show($"Trains cost\n£{convertedTrainCost}!", gameObject, true, true);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Splines;
@@ -59,6 +60,15 @@ public class TrainManager : Singleton<TrainManager> {
         _toyTrains.Remove(toyTrainToDestroy);
 
         trainNames.Add(trainToDestroy.name);
+
+        OSTrainCollisionController collisionController = trainToDestroy.GetComponent<OSTrainCollisionController>();
+
+        if (collisionController.Passengers.Count > 0) {
+            collisionController.Passengers.ToList().ForEach(passenger => {
+                collisionController.LastStation.AddPassenger(passenger);
+                passenger.TeleportToStation(collisionController.LastStation);
+            });
+        }
 
         Destroy(trainToDestroy.gameObject);
         Destroy(toyTrainToDestroy.gameObject);
