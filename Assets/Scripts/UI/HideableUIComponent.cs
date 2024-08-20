@@ -14,6 +14,8 @@ public class HideableUIComponent : MonoBehaviour {
     [SerializeField]
     private float duration = .75f;
 
+    public float Duration { get { return duration; } }
+
     private bool _isHidden;
     public bool IsHidden { get => _isHidden; }
 
