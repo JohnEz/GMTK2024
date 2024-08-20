@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 943057536381498479, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
       propertyPath: _sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fa76353593be2814fa7e5a5b62d23212, type: 3}
+      objectReference: {fileID: 21300000, guid: 7a06f0740862aa14e9edf6393f5601ac, type: 3}
     - target: {fileID: 3018044908514772277, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -53,9 +53,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488986105878106697, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488986105878106697, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6488986105878106697, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fa76353593be2814fa7e5a5b62d23212, type: 3}
+      objectReference: {fileID: 21300000, guid: 7a06f0740862aa14e9edf6393f5601ac, type: 3}
     - target: {fileID: 7873046958428596606, guid: 1c6e9e2c8b6d545cba5edbf635cd5c17, type: 3}
       propertyPath: m_Name
       value: OStrackLoopDaLoop
