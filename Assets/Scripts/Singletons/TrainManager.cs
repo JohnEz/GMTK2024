@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Splines;
 
 public class TrainManager : Singleton<TrainManager> {
@@ -45,6 +46,8 @@ public class TrainManager : Singleton<TrainManager> {
         train.name = trainNames[randomIndex];
         toyTrain.name = trainNames[randomIndex];
         trainNames.RemoveAt(randomIndex);
+
+        line.AddTrain("temp", train);
 
         return train;
     }

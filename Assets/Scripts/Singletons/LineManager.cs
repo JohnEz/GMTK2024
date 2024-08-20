@@ -304,10 +304,8 @@ public class LineManager : Singleton<LineManager> {
 
         if (Lines[lineColor].Routes.Count == 1) {
             OnLineAdded?.Invoke(lineColor, Lines[lineColor]);
-            //TEMP
+
             TrainController train = TrainManager.Instance.SpawnTrain("startingStation", Lines[lineColor]);
-            Lines[lineColor].AddTrain("temp", train);
-            //
         }
     }
 
