@@ -133,7 +133,6 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         if (TerminatingStation != null) {
             CommitRoute();
             StopEditing(false);
-            Debug.Log("Route made!");
             return;
         }
 

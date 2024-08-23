@@ -1,8 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.Splines;
 
 public class TrainManager : Singleton<TrainManager> {
     public TrainController _osTrainPrefab;
@@ -11,7 +10,7 @@ public class TrainManager : Singleton<TrainManager> {
 
     private List<TrainController> _toyTrains = new();
 
-    public List<string> trainNames = new() {
+    private List<string> _initialTrainNames = new() {
         "Jamie",
         "Toby",
         "Thomas",
@@ -24,6 +23,10 @@ public class TrainManager : Singleton<TrainManager> {
         "Chris Morrison",
         "Akbo"
     };
+
+    private int trainNamesCount = -1;
+
+    private List<string> trainNames = new();
 
     public TrainController SpawnTrain(string startingStation, Line line) {
         LineController osLineController = OSMapManager.Instance.GetLine(line.Color);
@@ -43,14 +46,63 @@ public class TrainManager : Singleton<TrainManager> {
         toyTrain.SetTrainVisual(TrainVisual.Toy);
         _toyTrains.Add(toyTrain);
 
-        int randomIndex = Random.Range(0, trainNames.Count);
-        train.name = trainNames[randomIndex];
-        toyTrain.name = trainNames[randomIndex];
-        trainNames.RemoveAt(randomIndex);
+        string trainName = GetTrainName();
+        train.name = trainName;
+        toyTrain.name = trainName;
 
         line.AddTrain("temp", train);
 
         return train;
+    }
+
+    private string GetTrainName() {
+        if (trainNames.Count <= 0) {
+            trainNames = new(_initialTrainNames);
+            trainNamesCount++;
+        }
+
+        int randomIndex = UnityEngine.Random.Range(0, trainNames.Count);
+        string trainName = trainNames[randomIndex];
+        trainNames.RemoveAt(randomIndex);
+
+        trainName = $"{trainName} {ToRoman(trainNamesCount)}";
+
+        return trainName;
+    }
+
+    private static string ToRoman(int number) {
+        if ((number < 0) || (number > 3999))
+            throw new ArgumentOutOfRangeException(nameof(number), "insert value between 1 and 3999");
+        if (number < 1)
+            return string.Empty;
+        if (number >= 1000)
+            return "M" + ToRoman(number - 1000);
+        if (number >= 900)
+            return "CM" + ToRoman(number - 900);
+        if (number >= 500)
+            return "D" + ToRoman(number - 500);
+        if (number >= 400)
+            return "CD" + ToRoman(number - 400);
+        if (number >= 100)
+            return "C" + ToRoman(number - 100);
+        if (number >= 90)
+            return "XC" + ToRoman(number - 90);
+        if (number >= 50)
+            return "L" + ToRoman(number - 50);
+        if (number >= 40)
+            return "XL" + ToRoman(number - 40);
+        if (number >= 10)
+            return "X" + ToRoman(number - 10);
+        if (number >= 9)
+            return "IX" + ToRoman(number - 9);
+        if (number >= 5)
+            return "V" + ToRoman(number - 5);
+        if (number >= 4)
+            return "IV" + ToRoman(number - 4);
+        if (number >= 1)
+            return "I" + ToRoman(number - 1);
+
+        return "";
     }
 
     public void DestroyTrain(TrainController trainToDestroy) {

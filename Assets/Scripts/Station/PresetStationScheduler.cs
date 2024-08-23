@@ -82,10 +82,8 @@ public class PresetStationScheduler : Singleton<PresetStationScheduler> {
                 SpawnStation(stationSpawn);
                 _timeSinceLastSpawn = 0;
 
-                Debug.Log($"Are we in the end game now? (Phase: {SpawningPhase}, Stations to spawn: {CurrentStationsToSpawn.Count})");
                 if (SpawningPhase == SpawningPhase.Hard && CurrentStationsToSpawn.Count == 0) {
                     SpawningPhase = SpawningPhase.EndGame;
-                    Debug.Log($"We're in the end game now! (Phase: {SpawningPhase})");
                 }
             }
         }

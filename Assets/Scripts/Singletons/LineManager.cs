@@ -46,7 +46,9 @@ public class Line {
         bool isNewStartOldEnd = newRoute.StartStation.X == EndStation.X && newRoute.StartStation.Y == EndStation.Y;
         bool isNewEndOldStart = newRoute.EndStation.X == StartStation.X && newRoute.EndStation.Y == StartStation.Y;
 
-        return areStartStationsSame || areEndStationsSame || isNewStartOldEnd || isNewEndOldStart;
+        bool canBeAdded = areStartStationsSame || areEndStationsSame || isNewStartOldEnd || isNewEndOldStart;
+
+        return canBeAdded;
     }
 
     public void AddRoute(Route route) {
@@ -71,10 +73,18 @@ public class Line {
     public bool CanRemoveRoute(Route routeToRemove) {
         int index = Routes.IndexOf(routeToRemove);
         if (index == -1) {
+            Debug.Log("Route was not found in its line");
             return false;
         }
 
-        return index == 0 || index == Routes.Count - 1;
+        bool isFirstRoute = index == 0;
+        bool isLastRoute = index == Routes.Count - 1;
+
+        if (!isFirstRoute && !isLastRoute) {
+            // Debug.Log($"Route cannot be removed from line as it is index {index}");
+        }
+
+        return isFirstRoute || isLastRoute;
     }
 
     public void RemoveRoute(Route routeToRemove) {
@@ -264,7 +274,6 @@ public class LineManager : Singleton<LineManager> {
         int currentIndex = -1;
         int iterations = 0;
 
-        // is it clicked for the first time?
         if (isAlreadyInALine) {
             Color existingColor = Lines.Where(kvp => kvp.Value.Routes.Contains(route)).FirstOrDefault().Key;
             currentIndex = LINE_COLORS.IndexOf(existingColor);
@@ -276,16 +285,18 @@ public class LineManager : Singleton<LineManager> {
         Color newColor = Color.white;
         bool foundNewLine = false;
 
-        while (iterations < LINE_COLORS.Count && foundNewLine == false) {
+        while (iterations <= LINE_COLORS.Count && foundNewLine == false) {
             Color currentColor = LINE_COLORS[currentIndex];
 
             if (Lines[currentColor].CanAddRoute(route)) {
                 newColor = currentColor;
                 foundNewLine = true;
+            } else {
+                // Debug.Log($"Cannot add route to line {Lines[currentColor].Color}");
             }
 
             iterations++;
-            currentIndex++;
+            currentIndex = (currentIndex + 1) % LINE_COLORS.Count;
         }
 
         return newColor;

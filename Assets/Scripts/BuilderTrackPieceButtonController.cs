@@ -51,7 +51,6 @@ public class BuilderTrackPieceButtonController : MonoBehaviour {
 
     public void HandleClick() {
         if (Option.isLocked) {
-            Debug.Log($"Trying to spend £{Option.unlockPrice} on {Option.template.TrackPieceType}");
             if (BankManager.Instance.Spend(Option.unlockPrice)) {
                 Option.isLocked = false;
                 UpdateLocked();
