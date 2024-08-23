@@ -129,7 +129,7 @@ public class OSMapManager : Singleton<OSMapManager> {
     }
 
     private void CheckGameWon(OSStation newStation) {
-        Debug.Log($"Did we win? (Spawned stations: {Stations.Count}, Connected stations: {_connectedStations.Count})");
+        // Debug.Log($"Did we win? (Spawned stations: {Stations.Count}, Connected stations: {_connectedStations.Count})");
         if (Stations.Count == _connectedStations.Count) {
             GameStateManager.Instance.GameWon(newStation);
         }
