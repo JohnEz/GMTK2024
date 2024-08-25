@@ -7,8 +7,6 @@ public class MainMenu : MonoBehaviour {
 
     public void Play() {
         SceneChanger.Instance.ChangeScene("Core");
-
-        SettingsManager.Instance.tutorialEnabled = true;
     }
 
     public void Quit() {
