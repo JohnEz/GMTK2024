@@ -37,6 +37,7 @@ public class PresetStationScheduler : Singleton<PresetStationScheduler> {
     [SerializeField]
     private TrackTemplate stationTemplate;
 
+    [SerializeField]
     private bool _spawning = true;
 
     private int _nextIndex = 0;
@@ -45,23 +46,26 @@ public class PresetStationScheduler : Singleton<PresetStationScheduler> {
 
     private void Awake() {
         stationManager = GetComponent<StationManager>();
+
+        SpawningPhase = SpawningPhase.Tutorial;
+        _spawning = false;
     }
 
     public void Start() {
         TutorialSpawns.ForEach(spawn => {
             SpawnStation(spawn);
         });
-
-        SpawningPhase = SpawningPhase.Tutorial;
-        _spawning = false;
     }
 
     public void StartSpawning() {
         SpawningPhase = SpawningPhase.Easy;
         CurrentStationsToSpawn = new List<Transform>(EasySpawns);
         CameraManager.Instance.UpdateCameraDefaultZoom(CameraManager.DEFAULT_ZOOM_2);
-        _timeSinceLastSpawn = SPAWN_DELAY - 2f;
         Resume();
+    }
+
+    public void SpawnNextStation() {
+        _timeSinceLastSpawn = SPAWN_DELAY - 2f;
     }
 
     private void Update() {
@@ -95,20 +99,6 @@ public class PresetStationScheduler : Singleton<PresetStationScheduler> {
 
     public void Pause() {
         _spawning = false;
-    }
-
-    private void Spawn() {
-        //StationSpawn nextSpawn = Spawns[_nextIndex];
-
-        //TrackPiece station = new() {
-        //    X = (int)nextSpawn.locationTransform.position.x,
-        //    Y = (int)nextSpawn.locationTransform.position.y,
-        //    Template = stationTemplate,
-        //};
-
-        //stationManager.AddStation(station);
-
-        //_nextIndex++;
     }
 
     private void SpawnStation(Transform transform) {

@@ -8,7 +8,7 @@ public class OSStation : MonoBehaviour {
     private const int MAX_PASSENGERS = 20;
     private const float PASSENGER_SPAWN_DELAY = 5f;
     private const float PASSENGER_SPAWN_DELAY_DECAY = .025f;
-    private const float MIN_PASSENGER_SPAWN_DELAY = .2f;
+    private const float MIN_PASSENGER_SPAWN_DELAY = .6f;
 
     private const float FAILURE_TIMER = 20f;
 

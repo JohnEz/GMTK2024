@@ -107,6 +107,7 @@ public class TutorialManager : Singleton<TutorialManager> {
     private void DisplayReturnToKidTutorial(Color color, Line line) {
         LineManager.Instance.OnLineAdded -= DisplayReturnToKidTutorial;
         PresetStationScheduler.Instance.StartSpawning();
+        PresetStationScheduler.Instance.SpawnNextStation();
         StationManager.Instance.OnStationAdded += StopStationsSpawning;
         DisplayDialog(Speaker.Terrence, returnToKidTutorial);
         GameStateManager.Instance.OnStateChange += ConnectStationTutorial;

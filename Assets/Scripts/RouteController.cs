@@ -42,6 +42,16 @@ public class RouteController : MonoBehaviour {
         LineManager.Instance.HandleRouteClicked(this);
     }
 
+    public void HandleRightClick() {
+        if (!_isClickable) {
+            return;
+        }
+
+        AudioManager.Instance.PlaySound(_clickClip, transform);
+
+        LineManager.Instance.HandleRouteRightClicked(this);
+    }
+
     public void UpdateRouteColor(Color color) {
         List<OSTrackController> controllerList = GetComponentsInChildren<OSTrackController>().ToList();
 

@@ -24,6 +24,10 @@ public class OSTrackController : MonoBehaviour, IPointerDownHandler {
             return;
         }
 
-        oSRouteController.HandleClick();
+        if (eventData.button == PointerEventData.InputButton.Left) {
+            oSRouteController.HandleClick();
+        } else if (eventData.button == PointerEventData.InputButton.Right) {
+            oSRouteController.HandleRightClick();
+        }
     }
 }

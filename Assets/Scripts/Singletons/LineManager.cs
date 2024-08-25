@@ -14,11 +14,9 @@ public class Line {
 
     public Spline Spline { get; private set; }
 
-    public bool IsLoop { get; private set; } = false;
-
     public event Action<int> OnTrainCountChange;
 
-    public event Action<Spline, bool, bool> OnSplineChange;
+    public event Action<Spline, bool, bool, bool> OnSplineChange;
 
     public TrackPiece StartStation { get; private set; }
 
@@ -67,7 +65,11 @@ public class Line {
         Stations.Add(route.EndStation);
 
         CalculateSpline();
-        OnSplineChange?.Invoke(Spline, true, isAddAtEndOfLine);
+        OnSplineChange?.Invoke(Spline, IsLoop(), true, isAddAtEndOfLine);
+    }
+
+    public bool IsLoop() {
+        return StartStation == EndStation;
     }
 
     public bool CanRemoveRoute(Route routeToRemove) {
@@ -119,7 +121,7 @@ public class Line {
         Stations.Remove(routeToRemove.EndStation);
 
         CalculateSpline();
-        OnSplineChange?.Invoke(Spline, false, isRemovalAtEndOfLine);
+        OnSplineChange?.Invoke(Spline, IsLoop(), false, isRemovalAtEndOfLine);
     }
 
     // returns true if the route was added to the end of the line
@@ -190,6 +192,8 @@ public class Line {
         Routes.ForEach(route => {
             newSpline.Add(_isRouteFlipped[route] ? route.RouteSplineReversed : route.RouteSpline);
         });
+
+        newSpline.Closed = IsLoop();
 
         Spline = newSpline;
     }
@@ -267,6 +271,25 @@ public class LineManager : Singleton<LineManager> {
         AddRouteToLine(newLineColor, routeController);
 
         OnRouteLineChange?.Invoke();
+        return true;
+    }
+
+    public bool HandleRouteRightClicked(RouteController routeController) {
+        bool isAlreadyInALine = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).Count() > 0;
+
+        if (!isAlreadyInALine) {
+            return false;
+        }
+
+        Color existingColor = Lines.Where(kvp => kvp.Value.Routes.Contains(routeController.Route)).FirstOrDefault().Key;
+        bool canBeRemoved = Lines[existingColor].CanRemoveRoute(routeController.Route);
+
+        if (!canBeRemoved) {
+            return false;
+        }
+
+        RemoveRouteFromLine(existingColor, routeController);
+
         return true;
     }
 

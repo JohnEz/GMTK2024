@@ -21,11 +21,11 @@ public class LineController : MonoBehaviour {
         }
 
         Line = line;
-        HandleLineSplineChange(Line.Spline, true, true);
+        HandleLineSplineChange(Line.Spline, Line.IsLoop(), true, true);
         Line.OnSplineChange += HandleLineSplineChange;
     }
 
-    private void HandleLineSplineChange(Spline newSpline, bool isAddition, bool isAtEnd) {
+    private void HandleLineSplineChange(Spline newSpline, bool isLoop, bool isAddition, bool isAtEnd) {
         SplineContainer.Spline = newSpline;
         OnChange?.Invoke(isAddition, isAtEnd);
     }
