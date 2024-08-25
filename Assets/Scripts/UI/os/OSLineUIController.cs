@@ -49,4 +49,12 @@ public class OSLineUIController : MonoBehaviour {
             AudioManager.Instance.PlaySound(_failClip);
         }
     }
+
+    public void AddTrainHovered() {
+        OSMapManager.Instance.GetStationFromTrackPiece(_line.StartStation).Highlight();
+    }
+
+    public void AddTrainUnhovered() {
+        OSMapManager.Instance.GetStationFromTrackPiece(_line.StartStation).Unhighlight();
+    }
 }
