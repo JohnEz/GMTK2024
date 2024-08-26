@@ -181,6 +181,8 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         // ideally about 0.3 seconds between each
         float delayPerScore = Mathf.Min(2.0f / coolnesses.Count, 0.3f);
 
+        List<GameObject> adjacentToys = new List<GameObject>();
+
         for (int i = 0; i < coolnesses.Count; i++) {
             (TrackPiece piece, int value, int toyIndex) = coolnesses[i];
 
@@ -205,16 +207,26 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
             if (isBonus) {
                 var toy = toys[toyIndex];
 
-                toy
-                    .transform
-                    .DOShakePosition(
-                        duration: 1f,
-                        strength: new Vector3(0.5f, 0.5f, 0),
-                        vibrato: 10,
-                        randomness: 90
-                    );
+                if (!adjacentToys.Contains(toy)) {
+                    adjacentToys.Add(toy);
+                }
             }
         }
+
+        adjacentToys.ForEach(toy => {
+            var originalPosition = toy.transform.position;
+
+            toy
+                .transform
+                .DOShakePosition(
+                    duration: 1f,
+                    strength: new Vector3(0.5f, 0.5f, 0),
+                    vibrato: 10,
+                    randomness: 90
+                ).OnComplete(() => {
+                    toy.transform.position = originalPosition;
+                });
+        });
 
         TrackPieceController endStation = ToyMapManager.Instance.FindTrackPiece(TerminatingStation);
         float finalDelay = delayPerScore * coolnesses.Count;
