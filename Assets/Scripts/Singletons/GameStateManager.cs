@@ -28,12 +28,34 @@ public class GameStateManager : Singleton<GameStateManager> {
 
     private bool _GameWonHandled = false;
 
+    private bool _isGamePaused = false;
+
     private void Awake() {
         _State = InitialState;
     }
 
     public bool IsGameOver() {
         return _State == GameState.GameOver;
+    }
+
+    private void Update() {
+        if (Input.GetKeyUp(KeyCode.Escape)) {
+            HandleEscapePressed();
+        }
+    }
+
+    private void HandleEscapePressed() {
+        if (State == GameState.KidEditing) {
+            RouteBuilderManager.Instance.StopEditing(true);
+            return;
+        }
+
+        _isGamePaused = !_isGamePaused;
+        if (_isGamePaused) {
+            PauseMenu.Instance.Pause();
+        } else {
+            PauseMenu.Instance.ContinueGame();
+        }
     }
 
     public bool TrySetState(GameState state) {

@@ -37,9 +37,6 @@ public class DialogManager : Singleton<DialogManager> {
     [SerializeField]
     private TMP_FontAsset terranceFont;
 
-    private void Start() {
-    }
-
     private void Update() {
         if (Input.GetKeyDown(KeyCode.R)) {
             DisplayDialog(Speaker.Terrence, "This is some debug dialog i hope we dont leave in!!");

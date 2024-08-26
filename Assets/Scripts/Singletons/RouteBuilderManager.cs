@@ -67,12 +67,6 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         GhostTrackPiece.NextStepIsValidPosition = terminatingStation != OriginStation;
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            StopEditing(true);
-        }
-    }
-
     public void StartEditing(Compass direction, TrackPiece fromTrackPiece) {
         if (!GameStateManager.Instance.TrySetState(GameState.KidEditing)) {
             return;
@@ -84,7 +78,7 @@ public class RouteBuilderManager : Singleton<RouteBuilderManager> {
         GhostTrackPiece.SetPosition(direction, EditFromTrackPiece);
     }
 
-    private void StopEditing(bool isCancelRoute) {
+    public void StopEditing(bool isCancelRoute) {
         if (!GameStateManager.Instance.TrySetState(GameState.Kid)) {
             return;
         }

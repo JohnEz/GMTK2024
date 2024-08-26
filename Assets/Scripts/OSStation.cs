@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class OSStation : MonoBehaviour {
-    private const int MAX_PASSENGERS = 20;
+    private const int MAX_PASSENGERS = 3;
     private const float PASSENGER_SPAWN_DELAY = 5f;
     private const float PASSENGER_SPAWN_DELAY_DECAY = .05f;
     private const float MIN_PASSENGER_SPAWN_DELAY = .2f;
@@ -40,6 +40,8 @@ public class OSStation : MonoBehaviour {
 
     private float _timeFailing = 0f;
 
+    public bool IsOvercrowded { get; private set; }
+
     private void Awake() {
         TrackPieceController = GetComponent<TrackPieceController>();
         _defaultColor = passengerCountText.color;
@@ -73,11 +75,13 @@ public class OSStation : MonoBehaviour {
 
         if (Passengers.Count > MAX_PASSENGERS) {
             _timeFailing += Time.deltaTime;
+            IsOvercrowded = true;
 
             if (_timeFailing >= FAILURE_TIMER) {
                 GameStateManager.Instance.GameOver(this);
             }
         } else if (_timeFailing > 0) {
+            IsOvercrowded = false;
             _timeFailing -= Time.deltaTime;
         }
 
